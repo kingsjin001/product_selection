@@ -1,0 +1,4 @@
+product_id,product_name,market,category,specifications,source_url
+prod-food-box-001,Stackable food storage box,US,kitchen_storage,"{\"material\": \"PP\", \"sizes\": [\"small\", \"large\"], \"claimed_feature\": \"airtight lid\"}",https://example.invalid/products/prod-food-box-001
+prod-cable-box-001,Desk cable organizer,US,home_organization,"{\"material\": \"ABS\", \"sizes\": [\"standard\"], \"claimed_feature\": \"cable concealment\"}",https://example.invalid/products/prod-cable-box-001
+

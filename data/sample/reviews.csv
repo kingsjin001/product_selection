@@ -1,0 +1,6 @@
+review_id,product_id,market,category,rating,variant,content,observed_at,data_kind,source_url
+review-001,prod-food-box-001,US,kitchen_storage,2,large,"The large lid is loose after two weeks and soup leaked in my bag.",2026-09-10T08:00:00Z,synthetic,https://example.invalid/reviews/review-001
+review-002,prod-food-box-001,US,kitchen_storage,2,large,"Nice size, but the lid does not seal tightly enough for liquid food.",2026-09-13T08:00:00Z,synthetic,https://example.invalid/reviews/review-002
+review-003,prod-food-box-001,US,kitchen_storage,5,small,"The small size is easy to stack and works well for dry snacks.",2026-09-16T08:00:00Z,synthetic,https://example.invalid/reviews/review-003
+review-004,prod-cable-box-001,US,home_organization,4,standard,"It hides the power strip well, although the side opening is narrow for thick cables.",2026-09-14T08:00:00Z,synthetic,https://example.invalid/reviews/review-004
+

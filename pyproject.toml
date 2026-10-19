@@ -1,0 +1,51 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tiktok-selection-agent"
+version = "0.1.0"
+description = "Evidence-driven TikTok product research agent"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "alembic>=1.14,<2",
+  "celery>=5.4,<6",
+  "deepagents>=0.5.4,<1",
+  "fastapi>=0.115,<1",
+  "langchain-core>=1,<2",
+  "langchain-openai>=1,<2",
+  "langgraph>=1,<2",
+  "openai>=1.50,<3",
+  "psycopg[binary]>=3.2,<4",
+  "pydantic-settings>=2.6,<3",
+  "pymilvus>=2.5,<3",
+  "python-dotenv>=1,<2",
+  "python-multipart>=0.0.18,<1",
+  "redis>=5,<7",
+  "sqlalchemy>=2.0,<3",
+  "uvicorn[standard]>=0.32,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "httpx>=0.27,<1",
+  "pytest>=8,<9",
+  "pytest-cov>=6,<7",
+  "ruff>=0.9,<1",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
+
