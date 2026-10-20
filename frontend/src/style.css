@@ -24,4 +24,18 @@ button:disabled { opacity: .55; cursor: wait; }
 .timeline li { border-left: 2px solid #e2ebe6; padding: 0 0 18px 16px; }
 .timeline p { margin: 3px 0; }
 a { color: #215c50; }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; margin: 18px 0; }
+.success { background: #edf5ee; padding: 16px; border-radius: 8px; overflow-wrap: anywhere; }
+.summary { white-space: pre-wrap; }
+.claim { border-left: 3px solid #a4c9b8; padding: 16px; margin: 18px 0; background: #f8faf8; }
+.link-button { border: none; background: transparent; color: #215c50; padding: 0; text-align: left; overflow-wrap: anywhere; }
+.metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; background: #eff5f1; border-radius: 12px; padding: 20px; }
+.metrics strong { display: block; font-size: 26px; color: #215c50; }
+details { border: 1px solid #dde6e0; border-radius: 8px; padding: 14px; margin: 12px 0; overflow-wrap: anywhere; }
+summary { cursor: pointer; font-weight: 600; }
+.report h3 { margin-top: 32px; }
+.cost-editor { margin-top: 20px; }
+.checkbox { display: flex; align-items: center; gap: 8px; }
+.checkbox input { width: auto; margin: 0; }
+@media(max-width: 460px) { .metrics { grid-template-columns: 1fr; } }
 @media(max-width: 640px) { .fields { grid-template-columns: 1fr; gap: 0; } main { padding: 24px 14px; } .card { padding: 20px; } }

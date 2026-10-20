@@ -1,0 +1,7 @@
+﻿review_id,product_id,market,category,rating,variant,content,observed_at,data_kind,source_url
+demo-v5-n1,demo-v5-normal,US,home,4,标准,合成演示评论：抽屉推拉顺畅，桌面小物更容易分类，但放不下长尺。,2026-10-10T00:00:00Z,synthetic,
+demo-v5-n2,demo-v5-normal,US,home,3,标准,合成演示评论：米白颜色与页面接近，底部防滑垫容易脱落。,2026-10-11T00:00:00Z,synthetic,
+demo-v5-m1,demo-v5-missing,US,pet,4,350ml,合成演示评论：出门携带方便，没有长期耐用性使用记录。,2026-10-10T00:00:00Z,synthetic,
+demo-v5-m2,demo-v5-missing,US,pet,3,350ml,合成演示评论：按键需要稍用力，暂时无法评价是否容易清洗。,2026-10-11T00:00:00Z,synthetic,
+demo-v5-c1,demo-v5-conflict,US,kitchen_storage,5,500ml,合成演示评论：500ml 小号装冷水静置时没有渗漏，仅在桌面测试。,2026-10-10T00:00:00Z,synthetic,
+demo-v5-c2,demo-v5-conflict,US,kitchen_storage,2,1L,合成演示评论：1L 大号装汤后在背包内倾斜，盒盖边缘漏水。与小号使用条件不同。,2026-10-11T00:00:00Z,synthetic,

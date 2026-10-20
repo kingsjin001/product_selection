@@ -1,6 +1,8 @@
 <script setup>
 // 后台任务页面：刷新恢复状态，事件按持久序号去重。
 import { ref, onMounted, onUnmounted } from 'vue'
+import ImportPanel from './ImportPanel.vue'
+import ReportView from './ReportView.vue'
 
 const product = ref('prod-cn-001')
 const mode = ref('fixed')
@@ -9,6 +11,10 @@ const task = ref(null)
 const events = ref([])
 const error = ref('')
 const submitting = ref(false)
+const page = ref('research')
+const products = ref([])
+const reports = ref([])
+const reportId = ref('')
 let stream = null
 let key = null
 let fingerprint = ''
@@ -23,6 +29,20 @@ async function api(path, options = {}) {
 
 async function refresh() {
   if (task.value) task.value = await api(`/api/tasks/${task.value.id}`)
+}
+
+async function refreshLists() {
+  try { [products.value, reports.value] = await Promise.all([api('/api/products'), api('/api/reports')]) }
+  catch (err) { error.value = err.message }
+}
+
+function acceptRevision(next) {
+  task.value = next; events.value = []; page.value = 'research'
+  localStorage.setItem('selection-task', next.id); subscribe(next.id)
+}
+
+function viewReport(id) {
+  reportId.value = id; page.value = 'reports'; refreshLists()
 }
 
 function subscribe(id) {
@@ -61,6 +81,7 @@ async function action(name) {
 }
 
 onMounted(async () => {
+  refreshLists()
   const id = localStorage.getItem('selection-task')
   if (id) {
     try { task.value = await api(`/api/tasks/${id}`); subscribe(id) }
@@ -73,11 +94,19 @@ onUnmounted(() => stream?.close())
 <template>
   <main>
     <header><p class="eyebrow">个人研究 · 证据优先</p><h1>选品研究工作台</h1><p>从商品证据出发，记录研究过程、条件与缺失项。</p></header>
-    <section class="card">
+    <nav class="actions"><button :class="{secondary: page !== 'research'}" @click="page='research'">研究任务</button><button :class="{secondary: page !== 'imports'}" @click="page='imports'">导入资料</button><button :class="{secondary: page !== 'reports'}" @click="page='reports'; refreshLists()">报告库</button></nav>
+    <ImportPanel v-if="page === 'imports'" @imported="refreshLists" />
+    <section v-if="page === 'reports'" class="card">
+      <h2>选择已完成报告</h2>
+      <label>报告<select v-model="reportId"><option value="">请选择</option><option v-for="row in reports" :value="row.id" :key="row.id">{{ row.name }} · {{ row.mode }} · {{ row.created_at }} · {{ row.id.slice(0,8) }}</option></select></label>
+      <label>或输入运行编号<input v-model="reportId" placeholder="报告 run_id"></label>
+    </section>
+    <ReportView v-if="page === 'reports' && reportId" :run-id="reportId" @revised="acceptRevision" />
+    <section v-if="page === 'research'" class="card">
       <h2>开始一次研究</h2>
       <form @submit.prevent="submit">
         <div class="fields">
-          <label>商品编号<input v-model="product" required></label>
+          <label>商品编号<input v-model="product" list="products" required><datalist id="products"><option v-for="row in products" :key="row.id" :value="row.id">{{ row.name }} · {{ row.market }}</option></datalist></label>
           <label>研究方式<select v-model="mode"><option value="fixed">固定流程（无需聊天模型）</option><option value="prompt">单次模型分析</option><option value="agent">单 Agent 研究</option><option value="multi">多 Agent 专项研究</option></select></label>
         </div>
         <label>研究问题<textarea v-model="question" rows="3" required /></label>
@@ -86,7 +115,7 @@ onUnmounted(() => stream?.close())
       <p class="hint">内置数据为中文合成样例。未提供完整成本时，报告会明确显示无法计算贡献利润。</p>
     </section>
     <p v-if="error" role="alert" class="error">{{ error }}</p>
-    <section v-if="task" class="card">
+    <section v-if="task && page === 'research'" class="card">
       <div class="row"><h2>{{ labels[task.status] || task.status }}</h2><span class="badge">{{ task.stage }}</span></div>
       <p class="mono">{{ task.id }}</p>
       <p>执行次数：{{ task.attempts }} · 刷新页面不影响后台执行</p>
@@ -94,7 +123,7 @@ onUnmounted(() => stream?.close())
       <button v-if="task.status === 'failed'" @click="action('resume')">从检查点恢复</button>
       <p v-if="task.error" class="error">停止原因：{{ task.error }}</p>
       <ol class="timeline"><li v-for="event in events" :key="event.event_seq"><small>#{{ event.event_seq }} · {{ event.timestamp }}</small><p>{{ event.message }}</p></li></ol>
-      <a v-if="task.status === 'completed'" :href="`/api/analyses/${task.id}`" target="_blank" rel="noopener">查看报告 JSON</a>
+      <button v-if="task.status === 'completed'" @click="viewReport(task.id)">查看完整报告</button>
     </section>
   </main>
 </template>

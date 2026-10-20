@@ -48,9 +48,10 @@ class TaskService:
             raise ValueError("任务不存在")
         return task
 
-    def create(self, request, key):
+    def create(self, request, key, *, snapshot_override=None, parent_id=None):
         """分析快照、任务、首次事件和投递记录在同一事务创建。"""
-        fingerprint = digest(request.model_dump(mode="json"))
+        payload = request.model_dump(mode="json")
+        fingerprint = digest({"request": payload, "parent_id": parent_id} if parent_id else payload)
         try:
             with self.factory.begin() as session:
                 existing = session.scalar(select(Task).where(Task.idempotency_key == key))
@@ -61,10 +62,14 @@ class TaskService:
                 identity = str(uuid4())
                 # 与同步入口使用同一版本字段定义。
                 from app.services.analysis_store import analysis_versions
+                versions = analysis_versions(self.settings)
+                if parent_id:
+                    versions["parent_run_id"] = parent_id
                 session.add(AnalysisRun(
                     id=identity, status="pending", request=request.model_dump(mode="json"),
-                    snapshot=freeze_snapshot(session, request),
-                    versions=analysis_versions(self.settings),
+                    snapshot=(snapshot_override if snapshot_override is not None
+                              else freeze_snapshot(session, request)),
+                    versions=versions,
                 ))
                 task = Task(id=identity, idempotency_key=key, request_hash=fingerprint,
                             status="queued", stage="queued", epoch=0, attempts=0, event_seq=0)

@@ -1,0 +1,56 @@
+{
+  "live": true,
+  "import": {
+    "batch_id": "41fe1ff9-4b7a-43e2-99c5-e685c6959c20",
+    "status": "imported",
+    "products": 3,
+    "reviews": 6,
+    "rules": 3
+  },
+  "reports": [
+    {
+      "case": "normal",
+      "run_id": "0adef68a-bf93-4364-8d93-54d6ed73245a",
+      "report_hash": "079bccd5e4f23bf068866530456058b16dd6dcfa18800695ac9a736b6fefe65e",
+      "passed": true,
+      "mode": "fixed",
+      "usage": {
+        "model_calls": 0,
+        "tool_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    {
+      "case": "missing",
+      "run_id": "2c582d6f-7296-4b3a-a6c7-e1f2e76cb509",
+      "report_hash": "306bb58fb3ff4a4381d76fe363dea119637d3579856f2673b56f71acd663e58a",
+      "passed": true,
+      "mode": "fixed",
+      "usage": {
+        "model_calls": 0,
+        "tool_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    {
+      "case": "conflict",
+      "run_id": "c811bd44-1fed-40ee-ad81-34e8b9104ec1",
+      "report_hash": "5d22d686878c5bd20d7eed36006dd31a00c4fa9fa9bcbccdd1785b5c55a2a74d",
+      "passed": true,
+      "mode": "multi",
+      "usage": {
+        "model_calls": 4,
+        "tool_calls": 5,
+        "input_tokens": 11463,
+        "output_tokens": 1762
+      }
+    }
+  ],
+  "live_followup": {
+    "passed": true,
+    "id": "217de445-0be4-4edb-a67c-31fe3b3a626b",
+    "answer": "不能证明。报告指出，500ml（小号）与1L（大号）的测试条件明显不同（冷水桌面静置 vs 热汤背包倾斜），无法将漏水归因于规格差异。核验清单也明确说明不同条件的样例不能证明规格导致密封差异。此外，当前数据均为合成演示数据，且缺乏同条件下的对照实验，无法得出大号更容易漏水的结论。"
+  }
+}

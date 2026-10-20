@@ -1,0 +1,482 @@
+{
+  "schema_version": "report-v2",
+  "run_id": "2c582d6f-7296-4b3a-a6c7-e1f2e76cb509",
+  "mode": "fixed",
+  "snapshot_hash": "a041899559875027d80fbaa4e14e2dd3db5d63de40c31582fa83a751fd5b01f2",
+  "product": {
+    "id": "demo-v5-missing",
+    "name": "便携宠物饮水杯",
+    "market": "US",
+    "category": "pet",
+    "specifications": {
+      "capacity": "350ml",
+      "data_kind": "synthetic"
+    },
+    "source_url": "https://example.invalid/demo/missing"
+  },
+  "research": {
+    "summary": "已读取 2 条当前商品评论；应结合规则、成本和真实市场数据复核。",
+    "claims": [
+      {
+        "statement": "合成演示评论：出门携带方便，没有长期耐用性使用记录。",
+        "kind": "observation",
+        "evidence_ids": [
+          "ev-review-demo-v5-m1"
+        ],
+        "limitations": [
+          "原文摘录，仅代表本条样本。"
+        ]
+      },
+      {
+        "statement": "合成演示评论：按键需要稍用力，暂时无法评价是否容易清洗。",
+        "kind": "observation",
+        "evidence_ids": [
+          "ev-review-demo-v5-m2"
+        ],
+        "limitations": [
+          "原文摘录，仅代表本条样本。"
+        ]
+      }
+    ],
+    "missing_data": [
+      "未提供销量序列和竞品价格，不能判断市场增长或竞争力。"
+    ],
+    "next_steps": [
+      "核实资料来源及商品宣传依据，再决定是否进入候选清单。"
+    ]
+  },
+  "review_statistics": {
+    "total": 2,
+    "ratings": {
+      "4": 1,
+      "3": 1
+    },
+    "variants": {
+      "350ml": 2
+    },
+    "evidence_ids": [
+      "ev-review-demo-v5-m1",
+      "ev-review-demo-v5-m2"
+    ],
+    "limitation": "统计只覆盖当前快照评论，不能代表全市场。"
+  },
+  "economics": {
+    "status": "missing_data",
+    "missing": [
+      "costs"
+    ],
+    "scenarios": []
+  },
+  "evidence": [
+    {
+      "id": "ev-review-demo-v5-m1",
+      "kind": "review",
+      "product_id": "demo-v5-missing",
+      "market": "US",
+      "category": "pet",
+      "text": "合成演示评论：出门携带方便，没有长期耐用性使用记录。",
+      "version": "import-v1",
+      "content_hash": "02f1df9a87a1638a48c9cb6c0440eb18152c724b9869bbcc4d3b3e2d70225607",
+      "source_url": null,
+      "payload": {
+        "rating": 4,
+        "variant": "350ml",
+        "data_kind": "synthetic"
+      },
+      "observed_at": "2026-10-10T00:00:00+00:00"
+    },
+    {
+      "id": "ev-review-demo-v5-m2",
+      "kind": "review",
+      "product_id": "demo-v5-missing",
+      "market": "US",
+      "category": "pet",
+      "text": "合成演示评论：按键需要稍用力，暂时无法评价是否容易清洗。",
+      "version": "import-v1",
+      "content_hash": "04f49ae1d9fa3c669865c554d33e9017e9e39629840901833e577d1f48ce71a7",
+      "source_url": null,
+      "payload": {
+        "rating": 3,
+        "variant": "350ml",
+        "data_kind": "synthetic"
+      },
+      "observed_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "id": "ev-rule-demo-v5-home",
+      "kind": "rule",
+      "product_id": null,
+      "market": "US",
+      "category": "home",
+      "text": "合成核验清单：页面尺寸和内部可用尺寸应分别记录，需向供应商核对，不是真实法规。",
+      "version": "demo-v5",
+      "content_hash": "4625e1f3224f2b9ff5f9fccf933a69816093756b244803dc0ed8276ec5e57753",
+      "source_url": null,
+      "payload": {
+        "title": "收纳尺寸核验样例",
+        "data_kind": "synthetic",
+        "valid_from": "2026-10-01"
+      },
+      "observed_at": "2026-10-01T00:00:00+00:00"
+    },
+    {
+      "id": "ev-rule-demo-v5-pet",
+      "kind": "rule",
+      "product_id": null,
+      "market": "US",
+      "category": "pet",
+      "text": "合成核验清单：耐用性和清洗方式须有对应资料，不依据少量短期评论给出保证。",
+      "version": "demo-v5",
+      "content_hash": "5da271be4176cb608debd894ea26ec15761bf6b487ca1b49907eec79d3a9240d",
+      "source_url": null,
+      "payload": {
+        "title": "宠物用品使用条件样例",
+        "data_kind": "synthetic",
+        "valid_from": "2026-10-01"
+      },
+      "observed_at": "2026-10-01T00:00:00+00:00"
+    },
+    {
+      "id": "ev-rule-demo-v5-seal",
+      "kind": "rule",
+      "product_id": null,
+      "market": "US",
+      "category": "kitchen_storage",
+      "text": "合成核验清单：密封表现需区分规格、液体温度和倾斜条件；两个不同条件的样例不能证明规格造成差异。",
+      "version": "demo-v5",
+      "content_hash": "c34cb24cb25915f45f60aed94fcb29be14a38e9e71e01e37984a5f072b8531c1",
+      "source_url": null,
+      "payload": {
+        "title": "密封测试条件样例",
+        "data_kind": "synthetic",
+        "valid_from": "2026-10-01"
+      },
+      "observed_at": "2026-10-01T00:00:00+00:00"
+    },
+    {
+      "id": "ev-rule-us-claims-002",
+      "kind": "rule",
+      "product_id": null,
+      "market": "US",
+      "category": "all",
+      "text": "Do not present performance or safety claims as established facts unless the seller retains evidence supporting the exact claim. Record the claim wording, the supporting material, and the market where it will be used.",
+      "version": "sample-v1",
+      "content_hash": "f8bc1404b0480fe218b55def7ddf7aa8cbfcc06f2ef4e674b86820a9d4dec2c8",
+      "source_url": "https://example.invalid/rules/us-claims-002",
+      "payload": {
+        "title": "Marketing-claim evidence checklist",
+        "data_kind": "synthetic",
+        "valid_from": "2026-01-01",
+        "source_file": "rules.jsonl"
+      },
+      "observed_at": "2026-09-01T00:00:00+00:00"
+    },
+    {
+      "id": "ev-rule-us-cn-baby-017",
+      "kind": "rule",
+      "product_id": null,
+      "market": "US",
+      "category": "baby_products",
+      "text": "合成示例：婴童相关配件应特别核验承重、安装、成人看护和使用限制等说明；示例文本不替代目标市场的安全要求核验。",
+      "version": "sample-v2",
+      "content_hash": "d745dd687c23dfccb40e93353b10aefd75270f6b51126a5ef4e7fde4b548c33a",
+      "source_url": "https://example.invalid/rules/us-cn-baby-017",
+      "payload": {
+        "title": "婴童配件承重与警示检查",
+        "data_kind": "synthetic",
+        "valid_from": "2026-10-01",
+        "source_file": "rules.jsonl"
+      },
+      "observed_at": "2026-10-17T00:00:00+00:00"
+    },
+    {
+      "id": "ev-rule-us-cn-beauty-013",
+      "kind": "rule",
+      "product_id": null,
+      "market": "US",
+      "category": "beauty_tools",
+      "text": "合成示例：清洁、舒缓等美妆工具描述应避免暗示治疗或医疗效果；功能宣称与实际适用范围需要保存可核验依据。",
+      "version": "sample-v2",
+      "content_hash": "654c1749971666917927f6ab7fc3707eb8a4ec72220275586675d5c53114a8ba",
+      "source_url": "https://example.invalid/rules/us-cn-beauty-013",
+      "payload": {
+        "title": "美妆工具非功效宣传检查",
+        "data_kind": "synthetic",
+        "valid_from": "2026-10-01",
+        "source_file": "rules.jsonl"
+      },
+      "observed_at": "2026-10-13T00:00:00+00:00"
+    },
+    {
+      "id": "ev-rule-us-cn-electronics-019",
+      "kind": "rule",
+      "product_id": null,
+      "market": "US",
+      "category": "electronics_accessories",
+      "text": "合成示例：电脑支架的兼容尺寸、承重和角度调节表述应基于具体型号与测试条件；不能将通风改善描述为设备性能保证。",
+      "version": "sample-v2",
+      "content_hash": "5422ba735352eb9020a89cd1888027df58b39a4e925dcc58d7d7a204552f0c28",
+      "source_url": "https://example.invalid/rules/us-cn-electronics-019",
+      "payload": {
+        "title": "电脑支架尺寸兼容性检查",
+        "data_kind": "synthetic",
+        "valid_from": "2026-10-01",
+        "source_file": "rules.jsonl"
+      },
+      "observed_at": "2026-10-19T00:00:00+00:00"
+    },
+    {
+      "id": "ev-rule-us-cn-fitness-015",
+      "kind": "rule",
+      "product_id": null,
+      "market": "US",
+      "category": "fitness_accessories",
+      "text": "合成示例：阻力等级、负载范围和训练效果等说明应附带测量条件或供应商文件，不能将训练建议包装为健康结果承诺。",
+      "version": "sample-v2",
+      "content_hash": "b892feb5f82da9e674472615240fc3ff0ddfa0a73762cfced6befe87ad6732f2",
+      "source_url": "https://example.invalid/rules/us-cn-fitness-015",
+      "payload": {
+        "title": "运动配件阻力等级表述检查",
+        "data_kind": "synthetic",
+        "valid_from": "2026-10-01",
+        "source_file": "rules.jsonl"
+      },
+      "observed_at": "2026-10-15T00:00:00+00:00"
+    },
+    {
+      "id": "ev-rule-us-cn-food-001",
+      "kind": "rule",
+      "product_id": null,
+      "market": "US",
+      "category": "kitchen_storage",
+      "text": "合成示例：销售食品收纳容器前，应留存每个食品接触部件的材质声明、供应商资料和适用市场信息；具体标签与法规要求必须由卖家另行核验。",
+      "version": "sample-v2",
+      "content_hash": "c087e3b2225183b9d00e669ab85941c2badfe77e01e43fce56c6df51aa5e2107",
+      "source_url": "https://example.invalid/rules/us-cn-food-001",
+      "payload": {
+        "title": "食品接触部件资料核验清单",
+        "data_kind": "synthetic",
+        "valid_from": "2026-10-01",
+        "source_file": "rules.jsonl"
+      },
+      "observed_at": "2026-10-01T00:00:00+00:00"
+    },
+    {
+      "id": "ev-rule-us-cn-food-002",
+      "kind": "rule",
+      "product_id": null,
+      "market": "US",
+      "category": "kitchen_storage",
+      "text": "合成示例：如页面使用防漏、密封等表述，应保存与具体使用条件对应的测试或供应商证据，并避免将有限条件下的结果描述为无条件保证。",
+      "version": "sample-v2",
+      "content_hash": "0b3e323ef4d0591a826b61fdff176031f9f40df719cf89e2a08803631e75fc9e",
+      "source_url": "https://example.invalid/rules/us-cn-food-002",
+      "payload": {
+        "title": "防漏与密封营销表述核验清单",
+        "data_kind": "synthetic",
+        "valid_from": "2026-10-01",
+        "source_file": "rules.jsonl"
+      },
+      "observed_at": "2026-10-02T00:00:00+00:00"
+    },
+    {
+      "id": "ev-rule-us-cn-food-003",
+      "kind": "rule",
+      "product_id": null,
+      "market": "US",
+      "category": "kitchen_storage",
+      "text": "合成示例：厨房硅胶用品应记录材质、预期用途、清洁说明和供应链文件。该样例不构成对任何具体温度范围或合规状态的判断。",
+      "version": "sample-v2",
+      "content_hash": "03139b12e96e6cafbb0cd1ee178ef644cbe52bfbf18cf520e373a2b3e49c7a25",
+      "source_url": "https://example.invalid/rules/us-cn-food-003",
+      "payload": {
+        "title": "厨房硅胶用品材质记录清单",
+        "data_kind": "synthetic",
+        "valid_from": "2026-10-01",
+        "source_file": "rules.jsonl"
+      },
+      "observed_at": "2026-10-03T00:00:00+00:00"
+    },
+    {
+      "id": "ev-rule-us-cn-food-004",
+      "kind": "rule",
+      "product_id": null,
+      "market": "US",
+      "category": "kitchen_storage",
+      "text": "合成示例：上架前核对包装、说明书和页面中的材质、尺寸、使用限制与清洁信息是否一致，并保留对应版本的页面文案。",
+      "version": "sample-v2",
+      "content_hash": "1c7de08ae86e883827d7e61caf9186ad8b30770baed99c8ee10b81971d2a53da",
+      "source_url": "https://example.invalid/rules/us-cn-food-004",
+      "payload": {
+        "title": "厨房收纳商品标签信息检查",
+        "data_kind": "synthetic",
+        "valid_from": "2026-10-01",
+        "source_file": "rules.jsonl"
+      },
+      "observed_at": "2026-10-04T00:00:00+00:00"
+    },
+    {
+      "id": "ev-rule-us-cn-home-005",
+      "kind": "rule",
+      "product_id": null,
+      "market": "US",
+      "category": "home_organization",
+      "text": "合成示例：靠近插排或充电器使用的收纳用品，应明确产品自身是否具有电气功能，并核验散热、线缆通行和预期使用场景的描述。",
+      "version": "sample-v2",
+      "content_hash": "668eec969f3c13f7fdac691e7f3a0dcd347b633a998e2d1ddd4b2e4d2fea197d",
+      "source_url": "https://example.invalid/rules/us-cn-home-005",
+      "payload": {
+        "title": "线缆收纳用品适用范围检查",
+        "data_kind": "synthetic",
+        "valid_from": "2026-10-01",
+        "source_file": "rules.jsonl"
+      },
+      "observed_at": "2026-10-05T00:00:00+00:00"
+    },
+    {
+      "id": "ev-rule-us-cn-home-006",
+      "kind": "rule",
+      "product_id": null,
+      "market": "US",
+      "category": "home_organization",
+      "text": "合成示例：对承重、可调节尺寸或节省空间等功能表述，应记录测试条件、样品规格和宣传使用的具体数值，不以模糊描述替代证据。",
+      "version": "sample-v2",
+      "content_hash": "d4def9be61d14365e493cb20107a1b75e72306b487045ae54fd6042664ed1ab4",
+      "source_url": "https://example.invalid/rules/us-cn-home-006",
+      "payload": {
+        "title": "承重与尺寸宣传证据清单",
+        "data_kind": "synthetic",
+        "valid_from": "2026-10-01",
+        "source_file": "rules.jsonl"
+      },
+      "observed_at": "2026-10-06T00:00:00+00:00"
+    },
+    {
+      "id": "ev-rule-us-cn-home-007",
+      "kind": "rule",
+      "product_id": null,
+      "market": "US",
+      "category": "home_organization",
+      "text": "合成示例：真空压缩类商品的密封、压缩比例和重复使用表述需与具体袋型、阀门和测试周期关联，评价中出现漏气反馈时应作为待验证事项。",
+      "version": "sample-v2",
+      "content_hash": "1a3e553c5239c94e351cfa3b1df02f35470beeee02b1c05b148c035518fccfc7",
+      "source_url": "https://example.invalid/rules/us-cn-home-007",
+      "payload": {
+        "title": "真空收纳袋性能表述检查",
+        "data_kind": "synthetic",
+        "valid_from": "2026-10-01",
+        "source_file": "rules.jsonl"
+      },
+      "observed_at": "2026-10-07T00:00:00+00:00"
+    },
+    {
+      "id": "ev-rule-us-cn-pet-009",
+      "kind": "rule",
+      "product_id": null,
+      "market": "US",
+      "category": "pet_supplies",
+      "text": "合成示例：宠物清洁用品的页面应描述适用对象、清洗方式和非医疗用途；不能根据一般材料信息推断对所有宠物都适用。",
+      "version": "sample-v2",
+      "content_hash": "a0fc6ebaeb4c48a6787cb84eaf45a5ebd089c364d6d6b4d0fad88fc764714c5b",
+      "source_url": "https://example.invalid/rules/us-cn-pet-009",
+      "payload": {
+        "title": "宠物清洁用品使用说明检查",
+        "data_kind": "synthetic",
+        "valid_from": "2026-10-01",
+        "source_file": "rules.jsonl"
+      },
+      "observed_at": "2026-10-09T00:00:00+00:00"
+    },
+    {
+      "id": "ev-rule-us-cn-pet-010",
+      "kind": "rule",
+      "product_id": null,
+      "market": "US",
+      "category": "pet_supplies",
+      "text": "合成示例：可重复使用、耐用或易清洁等表述应对应可复查资料；应区分用户体验评价与已经验证的产品性能。",
+      "version": "sample-v2",
+      "content_hash": "521f592c15d825f9a16dff0da3fe88c1db3f91a28953aacd323f77a8ac986897",
+      "source_url": "https://example.invalid/rules/us-cn-pet-010",
+      "payload": {
+        "title": "可重复使用宠物用品声明检查",
+        "data_kind": "synthetic",
+        "valid_from": "2026-10-01",
+        "source_file": "rules.jsonl"
+      },
+      "observed_at": "2026-10-10T00:00:00+00:00"
+    },
+    {
+      "id": "ev-rule-us-cn-travel-011",
+      "kind": "rule",
+      "product_id": null,
+      "market": "US",
+      "category": "travel_accessories",
+      "text": "合成示例：旅行收纳用品应准确展示展开尺寸、容量和材质。与安检或行李规则有关的表述须由卖家针对目标场景另行确认。",
+      "version": "sample-v2",
+      "content_hash": "067c5c973279abb77691646afd2d408397a486ef6c070596fcc1362518f1b89d",
+      "source_url": "https://example.invalid/rules/us-cn-travel-011",
+      "payload": {
+        "title": "旅行收纳用品尺寸声明检查",
+        "data_kind": "synthetic",
+        "valid_from": "2026-10-01",
+        "source_file": "rules.jsonl"
+      },
+      "observed_at": "2026-10-11T00:00:00+00:00"
+    },
+    {
+      "id": "ev-rule-us-electrical-003",
+      "kind": "rule",
+      "product_id": null,
+      "market": "US",
+      "category": "home_organization",
+      "text": "For products used near power strips or chargers, identify whether the item itself has electrical functions. Preserve product specifications and evaluate heat, access, and intended-use risks before making suitability claims.",
+      "version": "sample-v1",
+      "content_hash": "706bd8535eb76c04df04bb12d81cb64d8efbb0f16fffcbc90b04339884e3af04",
+      "source_url": "https://example.invalid/rules/us-electrical-003",
+      "payload": {
+        "title": "Electrical accessory verification checklist",
+        "data_kind": "synthetic",
+        "valid_from": "2026-01-01",
+        "source_file": "rules.jsonl"
+      },
+      "observed_at": "2026-09-01T00:00:00+00:00"
+    },
+    {
+      "id": "ev-rule-us-food-contact-001",
+      "kind": "rule",
+      "product_id": null,
+      "market": "US",
+      "category": "kitchen_storage",
+      "text": "For a food storage product, keep supplier material declarations, identify the material used for each food-contact component, and verify any product-specific labeling and market requirements before sale.",
+      "version": "sample-v1",
+      "content_hash": "10850772ee876057082429911238ae6c69212bded736bc0ed3215d34e4c31085",
+      "source_url": "https://example.invalid/rules/us-food-contact-001",
+      "payload": {
+        "title": "Food-contact material evidence checklist",
+        "data_kind": "synthetic",
+        "valid_from": "2026-01-01",
+        "source_file": "rules.jsonl"
+      },
+      "observed_at": "2026-09-01T00:00:00+00:00"
+    }
+  ],
+  "versions": {
+    "prompt": "research-v4",
+    "schema": "report-v2",
+    "model": "qwen3.7-plus",
+    "embedding": "text-embedding-v4",
+    "embedding_dim": 1024,
+    "embedding_provider": "openai_compatible",
+    "limits": {
+      "model": 20,
+      "tool": 30,
+      "seconds": 300
+    }
+  },
+  "usage": {
+    "model_calls": 0,
+    "tool_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0
+  }
+}

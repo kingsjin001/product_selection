@@ -11,6 +11,8 @@ from sqlalchemy import text
 from app.agents.rule_researcher import run_rule_research
 from app.api.analysis import router as analysis_router
 from app.api.evidence import router as evidence_router
+from app.api.imports import router as imports_router
+from app.api.reports import router as reports_router
 from app.api.tasks import router as tasks_router
 from app.core.config import get_settings
 from app.core.logging import configure_logging
@@ -43,6 +45,8 @@ app = FastAPI(title="TikTok Selection Agent", version="0.4.0", lifespan=lifespan
 app.include_router(analysis_router)
 app.include_router(evidence_router)
 app.include_router(tasks_router)
+app.include_router(imports_router)
+app.include_router(reports_router)
 
 
 @app.get("/health")

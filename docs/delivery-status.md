@@ -9,7 +9,7 @@
 | 二 | v2 | 核心闭环已实现，实测及局限见报告 | [第二期](acceptance/phase-2.md) |
 | 三 | codex/v3 | 功能交付，三类真实轨迹与失败案例已记录 | [第三期](acceptance/phase-3.md) |
 | 四 | codex/v4 | 后台执行、恢复与 Vue 任务页已实测 | [第四期](acceptance/phase-4.md) |
-| 五 | codex/v5 | 待开发 | 待生成 |
+| 五 | codex/v5 | 工作台与导出已实现；Word 版式验收受环境限制 | [第五期](acceptance/phase-5.md) |
 | 六 | codex/v6 | 待开发 | 待生成 |
 
 下一期分支从上一期验收提交创建，保留各期可独立查看的代码快照。

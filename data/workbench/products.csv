@@ -1,0 +1,4 @@
+﻿product_id,product_name,market,category,specifications,source_url
+demo-v5-normal,桌面抽屉收纳盒,US,home,"{""color"": ""米白"", ""data_kind"": ""synthetic""}",https://example.invalid/demo/normal
+demo-v5-missing,便携宠物饮水杯,US,pet,"{""capacity"": ""350ml"", ""data_kind"": ""synthetic""}",https://example.invalid/demo/missing
+demo-v5-conflict,双规格密封保鲜盒,US,kitchen_storage,"{""sizes"": [""500ml"", ""1L""], ""data_kind"": ""synthetic""}",https://example.invalid/demo/conflict

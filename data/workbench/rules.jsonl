@@ -1,0 +1,3 @@
+{"rule_id": "demo-v5-home", "title": "收纳尺寸核验样例", "market": "US", "category": "home", "text": "合成核验清单：页面尺寸和内部可用尺寸应分别记录，需向供应商核对，不是真实法规。", "version": "demo-v5", "valid_from": "2026-10-01", "observed_at": "2026-10-01T00:00:00Z", "data_kind": "synthetic"}
+{"rule_id": "demo-v5-pet", "title": "宠物用品使用条件样例", "market": "US", "category": "pet", "text": "合成核验清单：耐用性和清洗方式须有对应资料，不依据少量短期评论给出保证。", "version": "demo-v5", "valid_from": "2026-10-01", "observed_at": "2026-10-01T00:00:00Z", "data_kind": "synthetic"}
+{"rule_id": "demo-v5-seal", "title": "密封测试条件样例", "market": "US", "category": "kitchen_storage", "text": "合成核验清单：密封表现需区分规格、液体温度和倾斜条件；两个不同条件的样例不能证明规格造成差异。", "version": "demo-v5", "valid_from": "2026-10-01", "observed_at": "2026-10-01T00:00:00Z", "data_kind": "synthetic"}

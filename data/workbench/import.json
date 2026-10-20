@@ -1,0 +1,20 @@
+{
+  "products": [
+    {"product_id":"demo-v5-normal","product_name":"桌面抽屉收纳盒","market":"US","category":"home","specifications":{"color":"米白","data_kind":"synthetic"},"source_url":"https://example.invalid/demo/normal"},
+    {"product_id":"demo-v5-missing","product_name":"便携宠物饮水杯","market":"US","category":"pet","specifications":{"capacity":"350ml","data_kind":"synthetic"},"source_url":"https://example.invalid/demo/missing"},
+    {"product_id":"demo-v5-conflict","product_name":"双规格密封保鲜盒","market":"US","category":"kitchen_storage","specifications":{"sizes":["500ml","1L"],"data_kind":"synthetic"},"source_url":"https://example.invalid/demo/conflict"}
+  ],
+  "reviews": [
+    {"review_id":"demo-v5-n1","product_id":"demo-v5-normal","market":"US","category":"home","rating":4,"variant":"标准","content":"合成演示评论：抽屉推拉顺畅，桌面小物更容易分类，但放不下长尺。","observed_at":"2026-10-10T00:00:00Z","data_kind":"synthetic"},
+    {"review_id":"demo-v5-n2","product_id":"demo-v5-normal","market":"US","category":"home","rating":3,"variant":"标准","content":"合成演示评论：米白颜色与页面接近，底部防滑垫容易脱落。","observed_at":"2026-10-11T00:00:00Z","data_kind":"synthetic"},
+    {"review_id":"demo-v5-m1","product_id":"demo-v5-missing","market":"US","category":"pet","rating":4,"variant":"350ml","content":"合成演示评论：出门携带方便，没有长期耐用性使用记录。","observed_at":"2026-10-10T00:00:00Z","data_kind":"synthetic"},
+    {"review_id":"demo-v5-m2","product_id":"demo-v5-missing","market":"US","category":"pet","rating":3,"variant":"350ml","content":"合成演示评论：按键需要稍用力，暂时无法评价是否容易清洗。","observed_at":"2026-10-11T00:00:00Z","data_kind":"synthetic"},
+    {"review_id":"demo-v5-c1","product_id":"demo-v5-conflict","market":"US","category":"kitchen_storage","rating":5,"variant":"500ml","content":"合成演示评论：500ml 小号装冷水静置时没有渗漏，仅在桌面测试。","observed_at":"2026-10-10T00:00:00Z","data_kind":"synthetic"},
+    {"review_id":"demo-v5-c2","product_id":"demo-v5-conflict","market":"US","category":"kitchen_storage","rating":2,"variant":"1L","content":"合成演示评论：1L 大号装汤后在背包内倾斜，盒盖边缘漏水。与小号使用条件不同。","observed_at":"2026-10-11T00:00:00Z","data_kind":"synthetic"}
+  ],
+  "rules": [
+    {"rule_id":"demo-v5-home","title":"收纳尺寸核验样例","market":"US","category":"home","text":"合成核验清单：页面尺寸和内部可用尺寸应分别记录，需向供应商核对，不是真实法规。","version":"demo-v5","valid_from":"2026-10-01","observed_at":"2026-10-01T00:00:00Z","data_kind":"synthetic"},
+    {"rule_id":"demo-v5-pet","title":"宠物用品使用条件样例","market":"US","category":"pet","text":"合成核验清单：耐用性和清洗方式须有对应资料，不依据少量短期评论给出保证。","version":"demo-v5","valid_from":"2026-10-01","observed_at":"2026-10-01T00:00:00Z","data_kind":"synthetic"},
+    {"rule_id":"demo-v5-seal","title":"密封测试条件样例","market":"US","category":"kitchen_storage","text":"合成核验清单：密封表现需区分规格、液体温度和倾斜条件；两个不同条件的样例不能证明规格造成差异。","version":"demo-v5","valid_from":"2026-10-01","observed_at":"2026-10-01T00:00:00Z","data_kind":"synthetic"}
+  ]
+}
