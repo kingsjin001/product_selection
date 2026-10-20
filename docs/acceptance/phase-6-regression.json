@@ -1,0 +1,61 @@
+{
+  "cases": [
+    {
+      "product_id": "prod-cn-013",
+      "run_id": "97706815-4c65-4b6e-8169-97464e0a834f",
+      "passed": true,
+      "economics": "ok",
+      "replayed_events": 4
+    },
+    {
+      "product_id": "prod-cn-014",
+      "run_id": "8aef1598-160e-4b76-97c6-f77b5d0bfe74",
+      "passed": true,
+      "economics": "ok",
+      "replayed_events": 4
+    },
+    {
+      "product_id": "prod-cn-015",
+      "run_id": "8f205f7f-e9b6-4aa5-814d-30eae6183cff",
+      "passed": true,
+      "economics": "ok",
+      "replayed_events": 4
+    },
+    {
+      "product_id": "prod-cn-016",
+      "run_id": "362f2e70-030b-4764-81fc-35830a768639",
+      "passed": true,
+      "economics": "ok",
+      "replayed_events": 4
+    },
+    {
+      "product_id": "prod-cn-017",
+      "run_id": "1e95afad-5636-4678-b58a-cae7626b1fd3",
+      "passed": true,
+      "economics": "ok",
+      "replayed_events": 4
+    },
+    {
+      "product_id": "prod-cn-018",
+      "run_id": "8b110918-bf84-4853-bada-b56416165391",
+      "passed": true,
+      "economics": "missing_data",
+      "replayed_events": 4
+    },
+    {
+      "product_id": "prod-cn-019",
+      "run_id": "36cf4802-038a-4e93-b7bd-33a22dffb5e9",
+      "passed": true,
+      "economics": "missing_data",
+      "replayed_events": 4
+    },
+    {
+      "product_id": "prod-cn-020",
+      "run_id": "e54b61c6-9ffa-4020-8ac3-9c861517d22c",
+      "passed": true,
+      "economics": "missing_data",
+      "replayed_events": 4
+    }
+  ],
+  "paid_model_calls": 0
+}

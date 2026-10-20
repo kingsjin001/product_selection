@@ -42,6 +42,8 @@ class FakeVectors:
             self.rows.pop(key, None)
 
     def search(self, *args, **kwargs):
+        if self.broken:
+            raise RuntimeError("injected unavailable")
         return [{"evidence_id": row["id"], "content_hash": row["content_hash"]}
                 for row in self.rows.values()]
 
@@ -109,3 +111,12 @@ def test_embedding_space_identity_and_rrf():
     assert vector_identity(first, "rule") != vector_identity(second, "rule")
     assert vector_identity(first, "rule") != vector_identity(first, "review")
     assert reciprocal_rank_fusion(["a", "a", "b"], ["b", "c"]) == ["b", "a", "c"]
+
+
+def test_vector_outage_is_not_empty_evidence(index_db):
+    """Milvus 断连必须暴露故障，不能被当成没有风险证据。"""
+    factory, settings = index_db
+    FakeVectors.broken = True
+    with pytest.raises(RuntimeError, match="unavailable"):
+        search_evidence(factory, settings, query="漏水", market="US", kind="review",
+                        repository=FakeVectors)

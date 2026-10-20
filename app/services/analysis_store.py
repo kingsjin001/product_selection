@@ -60,8 +60,10 @@ def freeze_snapshot(session, request: AnalysisRequest) -> dict:
 
 def analysis_versions(settings):
     """同步入口和后台入口共享版本及预算字段。"""
+    from app.agents.product_researcher import PROMPT
     return {
-        "prompt": "research-v4", "schema": "report-v2",
+        "prompt": "research-v6", "prompt_hash": hashlib.sha256(PROMPT.encode()).hexdigest(),
+        "schema": "report-v2",
         "model": settings.chat_model, "embedding": settings.embedding_model,
         "embedding_dim": settings.embedding_dim,
         "embedding_provider": settings.embedding_provider,

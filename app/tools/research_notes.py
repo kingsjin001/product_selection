@@ -6,7 +6,7 @@ from sqlalchemy import select
 from app.db.index_models import ResearchNote
 
 
-def build_note_tools(factory, run_id, snapshot):
+def build_note_tools(factory, run_id, snapshot, guard=None):
     """通过闭包绑定运行 ID，不让模型指定其他运行或任意文件路径。"""
     allowed = {row["id"] for row in snapshot["evidence"]}
 
@@ -18,6 +18,8 @@ def build_note_tools(factory, run_id, snapshot):
         if not set(evidence_ids) <= allowed:
             raise ValueError("笔记引用了任务之外的证据")
         with factory.begin() as session:
+            if guard:
+                guard(session)
             session.merge(ResearchNote(
                 run_id=run_id, name=name, content=content, evidence_ids=evidence_ids,
             ))

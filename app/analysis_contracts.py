@@ -32,7 +32,7 @@ class AnalysisRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     product_id: str = Field(min_length=1, max_length=80)
     question: str = Field(default="该商品进入候选清单前需要核验哪些事项？", max_length=1000)
-    mode: Literal["fixed", "prompt", "agent", "multi"] = "agent"
+    mode: Literal["fixed", "prompt", "workflow", "agent", "multi"] = "workflow"
     costs: CostInput | None = None
 
 

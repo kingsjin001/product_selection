@@ -109,6 +109,23 @@ def build_workflow(store: AnalysisStore, run_id: str, saver, researcher=None):
             result = researcher(request, snapshot, budget)
         elif request.mode == "fixed":
             result = fixed_research(snapshot)
+        elif request.mode == "workflow":
+            # B 对照：固定查询路径，同样使用 RRF 与原快照，但不允许自主循环。
+            selected = {}
+            for kind in ("review", "rule"):
+                with budget.call("tool", f"fixed_search_{kind}") as details:
+                    rows = search_evidence(
+                        store.factory, store.settings, query=request.question, kind=kind,
+                        market=snapshot["product"]["market"],
+                        category=snapshot["product"]["category"],
+                        product_id=request.product_id if kind == "review" else "",
+                        snapshot=snapshot,
+                    )
+                    details["evidence_ids"] = [row["id"] for row in rows]
+                    selected.update({row["id"]: row for row in rows})
+            result = run_research(store.settings, request,
+                                  {**snapshot, "evidence": list(selected.values())},
+                                  [], budget, saver)
         else:
             if request.mode == "multi":
                 def retrieve(kind, query, top_k):
@@ -123,7 +140,7 @@ def build_workflow(store: AnalysisStore, run_id: str, saver, researcher=None):
                 tools = build_tools(
                     snapshot, lambda q, k: retrieve("rule", q, k),
                     lambda q, k: retrieve("review", q, k),
-                ) + build_note_tools(store.factory, run_id, snapshot)
+                ) + build_note_tools(store.factory, run_id, snapshot, store.guard)
             else:
                 tools = build_tools(snapshot, search_frozen_rules)
             result = run_research(

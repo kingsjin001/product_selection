@@ -16,6 +16,12 @@
 `app/core/logging.py`、`docs/cli-usage.md`、`docs/pycharm-run.md`、
 `docs/sample-data.md`、`tests/fixtures/model-indirection.env`、`tests/test_milvus_client.py`。
 在 `v2` 中补齐，不改写用户已发布的 `v1` 历史。
+为便于单独检出第一期，另建立 `codex/v1` 补全基线分支，仅增加上述六个文件
+及本报告。用户的原始 `v1` 分支保持在原提交；后续 `v2` 已包含同样的补全内容。
+
+第六期收尾时从 `codex/v1` 的 `436c635` 提交导出独立源码目录，再以 py12 执行：
+12 个测试通过，Ruff 通过，确认导入的 `app` 来自该导出目录。
+这是独立源码快照验证，仍然复用了本机依赖，不能称为全新系统环境安装。
 
 ## 结论
 

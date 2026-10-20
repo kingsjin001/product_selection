@@ -1,5 +1,6 @@
 """第四期真实 PG/Redis/Celery 与进程退出恢复验收，不调用付费模型。"""
 
+import argparse
 import json
 import os
 import subprocess
@@ -39,14 +40,18 @@ def wait_for(predicate, timeout=45):
 
 def main():
     """启动隔离队列 Worker；只操作本脚本创建的任务。"""
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--crash")
+    parser.add_argument("--output", default="docs/acceptance/phase-4-results.json")
+    args = parser.parse_args()
     settings, factory = get_settings(), get_session_factory()
     tasks = TaskService(factory, settings, lease_seconds=3)
-    if len(sys.argv) > 1 and sys.argv[1] == "--crash":
+    if args.crash:
         def crash(*args):
             """模拟真实进程消失，来不及写失败状态或释放业务租约。"""
             os._exit(72)
         AnalysisStore.save_report = crash
-        run_task(sys.argv[2], lease_seconds=3)
+        run_task(args.crash, lease_seconds=3)
         return
     queue = "acceptance-" + uuid4().hex[:10]
     folder = Path("exports/phase4")
@@ -132,7 +137,7 @@ def main():
         finally:
             worker.terminate()
             worker.wait(timeout=10)
-    output = Path("docs/acceptance/phase-4-results.json")
+    output = Path(args.output)
     output.write_text(json.dumps({"cases": results, "real_services": ["PostgreSQL", "Redis",
                        "Celery"], "paid_model_calls": 0}, ensure_ascii=False, indent=2),
                       encoding="utf-8")

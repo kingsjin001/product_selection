@@ -41,7 +41,7 @@ async def lifespan(_: FastAPI):
     logger.info("应用停止")
 
 
-app = FastAPI(title="TikTok Selection Agent", version="0.4.0", lifespan=lifespan)
+app = FastAPI(title="TikTok Selection Agent", version="0.6.0", lifespan=lifespan)
 app.include_router(analysis_router)
 app.include_router(evidence_router)
 app.include_router(tasks_router)

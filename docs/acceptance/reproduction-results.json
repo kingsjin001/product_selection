@@ -1,0 +1,24 @@
+{
+  "imported": {
+    "batch_id": "a1ff38d8-ead2-475d-90de-3eb57014956f",
+    "status": "imported",
+    "products": 20,
+    "reviews": 20,
+    "rules": 20
+  },
+  "result": {
+    "status": "completed",
+    "run_id": "0985bfc0-b200-4460-8b61-48e8ce5cae5a"
+  },
+  "profit": "7.25",
+  "milvus_lifecycle": {
+    "duplicate": true,
+    "late_update": true,
+    "soft_delete": true,
+    "physical_delete": true,
+    "embedding": "isolated mock 16d"
+  },
+  "passed": true,
+  "temporary_database": "selection_acceptance_328d20b53730",
+  "scope": "空 PostgreSQL 库迁移与固定研究；复用现有 py12，不是干净 OS 安装"
+}

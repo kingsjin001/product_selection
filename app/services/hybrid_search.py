@@ -18,17 +18,18 @@ def tokens(value: str) -> set[str]:
     return words
 
 
-def reciprocal_rank_fusion(dense: list[str], lexical: list[str]) -> list[str]:
+def reciprocal_rank_fusion(dense: list[str], lexical: list[str], k=60) -> list[str]:
     """按排名融合去重，不直接相加不同意义的分数。"""
     scores = {}
     for ranking in (dense, lexical):
         for rank, identity in enumerate(dict.fromkeys(ranking), 1):
-            scores[identity] = scores.get(identity, 0) + 1 / (60 + rank)
+            scores[identity] = scores.get(identity, 0) + 1 / (k + rank)
     return sorted(scores, key=lambda item: (-scores[item], item))
 
 
 def search_evidence(factory, settings, *, query, market, kind, category="", product_id="",
-                    top_k=5, snapshot=None, repository=EvidenceVectors, as_of=None):
+                    top_k=5, snapshot=None, repository=EvidenceVectors, as_of=None,
+                    diagnostics=None):
     """只返回当前有效且版本相符的证据，可进一步限制到冻结快照。"""
     if not query.strip() or not 1 <= top_k <= 20:
         raise ValueError("查询不能为空，top_k 必须为 1～20")
@@ -72,4 +73,7 @@ def search_evidence(factory, settings, *, query, market, kind, category="", prod
         if hit["evidence_id"] in allowed
         and allowed[hit["evidence_id"]]["content_hash"] == hit["content_hash"]
     ]
-    return [allowed[identity] for identity in reciprocal_rank_fusion(dense, lexical)[:top_k]]
+    fused = reciprocal_rank_fusion(dense, lexical)
+    if diagnostics is not None:
+        diagnostics.update(dense=dense, lexical=lexical, rrf=fused)
+    return [allowed[identity] for identity in fused[:top_k]]

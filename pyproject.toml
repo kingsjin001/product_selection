@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "tiktok-selection-agent"
-version = "0.1.0"
+version = "0.6.0"
 description = "Evidence-driven TikTok product research agent"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -30,6 +30,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+demo = ["imageio-ffmpeg>=0.6,<1", "Pillow>=11,<13"]
 dev = [
   "httpx>=0.27,<1",
   "pytest>=8,<9",

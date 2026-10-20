@@ -1,0 +1,7 @@
+{
+  "currency": "CNY",
+  "input_per_million": null,
+  "output_per_million": null,
+  "source": "请按自己账户、地区、模型和调用日期填写账单单价；未配置时费用保持未知",
+  "scope": "仅估算已返回用量的聊天 token；不含 Embedding、未返回用量的失败调用和基础设施"
+}

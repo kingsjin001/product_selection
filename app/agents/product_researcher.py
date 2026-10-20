@@ -130,8 +130,9 @@ def run_research(settings, request, snapshot, tools, budget, checkpointer):
         raw = result["messages"][-1].content
     else:
         # A 基线使用同一冻结证据，一次性输入；无自主工具循环。
-        with budget.call("model", "prompt_baseline") as details:
-            result = model.invoke([
+        name = "workflow_synthesis" if request.mode == "workflow" else "prompt_baseline"
+        with budget.call("model", name) as details:
+            result = model.bind(response_format={"type": "json_object"}).invoke([
                 ("system", system), ("user", user + "\n证据：" + json.dumps(snapshot["evidence"],
                                                                          ensure_ascii=False)),
             ])

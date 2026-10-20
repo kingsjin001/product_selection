@@ -5,7 +5,7 @@ import ImportPanel from './ImportPanel.vue'
 import ReportView from './ReportView.vue'
 
 const product = ref('prod-cn-001')
-const mode = ref('fixed')
+const mode = ref('workflow')
 const question = ref('请根据评论与规则给出选品条件，并明确缺失数据。')
 const task = ref(null)
 const events = ref([])
@@ -107,7 +107,7 @@ onUnmounted(() => stream?.close())
       <form @submit.prevent="submit">
         <div class="fields">
           <label>商品编号<input v-model="product" list="products" required><datalist id="products"><option v-for="row in products" :key="row.id" :value="row.id">{{ row.name }} · {{ row.market }}</option></datalist></label>
-          <label>研究方式<select v-model="mode"><option value="fixed">固定流程（无需聊天模型）</option><option value="prompt">单次模型分析</option><option value="agent">单 Agent 研究</option><option value="multi">多 Agent 专项研究</option></select></label>
+          <label>研究方式<select v-model="mode"><option value="fixed">原文整理（无需聊天模型）</option><option value="prompt">单次模型分析</option><option value="workflow">固定检索后分析</option><option value="agent">单 Agent 研究</option><option value="multi">多 Agent 专项研究</option></select></label>
         </div>
         <label>研究问题<textarea v-model="question" rows="3" required /></label>
         <button :disabled="submitting">{{ submitting ? '正在提交…' : '创建研究任务' }}</button>

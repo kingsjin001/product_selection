@@ -1,0 +1,2651 @@
+{
+  "date": "2026-10-20T18:21:18.460690+00:00",
+  "manifest_hash": "62028edf51709deb51cf5037e6893dc28fde68cbcc722caf5d2e2b5a96653696",
+  "indexes": {
+    "rule": "rule_chunks_v3_0cca43fcec85",
+    "review": "review_chunks_v3_0cca43fcec85"
+  },
+  "queries": [
+    {
+      "id": "r01",
+      "split": "dev",
+      "query": "背包内装液体时盒盖会渗水",
+      "relevant": [
+        "ev-review-review-cn-001"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-review-review-cn-001",
+          "ev-review-demo-v5-c2",
+          "ev-review-review-001",
+          "ev-review-review-cn-011",
+          "ev-review-review-cn-007"
+        ],
+        "lexical": [
+          "ev-review-demo-v5-c2",
+          "ev-review-review-cn-001"
+        ],
+        "rrf": [
+          "ev-review-demo-v5-c2",
+          "ev-review-review-cn-001",
+          "ev-review-review-001",
+          "ev-review-review-cn-011",
+          "ev-review-review-cn-007"
+        ],
+        "rrf_20": [
+          "ev-review-demo-v5-c2",
+          "ev-review-review-cn-001",
+          "ev-review-review-001",
+          "ev-review-review-cn-011",
+          "ev-review-review-cn-007"
+        ],
+        "rrf_100": [
+          "ev-review-demo-v5-c2",
+          "ev-review-review-cn-001",
+          "ev-review-review-001",
+          "ev-review-review-cn-011",
+          "ev-review-review-cn-007"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 0.6309297535714575
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 0.6309297535714575
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 0.6309297535714575
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 0.6309297535714575
+        }
+      },
+      "passed": true,
+      "seconds": 1.172
+    },
+    {
+      "id": "r02",
+      "split": "dev",
+      "query": "烘焙用垫子好洗但边缘偏软",
+      "relevant": [
+        "ev-review-review-cn-002"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-review-review-cn-002",
+          "ev-review-review-cn-003",
+          "ev-review-review-cn-013",
+          "ev-review-demo-v5-n2",
+          "ev-review-demo-v5-n1"
+        ],
+        "lexical": [
+          "ev-review-review-cn-002",
+          "ev-review-demo-v5-c2",
+          "ev-review-review-cn-001"
+        ],
+        "rrf": [
+          "ev-review-review-cn-002",
+          "ev-review-demo-v5-c2",
+          "ev-review-review-cn-001",
+          "ev-review-review-cn-003",
+          "ev-review-review-cn-013"
+        ],
+        "rrf_20": [
+          "ev-review-review-cn-002",
+          "ev-review-demo-v5-c2",
+          "ev-review-review-cn-001",
+          "ev-review-review-cn-003",
+          "ev-review-review-cn-013"
+        ],
+        "rrf_100": [
+          "ev-review-review-cn-002",
+          "ev-review-demo-v5-c2",
+          "ev-review-review-cn-001",
+          "ev-review-review-cn-003",
+          "ev-review-review-cn-013"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.312
+    },
+    {
+      "id": "r03",
+      "split": "dev",
+      "query": "厚重锅具让水槽架变形",
+      "relevant": [
+        "ev-review-review-cn-003"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-review-review-cn-003",
+          "ev-review-review-cn-001",
+          "ev-review-demo-v5-c2",
+          "ev-review-review-cn-019",
+          "ev-review-review-001"
+        ],
+        "lexical": [],
+        "rrf": [
+          "ev-review-review-cn-003",
+          "ev-review-review-cn-001",
+          "ev-review-demo-v5-c2",
+          "ev-review-review-cn-019",
+          "ev-review-review-001"
+        ],
+        "rrf_20": [
+          "ev-review-review-cn-003",
+          "ev-review-review-cn-001",
+          "ev-review-demo-v5-c2",
+          "ev-review-review-cn-019",
+          "ev-review-review-001"
+        ],
+        "rrf_100": [
+          "ev-review-review-cn-003",
+          "ev-review-review-cn-001",
+          "ev-review-demo-v5-c2",
+          "ev-review-review-cn-019",
+          "ev-review-review-001"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 0.0,
+          "ndcg_at_5": 0.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.625
+    },
+    {
+      "id": "r04",
+      "split": "dev",
+      "query": "玻璃罐标签使用一周仍贴得牢",
+      "relevant": [
+        "ev-review-review-cn-004"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-review-review-cn-004",
+          "ev-review-review-cn-001",
+          "ev-review-demo-v5-c1",
+          "ev-review-demo-v5-c2",
+          "ev-review-review-002"
+        ],
+        "lexical": [
+          "ev-review-review-cn-004",
+          "ev-review-demo-v5-c2",
+          "ev-review-demo-v5-m1",
+          "ev-review-review-cn-015",
+          "ev-review-review-cn-019"
+        ],
+        "rrf": [
+          "ev-review-review-cn-004",
+          "ev-review-demo-v5-c2",
+          "ev-review-demo-v5-m1",
+          "ev-review-review-cn-015",
+          "ev-review-review-cn-019"
+        ],
+        "rrf_20": [
+          "ev-review-review-cn-004",
+          "ev-review-demo-v5-c2",
+          "ev-review-demo-v5-m1",
+          "ev-review-review-cn-015",
+          "ev-review-review-cn-019"
+        ],
+        "rrf_100": [
+          "ev-review-review-cn-004",
+          "ev-review-demo-v5-c2",
+          "ev-review-demo-v5-m1",
+          "ev-review-review-cn-015",
+          "ev-review-review-cn-019"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.328
+    },
+    {
+      "id": "r05",
+      "split": "dev",
+      "query": "较粗电源线不容易穿过收纳盒孔洞",
+      "relevant": [
+        "ev-review-review-cn-005"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-review-review-cn-005",
+          "ev-review-review-004",
+          "ev-review-demo-v5-n1",
+          "ev-review-review-cn-015",
+          "ev-review-review-cn-006"
+        ],
+        "lexical": [
+          "ev-review-review-cn-005",
+          "ev-review-demo-v5-m2",
+          "ev-review-demo-v5-n1",
+          "ev-review-demo-v5-n2",
+          "ev-review-review-cn-002"
+        ],
+        "rrf": [
+          "ev-review-review-cn-005",
+          "ev-review-demo-v5-n1",
+          "ev-review-review-cn-015",
+          "ev-review-review-cn-002",
+          "ev-review-demo-v5-m2"
+        ],
+        "rrf_20": [
+          "ev-review-review-cn-005",
+          "ev-review-demo-v5-n1",
+          "ev-review-review-cn-015",
+          "ev-review-review-cn-002",
+          "ev-review-demo-v5-m2"
+        ],
+        "rrf_100": [
+          "ev-review-review-cn-005",
+          "ev-review-demo-v5-n1",
+          "ev-review-review-cn-015",
+          "ev-review-review-cn-002",
+          "ev-review-demo-v5-m2"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.297
+    },
+    {
+      "id": "r06",
+      "split": "dev",
+      "query": "竹制抽屉隔板安装后不易滑动",
+      "relevant": [
+        "ev-review-review-cn-006"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-review-review-cn-006",
+          "ev-review-demo-v5-n1",
+          "ev-review-review-cn-019",
+          "ev-review-review-cn-005",
+          "ev-review-demo-v5-n2"
+        ],
+        "lexical": [
+          "ev-review-review-cn-006",
+          "ev-review-demo-v5-n1"
+        ],
+        "rrf": [
+          "ev-review-review-cn-006",
+          "ev-review-demo-v5-n1",
+          "ev-review-review-cn-019",
+          "ev-review-review-cn-005",
+          "ev-review-demo-v5-n2"
+        ],
+        "rrf_20": [
+          "ev-review-review-cn-006",
+          "ev-review-demo-v5-n1",
+          "ev-review-review-cn-019",
+          "ev-review-review-cn-005",
+          "ev-review-demo-v5-n2"
+        ],
+        "rrf_100": [
+          "ev-review-review-cn-006",
+          "ev-review-demo-v5-n1",
+          "ev-review-review-cn-019",
+          "ev-review-review-cn-005",
+          "ev-review-demo-v5-n2"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.313
+    },
+    {
+      "id": "r07",
+      "split": "dev",
+      "query": "压缩袋隔天重新进气",
+      "relevant": [
+        "ev-review-review-cn-007"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-review-review-cn-007",
+          "ev-review-review-cn-001",
+          "ev-review-review-001",
+          "ev-review-review-cn-015",
+          "ev-review-demo-v5-c2"
+        ],
+        "lexical": [
+          "ev-review-review-cn-007"
+        ],
+        "rrf": [
+          "ev-review-review-cn-007",
+          "ev-review-review-cn-001",
+          "ev-review-review-001",
+          "ev-review-review-cn-015",
+          "ev-review-demo-v5-c2"
+        ],
+        "rrf_20": [
+          "ev-review-review-cn-007",
+          "ev-review-review-cn-001",
+          "ev-review-review-001",
+          "ev-review-review-cn-015",
+          "ev-review-demo-v5-c2"
+        ],
+        "rrf_100": [
+          "ev-review-review-cn-007",
+          "ev-review-review-cn-001",
+          "ev-review-review-001",
+          "ev-review-review-cn-015",
+          "ev-review-demo-v5-c2"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.312
+    },
+    {
+      "id": "r08",
+      "split": "dev",
+      "query": "衣柜挂袋装满毛衣后的耐久承重未知",
+      "relevant": [
+        "ev-review-review-cn-008"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-review-review-cn-008",
+          "ev-review-review-cn-012",
+          "ev-review-review-cn-020"
+        ],
+        "lexical": [
+          "ev-review-review-cn-008"
+        ],
+        "rrf": [
+          "ev-review-review-cn-008",
+          "ev-review-review-cn-012",
+          "ev-review-review-cn-020"
+        ],
+        "rrf_20": [
+          "ev-review-review-cn-008",
+          "ev-review-review-cn-012",
+          "ev-review-review-cn-020"
+        ],
+        "rrf_100": [
+          "ev-review-review-cn-008",
+          "ev-review-review-cn-012",
+          "ev-review-review-cn-020"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.297
+    },
+    {
+      "id": "r09",
+      "split": "dev",
+      "query": "狗爪清洗杯刷毛是否柔软",
+      "relevant": [
+        "ev-review-review-cn-009"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-review-review-cn-009",
+          "ev-review-review-cn-013",
+          "ev-review-review-cn-010",
+          "ev-review-demo-v5-m2",
+          "ev-review-review-cn-015"
+        ],
+        "lexical": [
+          "ev-review-demo-v5-m2",
+          "ev-review-review-cn-009",
+          "ev-review-review-cn-013"
+        ],
+        "rrf": [
+          "ev-review-review-cn-009",
+          "ev-review-demo-v5-m2",
+          "ev-review-review-cn-013",
+          "ev-review-review-cn-010",
+          "ev-review-review-cn-015"
+        ],
+        "rrf_20": [
+          "ev-review-review-cn-009",
+          "ev-review-demo-v5-m2",
+          "ev-review-review-cn-013",
+          "ev-review-review-cn-010",
+          "ev-review-review-cn-015"
+        ],
+        "rrf_100": [
+          "ev-review-review-cn-009",
+          "ev-review-demo-v5-m2",
+          "ev-review-review-cn-013",
+          "ev-review-review-cn-010",
+          "ev-review-review-cn-015"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 0.6309297535714575
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.297
+    },
+    {
+      "id": "r10",
+      "split": "dev",
+      "query": "除猫毛滚筒积毛后不容易清理",
+      "relevant": [
+        "ev-review-review-cn-010"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-review-review-cn-010",
+          "ev-review-review-cn-009",
+          "ev-review-review-cn-013",
+          "ev-review-demo-v5-m2",
+          "ev-review-review-cn-015"
+        ],
+        "lexical": [
+          "ev-review-review-cn-010",
+          "ev-review-demo-v5-m2",
+          "ev-review-demo-v5-n1",
+          "ev-review-demo-v5-n2",
+          "ev-review-review-cn-002"
+        ],
+        "rrf": [
+          "ev-review-review-cn-010",
+          "ev-review-demo-v5-m2",
+          "ev-review-demo-v5-n1",
+          "ev-review-review-cn-002",
+          "ev-review-demo-v5-n2"
+        ],
+        "rrf_20": [
+          "ev-review-review-cn-010",
+          "ev-review-demo-v5-m2",
+          "ev-review-demo-v5-n1",
+          "ev-review-review-cn-002",
+          "ev-review-demo-v5-n2"
+        ],
+        "rrf_100": [
+          "ev-review-review-cn-010",
+          "ev-review-demo-v5-m2",
+          "ev-review-demo-v5-n1",
+          "ev-review-review-cn-002",
+          "ev-review-demo-v5-n2"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.766
+    },
+    {
+      "id": "r11",
+      "split": "dev",
+      "query": "旅行洗漱分区袋拉链头太小",
+      "relevant": [
+        "ev-review-review-cn-011"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-review-review-cn-011",
+          "ev-review-review-001",
+          "ev-review-review-cn-007",
+          "ev-review-demo-v5-c2",
+          "ev-review-review-cn-001"
+        ],
+        "lexical": [
+          "ev-review-review-cn-011"
+        ],
+        "rrf": [
+          "ev-review-review-cn-011",
+          "ev-review-review-001",
+          "ev-review-review-cn-007",
+          "ev-review-demo-v5-c2",
+          "ev-review-review-cn-001"
+        ],
+        "rrf_20": [
+          "ev-review-review-cn-011",
+          "ev-review-review-001",
+          "ev-review-review-cn-007",
+          "ev-review-demo-v5-c2",
+          "ev-review-review-cn-001"
+        ],
+        "rrf_100": [
+          "ev-review-review-cn-011",
+          "ev-review-review-001",
+          "ev-review-review-cn-007",
+          "ev-review-demo-v5-c2",
+          "ev-review-review-cn-001"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.281
+    },
+    {
+      "id": "r12",
+      "split": "dev",
+      "query": "行李压缩收纳后能多装外套",
+      "relevant": [
+        "ev-review-review-cn-012"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-review-review-cn-012",
+          "ev-review-review-cn-008",
+          "ev-review-review-cn-020"
+        ],
+        "lexical": [
+          "ev-review-review-cn-012"
+        ],
+        "rrf": [
+          "ev-review-review-cn-012",
+          "ev-review-review-cn-008",
+          "ev-review-review-cn-020"
+        ],
+        "rrf_20": [
+          "ev-review-review-cn-012",
+          "ev-review-review-cn-008",
+          "ev-review-review-cn-020"
+        ],
+        "rrf_100": [
+          "ev-review-review-cn-012",
+          "ev-review-review-cn-008",
+          "ev-review-review-cn-020"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.281
+    },
+    {
+      "id": "r13",
+      "split": "holdout",
+      "query": "刷具清洁垫在粗糙台面吸不住",
+      "relevant": [
+        "ev-review-review-cn-013"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-review-review-cn-013",
+          "ev-review-review-cn-002",
+          "ev-review-review-cn-010",
+          "ev-review-demo-v5-n2",
+          "ev-review-demo-v5-n1"
+        ],
+        "lexical": [
+          "ev-review-review-cn-013"
+        ],
+        "rrf": [
+          "ev-review-review-cn-013",
+          "ev-review-review-cn-002",
+          "ev-review-review-cn-010",
+          "ev-review-demo-v5-n2",
+          "ev-review-demo-v5-n1"
+        ],
+        "rrf_20": [
+          "ev-review-review-cn-013",
+          "ev-review-review-cn-002",
+          "ev-review-review-cn-010",
+          "ev-review-demo-v5-n2",
+          "ev-review-demo-v5-n1"
+        ],
+        "rrf_100": [
+          "ev-review-review-cn-013",
+          "ev-review-review-cn-002",
+          "ev-review-review-cn-010",
+          "ev-review-demo-v5-n2",
+          "ev-review-demo-v5-n1"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.328
+    },
+    {
+      "id": "r14",
+      "split": "holdout",
+      "query": "冷藏后的美容滚轮要等待回温",
+      "relevant": [
+        "ev-review-review-cn-014"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-review-review-cn-014",
+          "ev-review-review-cn-018",
+          "ev-review-review-cn-016"
+        ],
+        "lexical": [
+          "ev-review-review-cn-014"
+        ],
+        "rrf": [
+          "ev-review-review-cn-014",
+          "ev-review-review-cn-018",
+          "ev-review-review-cn-016"
+        ],
+        "rrf_20": [
+          "ev-review-review-cn-014",
+          "ev-review-review-cn-018",
+          "ev-review-review-cn-016"
+        ],
+        "rrf_100": [
+          "ev-review-review-cn-014",
+          "ev-review-review-cn-018",
+          "ev-review-review-cn-016"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.328
+    },
+    {
+      "id": "r15",
+      "split": "holdout",
+      "query": "训练阻力带第一次打开有橡胶味",
+      "relevant": [
+        "ev-review-review-cn-015"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-review-review-cn-007",
+          "ev-review-review-cn-015",
+          "ev-review-demo-v5-m1",
+          "ev-review-demo-v5-m2",
+          "ev-review-demo-v5-c2"
+        ],
+        "lexical": [
+          "ev-review-review-cn-007",
+          "ev-review-review-cn-015",
+          "ev-review-review-cn-006"
+        ],
+        "rrf": [
+          "ev-review-review-cn-007",
+          "ev-review-review-cn-015",
+          "ev-review-review-cn-006",
+          "ev-review-demo-v5-m1",
+          "ev-review-demo-v5-m2"
+        ],
+        "rrf_20": [
+          "ev-review-review-cn-007",
+          "ev-review-review-cn-015",
+          "ev-review-review-cn-006",
+          "ev-review-demo-v5-m1",
+          "ev-review-demo-v5-m2"
+        ],
+        "rrf_100": [
+          "ev-review-review-cn-007",
+          "ev-review-review-cn-015",
+          "ev-review-review-cn-006",
+          "ev-review-demo-v5-m1",
+          "ev-review-demo-v5-m2"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 0.6309297535714575
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 0.6309297535714575
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 0.6309297535714575
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 0.6309297535714575
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 0.6309297535714575
+        }
+      },
+      "passed": true,
+      "seconds": 0.313
+    },
+    {
+      "id": "r16",
+      "split": "holdout",
+      "query": "拉伸辅助带扣环能否固定",
+      "relevant": [
+        "ev-review-review-cn-016"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-review-review-cn-016",
+          "ev-review-review-cn-018",
+          "ev-review-review-cn-014"
+        ],
+        "lexical": [
+          "ev-review-review-cn-016"
+        ],
+        "rrf": [
+          "ev-review-review-cn-016",
+          "ev-review-review-cn-018",
+          "ev-review-review-cn-014"
+        ],
+        "rrf_20": [
+          "ev-review-review-cn-016",
+          "ev-review-review-cn-018",
+          "ev-review-review-cn-014"
+        ],
+        "rrf_100": [
+          "ev-review-review-cn-016",
+          "ev-review-review-cn-018",
+          "ev-review-review-cn-014"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.25
+    },
+    {
+      "id": "r17",
+      "split": "holdout",
+      "query": "挂重物导致婴儿推车向后倾",
+      "relevant": [
+        "ev-review-review-cn-017"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-review-review-cn-017",
+          "ev-review-review-cn-015",
+          "ev-review-review-cn-007",
+          "ev-review-demo-v5-n1",
+          "ev-review-review-cn-019"
+        ],
+        "lexical": [
+          "ev-review-review-cn-017"
+        ],
+        "rrf": [
+          "ev-review-review-cn-017",
+          "ev-review-review-cn-015",
+          "ev-review-review-cn-007",
+          "ev-review-demo-v5-n1",
+          "ev-review-review-cn-019"
+        ],
+        "rrf_20": [
+          "ev-review-review-cn-017",
+          "ev-review-review-cn-015",
+          "ev-review-review-cn-007",
+          "ev-review-demo-v5-n1",
+          "ev-review-review-cn-019"
+        ],
+        "rrf_100": [
+          "ev-review-review-cn-017",
+          "ev-review-review-cn-015",
+          "ev-review-review-cn-007",
+          "ev-review-demo-v5-n1",
+          "ev-review-review-cn-019"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.328
+    },
+    {
+      "id": "r18",
+      "split": "holdout",
+      "query": "硅胶围兜接住食物碎屑",
+      "relevant": [
+        "ev-review-review-cn-018"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-review-review-cn-018",
+          "ev-review-review-cn-016",
+          "ev-review-review-cn-014"
+        ],
+        "lexical": [
+          "ev-review-review-cn-018"
+        ],
+        "rrf": [
+          "ev-review-review-cn-018",
+          "ev-review-review-cn-016",
+          "ev-review-review-cn-014"
+        ],
+        "rrf_20": [
+          "ev-review-review-cn-018",
+          "ev-review-review-cn-016",
+          "ev-review-review-cn-014"
+        ],
+        "rrf_100": [
+          "ev-review-review-cn-018",
+          "ev-review-review-cn-016",
+          "ev-review-review-cn-014"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.281
+    },
+    {
+      "id": "r19",
+      "split": "holdout",
+      "query": "电脑支架放玻璃桌上需要防滑",
+      "relevant": [
+        "ev-review-review-cn-019"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-review-review-cn-019",
+          "ev-review-demo-v5-n2",
+          "ev-review-review-cn-006",
+          "ev-review-demo-v5-n1",
+          "ev-review-review-cn-003"
+        ],
+        "lexical": [
+          "ev-review-review-cn-019",
+          "ev-review-demo-v5-m2",
+          "ev-review-demo-v5-n2",
+          "ev-review-review-cn-001",
+          "ev-review-review-cn-002"
+        ],
+        "rrf": [
+          "ev-review-review-cn-019",
+          "ev-review-demo-v5-n2",
+          "ev-review-demo-v5-m2",
+          "ev-review-review-cn-001",
+          "ev-review-review-cn-002"
+        ],
+        "rrf_20": [
+          "ev-review-review-cn-019",
+          "ev-review-demo-v5-n2",
+          "ev-review-demo-v5-m2",
+          "ev-review-review-cn-001",
+          "ev-review-review-cn-002"
+        ],
+        "rrf_100": [
+          "ev-review-review-cn-019",
+          "ev-review-demo-v5-n2",
+          "ev-review-demo-v5-m2",
+          "ev-review-review-cn-001",
+          "ev-review-review-cn-002"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.578
+    },
+    {
+      "id": "r20",
+      "split": "holdout",
+      "query": "粗数据线在线夹槽里太紧",
+      "relevant": [
+        "ev-review-review-cn-020"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-review-review-cn-020",
+          "ev-review-review-cn-012",
+          "ev-review-review-cn-008"
+        ],
+        "lexical": [
+          "ev-review-review-cn-020"
+        ],
+        "rrf": [
+          "ev-review-review-cn-020",
+          "ev-review-review-cn-012",
+          "ev-review-review-cn-008"
+        ],
+        "rrf_20": [
+          "ev-review-review-cn-020",
+          "ev-review-review-cn-012",
+          "ev-review-review-cn-008"
+        ],
+        "rrf_100": [
+          "ev-review-review-cn-020",
+          "ev-review-review-cn-012",
+          "ev-review-review-cn-008"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.297
+    },
+    {
+      "id": "p01",
+      "split": "dev",
+      "query": "食品接触零件需要留存哪些材质文件",
+      "relevant": [
+        "ev-rule-us-cn-food-001"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-rule-us-cn-food-001",
+          "ev-rule-us-food-contact-001",
+          "ev-rule-us-cn-food-003",
+          "ev-rule-us-cn-food-002",
+          "ev-rule-us-cn-baby-017"
+        ],
+        "lexical": [
+          "ev-rule-us-cn-food-001",
+          "ev-rule-us-cn-food-003",
+          "ev-rule-us-cn-beauty-013",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-us-cn-food-004"
+        ],
+        "rrf": [
+          "ev-rule-us-cn-food-001",
+          "ev-rule-us-cn-food-003",
+          "ev-rule-us-cn-food-004",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-us-cn-travel-011"
+        ],
+        "rrf_20": [
+          "ev-rule-us-cn-food-001",
+          "ev-rule-us-cn-food-003",
+          "ev-rule-us-cn-food-004",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-us-cn-beauty-013"
+        ],
+        "rrf_100": [
+          "ev-rule-us-cn-food-001",
+          "ev-rule-us-cn-food-003",
+          "ev-rule-us-cn-food-004",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-us-cn-travel-011"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.359
+    },
+    {
+      "id": "p02",
+      "split": "dev",
+      "query": "密封防漏广告不能声称无条件保证",
+      "relevant": [
+        "ev-rule-us-cn-food-002"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-rule-us-cn-food-002",
+          "ev-rule-us-cn-home-007",
+          "ev-rule-demo-v5-seal",
+          "ev-rule-us-cn-home-006",
+          "ev-rule-demo-v5-pet"
+        ],
+        "lexical": [
+          "ev-rule-us-cn-food-002",
+          "ev-rule-demo-v5-seal",
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-demo-v5-pet"
+        ],
+        "rrf": [
+          "ev-rule-us-cn-food-002",
+          "ev-rule-demo-v5-seal",
+          "ev-rule-us-cn-home-007",
+          "ev-rule-us-cn-home-006",
+          "ev-rule-demo-v5-pet"
+        ],
+        "rrf_20": [
+          "ev-rule-us-cn-food-002",
+          "ev-rule-demo-v5-seal",
+          "ev-rule-us-cn-home-007",
+          "ev-rule-us-cn-home-006",
+          "ev-rule-demo-v5-pet"
+        ],
+        "rrf_100": [
+          "ev-rule-us-cn-food-002",
+          "ev-rule-demo-v5-seal",
+          "ev-rule-us-cn-home-007",
+          "ev-rule-us-cn-home-006",
+          "ev-rule-demo-v5-pet"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.281
+    },
+    {
+      "id": "p03",
+      "split": "dev",
+      "query": "硅胶厨房用品的预期用途和清洁说明",
+      "relevant": [
+        "ev-rule-us-cn-food-003"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-rule-us-cn-food-003",
+          "ev-rule-demo-v5-pet",
+          "ev-rule-us-cn-pet-009",
+          "ev-rule-us-cn-food-001",
+          "ev-rule-us-cn-beauty-013"
+        ],
+        "lexical": [
+          "ev-rule-us-cn-food-003",
+          "ev-rule-us-cn-pet-009",
+          "ev-rule-us-cn-food-004",
+          "ev-rule-us-cn-home-005",
+          "ev-rule-demo-v5-pet"
+        ],
+        "rrf": [
+          "ev-rule-us-cn-food-003",
+          "ev-rule-us-cn-pet-009",
+          "ev-rule-demo-v5-pet",
+          "ev-rule-us-cn-food-004",
+          "ev-rule-us-cn-home-005"
+        ],
+        "rrf_20": [
+          "ev-rule-us-cn-food-003",
+          "ev-rule-us-cn-pet-009",
+          "ev-rule-demo-v5-pet",
+          "ev-rule-us-cn-food-004",
+          "ev-rule-us-cn-home-005"
+        ],
+        "rrf_100": [
+          "ev-rule-us-cn-food-003",
+          "ev-rule-us-cn-pet-009",
+          "ev-rule-demo-v5-pet",
+          "ev-rule-us-cn-food-004",
+          "ev-rule-us-cn-home-005"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 1.313
+    },
+    {
+      "id": "p04",
+      "split": "dev",
+      "query": "包装说明书和厨房商品网页是否一致",
+      "relevant": [
+        "ev-rule-us-cn-food-004"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-rule-us-cn-food-004",
+          "ev-rule-us-cn-food-001",
+          "ev-rule-us-cn-food-003",
+          "ev-rule-demo-v5-pet",
+          "ev-rule-us-cn-baby-017"
+        ],
+        "lexical": [
+          "ev-rule-us-cn-food-004",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-us-cn-food-003",
+          "ev-rule-us-cn-baby-017",
+          "ev-rule-us-cn-home-005"
+        ],
+        "rrf": [
+          "ev-rule-us-cn-food-004",
+          "ev-rule-us-cn-food-003",
+          "ev-rule-us-cn-baby-017",
+          "ev-rule-us-cn-home-005",
+          "ev-rule-us-cn-home-007"
+        ],
+        "rrf_20": [
+          "ev-rule-us-cn-food-004",
+          "ev-rule-us-cn-food-003",
+          "ev-rule-us-cn-baby-017",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-us-cn-home-005"
+        ],
+        "rrf_100": [
+          "ev-rule-us-cn-food-004",
+          "ev-rule-us-cn-food-003",
+          "ev-rule-us-cn-baby-017",
+          "ev-rule-us-cn-home-005",
+          "ev-rule-us-cn-home-007"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.281
+    },
+    {
+      "id": "p05",
+      "split": "dev",
+      "query": "插排附近的收纳用品要核对电气功能与散热",
+      "relevant": [
+        "ev-rule-us-cn-home-005"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-rule-us-cn-home-005",
+          "ev-rule-us-electrical-003",
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-us-cn-travel-011",
+          "ev-rule-demo-v5-pet"
+        ],
+        "lexical": [
+          "ev-rule-us-cn-home-005",
+          "ev-rule-us-cn-travel-011",
+          "ev-rule-demo-v5-home",
+          "ev-rule-us-cn-beauty-013",
+          "ev-rule-us-cn-food-001"
+        ],
+        "rrf": [
+          "ev-rule-us-cn-home-005",
+          "ev-rule-us-cn-travel-011",
+          "ev-rule-us-cn-food-004",
+          "ev-rule-us-cn-food-001",
+          "ev-rule-us-cn-food-003"
+        ],
+        "rrf_20": [
+          "ev-rule-us-cn-home-005",
+          "ev-rule-us-cn-travel-011",
+          "ev-rule-us-cn-food-004",
+          "ev-rule-us-cn-food-001",
+          "ev-rule-us-cn-food-003"
+        ],
+        "rrf_100": [
+          "ev-rule-us-cn-home-005",
+          "ev-rule-us-cn-travel-011",
+          "ev-rule-us-cn-food-004",
+          "ev-rule-us-cn-food-001",
+          "ev-rule-us-cn-food-003"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.312
+    },
+    {
+      "id": "p06",
+      "split": "dev",
+      "query": "承重和节省空间宣传需要记录测试条件",
+      "relevant": [
+        "ev-rule-us-cn-home-006"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-rule-us-cn-home-006",
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-us-cn-food-002",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-us-cn-home-007"
+        ],
+        "lexical": [
+          "ev-rule-us-cn-home-006",
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-us-cn-food-002",
+          "ev-rule-demo-v5-home",
+          "ev-rule-demo-v5-seal"
+        ],
+        "rrf": [
+          "ev-rule-us-cn-home-006",
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-us-cn-food-002",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-demo-v5-seal"
+        ],
+        "rrf_20": [
+          "ev-rule-us-cn-home-006",
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-us-cn-food-002",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-demo-v5-seal"
+        ],
+        "rrf_100": [
+          "ev-rule-us-cn-home-006",
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-us-cn-food-002",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-demo-v5-seal"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.359
+    },
+    {
+      "id": "p07",
+      "split": "dev",
+      "query": "真空袋压缩比例应关联袋型阀门周期",
+      "relevant": [
+        "ev-rule-us-cn-home-007"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-rule-us-cn-home-007",
+          "ev-rule-demo-v5-seal",
+          "ev-rule-us-cn-food-002",
+          "ev-rule-us-cn-home-006",
+          "ev-rule-us-cn-electronics-019"
+        ],
+        "lexical": [
+          "ev-rule-us-cn-home-007"
+        ],
+        "rrf": [
+          "ev-rule-us-cn-home-007",
+          "ev-rule-demo-v5-seal",
+          "ev-rule-us-cn-food-002",
+          "ev-rule-us-cn-home-006",
+          "ev-rule-us-cn-electronics-019"
+        ],
+        "rrf_20": [
+          "ev-rule-us-cn-home-007",
+          "ev-rule-demo-v5-seal",
+          "ev-rule-us-cn-food-002",
+          "ev-rule-us-cn-home-006",
+          "ev-rule-us-cn-electronics-019"
+        ],
+        "rrf_100": [
+          "ev-rule-us-cn-home-007",
+          "ev-rule-demo-v5-seal",
+          "ev-rule-us-cn-food-002",
+          "ev-rule-us-cn-home-006",
+          "ev-rule-us-cn-electronics-019"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.297
+    },
+    {
+      "id": "p08",
+      "split": "dev",
+      "query": "英国收纳用品说明书承重警示核对",
+      "relevant": [
+        "ev-rule-uk-cn-home-008"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-rule-uk-cn-home-008",
+          "ev-rule-uk-cn-electronics-020",
+          "ev-rule-uk-cn-travel-012"
+        ],
+        "lexical": [
+          "ev-rule-uk-cn-home-008",
+          "ev-rule-uk-cn-electronics-020",
+          "ev-rule-uk-cn-travel-012"
+        ],
+        "rrf": [
+          "ev-rule-uk-cn-home-008",
+          "ev-rule-uk-cn-electronics-020",
+          "ev-rule-uk-cn-travel-012"
+        ],
+        "rrf_20": [
+          "ev-rule-uk-cn-home-008",
+          "ev-rule-uk-cn-electronics-020",
+          "ev-rule-uk-cn-travel-012"
+        ],
+        "rrf_100": [
+          "ev-rule-uk-cn-home-008",
+          "ev-rule-uk-cn-electronics-020",
+          "ev-rule-uk-cn-travel-012"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.328
+    },
+    {
+      "id": "p09",
+      "split": "dev",
+      "query": "宠物清洁用品不能推断适合所有宠物",
+      "relevant": [
+        "ev-rule-us-cn-pet-009"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-rule-us-cn-pet-009",
+          "ev-rule-demo-v5-pet",
+          "ev-rule-us-cn-beauty-013",
+          "ev-rule-us-cn-home-005",
+          "ev-rule-us-cn-travel-011"
+        ],
+        "lexical": [
+          "ev-rule-us-cn-pet-009",
+          "ev-rule-us-cn-food-003",
+          "ev-rule-demo-v5-seal",
+          "ev-rule-us-cn-beauty-013",
+          "ev-rule-us-cn-electronics-019"
+        ],
+        "rrf": [
+          "ev-rule-us-cn-pet-009",
+          "ev-rule-us-cn-beauty-013",
+          "ev-rule-us-cn-food-003",
+          "ev-rule-us-cn-home-005",
+          "ev-rule-us-cn-electronics-019"
+        ],
+        "rrf_20": [
+          "ev-rule-us-cn-pet-009",
+          "ev-rule-us-cn-beauty-013",
+          "ev-rule-us-cn-food-003",
+          "ev-rule-us-cn-home-005",
+          "ev-rule-us-cn-electronics-019"
+        ],
+        "rrf_100": [
+          "ev-rule-us-cn-pet-009",
+          "ev-rule-us-cn-beauty-013",
+          "ev-rule-us-cn-food-003",
+          "ev-rule-us-cn-home-005",
+          "ev-rule-us-cn-electronics-019"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.281
+    },
+    {
+      "id": "p10",
+      "split": "dev",
+      "query": "宠物用品耐用易清洁宣称需要复查资料",
+      "relevant": [
+        "ev-rule-us-cn-pet-010"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-rule-us-cn-pet-009",
+          "ev-rule-demo-v5-pet",
+          "ev-rule-us-cn-pet-010",
+          "ev-rule-us-cn-beauty-013",
+          "ev-rule-us-cn-baby-017"
+        ],
+        "lexical": [
+          "ev-rule-us-cn-pet-010",
+          "ev-rule-us-cn-beauty-013",
+          "ev-rule-us-cn-pet-009",
+          "ev-rule-demo-v5-pet",
+          "ev-rule-us-cn-food-003"
+        ],
+        "rrf": [
+          "ev-rule-us-cn-pet-009",
+          "ev-rule-us-cn-pet-010",
+          "ev-rule-demo-v5-pet",
+          "ev-rule-us-cn-beauty-013",
+          "ev-rule-us-cn-food-004"
+        ],
+        "rrf_20": [
+          "ev-rule-us-cn-pet-009",
+          "ev-rule-us-cn-pet-010",
+          "ev-rule-demo-v5-pet",
+          "ev-rule-us-cn-beauty-013",
+          "ev-rule-us-cn-food-004"
+        ],
+        "rrf_100": [
+          "ev-rule-us-cn-pet-009",
+          "ev-rule-us-cn-pet-010",
+          "ev-rule-demo-v5-pet",
+          "ev-rule-us-cn-beauty-013",
+          "ev-rule-us-cn-food-004"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 0.5
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 0.6309297535714575
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 0.6309297535714575
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 0.6309297535714575
+        }
+      },
+      "passed": true,
+      "seconds": 0.297
+    },
+    {
+      "id": "p11",
+      "split": "dev",
+      "query": "旅行袋安检相关描述需单独核实",
+      "relevant": [
+        "ev-rule-us-cn-travel-011"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-rule-us-cn-travel-011",
+          "ev-rule-us-cn-baby-017",
+          "ev-rule-us-cn-home-007",
+          "ev-rule-us-cn-home-005",
+          "ev-rule-demo-v5-seal"
+        ],
+        "lexical": [
+          "ev-rule-us-cn-travel-011",
+          "ev-rule-us-cn-baby-017",
+          "ev-rule-us-cn-beauty-013",
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-us-cn-food-002"
+        ],
+        "rrf": [
+          "ev-rule-us-cn-travel-011",
+          "ev-rule-us-cn-baby-017",
+          "ev-rule-us-cn-home-005",
+          "ev-rule-us-cn-home-007",
+          "ev-rule-us-cn-food-002"
+        ],
+        "rrf_20": [
+          "ev-rule-us-cn-travel-011",
+          "ev-rule-us-cn-baby-017",
+          "ev-rule-us-cn-home-005",
+          "ev-rule-us-cn-home-007",
+          "ev-rule-us-cn-food-002"
+        ],
+        "rrf_100": [
+          "ev-rule-us-cn-travel-011",
+          "ev-rule-us-cn-baby-017",
+          "ev-rule-us-cn-home-005",
+          "ev-rule-us-cn-home-007",
+          "ev-rule-us-cn-food-002"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.281
+    },
+    {
+      "id": "p12",
+      "split": "dev",
+      "query": "不能把单一行李箱节省空间体验推广给所有人",
+      "relevant": [
+        "ev-rule-uk-cn-travel-012"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-rule-uk-cn-travel-012",
+          "ev-rule-uk-cn-home-008",
+          "ev-rule-uk-cn-electronics-020"
+        ],
+        "lexical": [
+          "ev-rule-uk-cn-travel-012"
+        ],
+        "rrf": [
+          "ev-rule-uk-cn-travel-012",
+          "ev-rule-uk-cn-home-008",
+          "ev-rule-uk-cn-electronics-020"
+        ],
+        "rrf_20": [
+          "ev-rule-uk-cn-travel-012",
+          "ev-rule-uk-cn-home-008",
+          "ev-rule-uk-cn-electronics-020"
+        ],
+        "rrf_100": [
+          "ev-rule-uk-cn-travel-012",
+          "ev-rule-uk-cn-home-008",
+          "ev-rule-uk-cn-electronics-020"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.313
+    },
+    {
+      "id": "p13",
+      "split": "holdout",
+      "query": "美妆工具不能暗示治疗效果",
+      "relevant": [
+        "ev-rule-us-cn-beauty-013"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-rule-us-cn-beauty-013",
+          "ev-rule-us-cn-pet-009",
+          "ev-rule-us-cn-food-004",
+          "ev-rule-demo-v5-pet",
+          "ev-rule-us-cn-fitness-015"
+        ],
+        "lexical": [
+          "ev-rule-us-cn-beauty-013",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-demo-v5-seal",
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-us-cn-pet-009"
+        ],
+        "rrf": [
+          "ev-rule-us-cn-beauty-013",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-us-cn-pet-009",
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-demo-v5-seal"
+        ],
+        "rrf_20": [
+          "ev-rule-us-cn-beauty-013",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-us-cn-pet-009",
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-demo-v5-seal"
+        ],
+        "rrf_100": [
+          "ev-rule-us-cn-beauty-013",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-us-cn-pet-009",
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-demo-v5-seal"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.328
+    },
+    {
+      "id": "p14",
+      "split": "holdout",
+      "query": "德国美容工具需要一致的清洁方式和使用提醒",
+      "relevant": [
+        "ev-rule-de-cn-beauty-014"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-rule-de-cn-beauty-014",
+          "ev-rule-de-cn-baby-018",
+          "ev-rule-de-cn-fitness-016"
+        ],
+        "lexical": [
+          "ev-rule-de-cn-beauty-014",
+          "ev-rule-de-cn-baby-018",
+          "ev-rule-de-cn-fitness-016"
+        ],
+        "rrf": [
+          "ev-rule-de-cn-beauty-014",
+          "ev-rule-de-cn-baby-018",
+          "ev-rule-de-cn-fitness-016"
+        ],
+        "rrf_20": [
+          "ev-rule-de-cn-beauty-014",
+          "ev-rule-de-cn-baby-018",
+          "ev-rule-de-cn-fitness-016"
+        ],
+        "rrf_100": [
+          "ev-rule-de-cn-beauty-014",
+          "ev-rule-de-cn-baby-018",
+          "ev-rule-de-cn-fitness-016"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.313
+    },
+    {
+      "id": "p15",
+      "split": "holdout",
+      "query": "阻力训练效果不能包装为健康结果承诺",
+      "relevant": [
+        "ev-rule-us-cn-fitness-015"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-us-cn-home-006",
+          "ev-rule-us-cn-pet-010",
+          "ev-rule-us-cn-food-002",
+          "ev-rule-us-cn-home-007"
+        ],
+        "lexical": [
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-demo-v5-seal",
+          "ev-rule-us-cn-beauty-013",
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-us-cn-food-002"
+        ],
+        "rrf": [
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-us-cn-beauty-013",
+          "ev-rule-us-cn-food-002",
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-us-cn-food-004"
+        ],
+        "rrf_20": [
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-us-cn-beauty-013",
+          "ev-rule-us-cn-food-002",
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-demo-v5-seal"
+        ],
+        "rrf_100": [
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-us-cn-beauty-013",
+          "ev-rule-us-cn-food-002",
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-us-cn-food-004"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.312
+    },
+    {
+      "id": "p16",
+      "split": "holdout",
+      "query": "拉伸辅助用品不能承诺康复和受伤恢复",
+      "relevant": [
+        "ev-rule-de-cn-fitness-016"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-rule-de-cn-fitness-016",
+          "ev-rule-de-cn-beauty-014",
+          "ev-rule-de-cn-baby-018"
+        ],
+        "lexical": [
+          "ev-rule-de-cn-fitness-016",
+          "ev-rule-de-cn-baby-018"
+        ],
+        "rrf": [
+          "ev-rule-de-cn-fitness-016",
+          "ev-rule-de-cn-baby-018",
+          "ev-rule-de-cn-beauty-014"
+        ],
+        "rrf_20": [
+          "ev-rule-de-cn-fitness-016",
+          "ev-rule-de-cn-baby-018",
+          "ev-rule-de-cn-beauty-014"
+        ],
+        "rrf_100": [
+          "ev-rule-de-cn-fitness-016",
+          "ev-rule-de-cn-baby-018",
+          "ev-rule-de-cn-beauty-014"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.313
+    },
+    {
+      "id": "p17",
+      "split": "holdout",
+      "query": "婴童配件安装承重与成人看护说明",
+      "relevant": [
+        "ev-rule-us-cn-baby-017"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-rule-us-cn-baby-017",
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-us-cn-travel-011",
+          "ev-rule-us-cn-food-004",
+          "ev-rule-us-electrical-003"
+        ],
+        "lexical": [
+          "ev-rule-us-cn-baby-017",
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-us-cn-food-003",
+          "ev-rule-us-cn-food-004"
+        ],
+        "rrf": [
+          "ev-rule-us-cn-baby-017",
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-us-cn-food-004",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-us-cn-home-006"
+        ],
+        "rrf_20": [
+          "ev-rule-us-cn-baby-017",
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-us-cn-food-004",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-us-cn-home-006"
+        ],
+        "rrf_100": [
+          "ev-rule-us-cn-baby-017",
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-us-cn-food-004",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-us-cn-home-006"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.328
+    },
+    {
+      "id": "p18",
+      "split": "holdout",
+      "query": "婴童硅胶产品适用年龄和清洁方法一致性",
+      "relevant": [
+        "ev-rule-de-cn-baby-018"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-rule-de-cn-baby-018",
+          "ev-rule-de-cn-beauty-014",
+          "ev-rule-de-cn-fitness-016"
+        ],
+        "lexical": [
+          "ev-rule-de-cn-baby-018",
+          "ev-rule-de-cn-beauty-014",
+          "ev-rule-de-cn-fitness-016"
+        ],
+        "rrf": [
+          "ev-rule-de-cn-baby-018",
+          "ev-rule-de-cn-beauty-014",
+          "ev-rule-de-cn-fitness-016"
+        ],
+        "rrf_20": [
+          "ev-rule-de-cn-baby-018",
+          "ev-rule-de-cn-beauty-014",
+          "ev-rule-de-cn-fitness-016"
+        ],
+        "rrf_100": [
+          "ev-rule-de-cn-baby-018",
+          "ev-rule-de-cn-beauty-014",
+          "ev-rule-de-cn-fitness-016"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.281
+    },
+    {
+      "id": "p19",
+      "split": "holdout",
+      "query": "电脑支架改善通风不能保证设备性能",
+      "relevant": [
+        "ev-rule-us-cn-electronics-019"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-demo-v5-pet",
+          "ev-rule-us-cn-home-005",
+          "ev-rule-us-electrical-003",
+          "ev-rule-us-cn-home-006"
+        ],
+        "lexical": [
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-demo-v5-pet",
+          "ev-rule-demo-v5-seal",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-us-cn-food-002"
+        ],
+        "rrf": [
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-demo-v5-pet",
+          "ev-rule-us-cn-food-002",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-demo-v5-seal"
+        ],
+        "rrf_20": [
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-demo-v5-pet",
+          "ev-rule-us-cn-food-002",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-demo-v5-seal"
+        ],
+        "rrf_100": [
+          "ev-rule-us-cn-electronics-019",
+          "ev-rule-demo-v5-pet",
+          "ev-rule-us-cn-food-002",
+          "ev-rule-us-cn-fitness-015",
+          "ev-rule-demo-v5-seal"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.328
+    },
+    {
+      "id": "p20",
+      "split": "holdout",
+      "query": "线缆整理效果不等于电气安全",
+      "relevant": [
+        "ev-rule-uk-cn-electronics-020"
+      ],
+      "rankings": {
+        "dense": [
+          "ev-rule-uk-cn-electronics-020",
+          "ev-rule-uk-cn-home-008",
+          "ev-rule-uk-cn-travel-012"
+        ],
+        "lexical": [
+          "ev-rule-uk-cn-electronics-020"
+        ],
+        "rrf": [
+          "ev-rule-uk-cn-electronics-020",
+          "ev-rule-uk-cn-home-008",
+          "ev-rule-uk-cn-travel-012"
+        ],
+        "rrf_20": [
+          "ev-rule-uk-cn-electronics-020",
+          "ev-rule-uk-cn-home-008",
+          "ev-rule-uk-cn-travel-012"
+        ],
+        "rrf_100": [
+          "ev-rule-uk-cn-electronics-020",
+          "ev-rule-uk-cn-home-008",
+          "ev-rule-uk-cn-travel-012"
+        ]
+      },
+      "metrics": {
+        "dense": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "lexical": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_20": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        },
+        "rrf_100": {
+          "recall_at_5": 1.0,
+          "ndcg_at_5": 1.0
+        }
+      },
+      "passed": true,
+      "seconds": 0.266
+    }
+  ],
+  "summary": {
+    "dev": {
+      "lexical": {
+        "recall_at_5": 0.9583,
+        "ndcg_at_5": 0.9276,
+        "queries": 24
+      },
+      "dense": {
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.9792,
+        "queries": 24
+      },
+      "rrf": {
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.9692,
+        "queries": 24
+      },
+      "rrf_20": {
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.9692,
+        "queries": 24
+      },
+      "rrf_100": {
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.9692,
+        "queries": 24
+      }
+    },
+    "holdout": {
+      "lexical": {
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.9769,
+        "queries": 16
+      },
+      "dense": {
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.9769,
+        "queries": 16
+      },
+      "rrf": {
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.9769,
+        "queries": 16
+      },
+      "rrf_20": {
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.9769,
+        "queries": 16
+      },
+      "rrf_100": {
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.9769,
+        "queries": 16
+      }
+    }
+  }
+}

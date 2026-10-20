@@ -1,0 +1,10 @@
+{
+  "scope": "本项目依赖闭包，包含 dev/demo extras，按当前 Windows Python 环境标记解析",
+  "packages": 115,
+  "constraints_passed": true,
+  "shared_environment_pip_check": [
+    "langchain-redis 0.2.5 has requirement hf-xet<1.2.1, but you have hf-xet 1.5.1.",
+    "opentelemetry-semantic-conventions 0.60b1 has requirement opentelemetry-api==1.39.1, but you have opentelemetry-api 1.45.1."
+  ],
+  "action": "只检查本项目闭包约束，未修改共享环境中其他项目的包版本"
+}

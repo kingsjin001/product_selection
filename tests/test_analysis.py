@@ -6,11 +6,11 @@ from types import SimpleNamespace
 
 import pytest
 from langgraph.checkpoint.memory import InMemorySaver
-from pydantic import ValidationError
+from pydantic import SecretStr, ValidationError
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from app.agents.product_researcher import ResearchMiddleware
+from app.agents.product_researcher import ResearchMiddleware, run_research
 from app.analysis_contracts import AnalysisRequest, Claim, CostInput, ResearchResult
 from app.core.config import Settings
 from app.db.analysis_models import AnalysisRun
@@ -171,3 +171,49 @@ def test_untrusted_tool_and_default_subagent_blocked(store, tool_call):
     middleware = ResearchMiddleware(RunBudget(store, "test-run"), {"task", "query_reviews"})
     with pytest.raises(PermissionError):
         middleware.wrap_tool_call(SimpleNamespace(tool_call=tool_call), lambda req: None)
+
+
+@pytest.mark.parametrize("repair_valid", [True, False])
+def test_json_repair_has_finite_calls(store, snapshot, monkeypatch, repair_valid):
+    """无效 JSON 只修复一次；第二次仍无效立即失败，不形成隐式循环。"""
+    outputs = ["不是 JSON", '{"summary":"资料不足","claims":[]}' if repair_valid else "仍无效"]
+
+    class FakeModel:
+        """模拟 JSON 约束仍可能失效的供应商。"""
+
+        def bind(self, **kwargs):
+            return self
+
+        def invoke(self, messages):
+            return SimpleNamespace(content=outputs.pop(0), usage_metadata={"input_tokens": 1})
+
+    monkeypatch.setattr("app.agents.product_researcher.build_model", lambda *args: FakeModel())
+    settings = store.settings.model_copy(
+        update={"model_api_key": SecretStr("unit-test"), "chat_model": "test"},
+    )
+    request = AnalysisRequest(product_id="p", mode="prompt")
+    if repair_valid:
+        assert run_research(settings, request, snapshot, [], RunBudget(store, "test-run"),
+                            None).summary == "资料不足"
+    else:
+        with pytest.raises(ValidationError):
+            run_research(settings, request, snapshot, [], RunBudget(store, "test-run"), None)
+    assert store.get("test-run")["usage"]["model_calls"] == 2
+    assert not outputs
+
+
+@pytest.mark.parametrize("message", ["429 rate limited", "model timed out"])
+def test_provider_failures_are_counted_without_hidden_retry(store, message):
+    """模拟供应商限流和超时，验证异常计入预留额度并直接交给恢复流程。"""
+    calls = []
+
+    def failed_handler(request):
+        calls.append(1)
+        raise TimeoutError(message)
+
+    middleware = ResearchMiddleware(RunBudget(store, "test-run"), set())
+    request = SimpleNamespace(tools=[], override=lambda **kwargs: None)
+    with pytest.raises(TimeoutError):
+        middleware.wrap_model_call(request, failed_handler)
+    assert len(calls) == 1
+    assert store.get("test-run")["usage"]["model_calls"] == 1

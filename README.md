@@ -1,238 +1,232 @@
-# TikTok 选品 Agent
+# TikTok 选品研究工作台
 
-## 逐期交付
+当前版本 **0.6.0**，面向个人项目与面试展示：导入中文商品、评论和规则资料，
+通过 LangGraph 编排研究、确定性成本计算与引用校验，生成可追溯报告。
+保留 **LangChain Deep Agents** 与 **MilvusClient**，API 和 Worker 使用本机 Python，
+Docker Compose 提供 PostgreSQL、Redis、Milvus 及依赖。
 
-当前 `v2` 已新增单品分析、成本计算、JSON/Markdown 报告和 PostgreSQL 检查点。
-操作见 [第二期说明](docs/phase-2-guide.md)，各期进度与真实验收结果见
-[逐期交付记录](docs/delivery-status.md)。下文保留第一期基础组件使用说明。
-第三期 `codex/v3` 增加多 Agent、双向量集合、混合检索和索引 outbox，
-使用方法见 [第三期说明](docs/phase-3-guide.md)。
-第四期 `codex/v4` 提供 Celery 后台任务、故障恢复、SSE 与 Vue 页面，
-启动各进程见 [第四期说明](docs/phase-4-guide.md)。
-第五期 `codex/v5` 提供资料上传、报告详情、独立追问、成本修订和 Word 导出，
-见 [第五期说明](docs/phase-5-guide.md)。
+六期代码分别保存在本地分支，每期实测范围与未验收项见
+[交付记录](docs/delivery-status.md)。项目使用合成样例，没有连接真实 TikTok 商品 API；
+不能将样例评论、合成规则或模型输出作为真实市场事实。
 
-一个面向个人项目和面试展示的证据驱动选品研究原型。当前版本聚焦于一条可运行、可追溯的数据链路：导入商品、评论和规则样例，保存证据元数据，为规则生成向量并写入 Milvus，再通过 FastAPI、CLI 或 Deep Agent 检索可引用的规则证据。
+## 阅读入口
 
-项目不会把相似度、合成评论或模型输出包装成市场事实。规则检索结果用于提示需要核验的事项，不构成法律、合规、医疗、安全或商业建议。
-
-> 当前实现：第一期 `v0.1.0`。任务编排、报告生成、后台 Worker、SSE、前端工作台和评测闭环仍属于后续设计，详见 [v2 技术架构方案](docs/TikTok选品Agent技术架构方案-v2.md)。
-
-## 当前能力
-
-| 模块 | 已实现内容 |
+| 想了解什么 | 文档 |
 | --- | --- |
-| 数据导入 | 导入 CSV 商品、CSV 评论与 JSONL 规则；按文件组合摘要识别重复导入批次。 |
-| 证据追溯 | PostgreSQL 保存来源、市场、品类、观察时间、内容摘要、版本和原始结构化载荷。 |
-| 向量检索 | 使用 `MilvusClient` 写入和搜索规则证据；集合名由 Embedding 提供方、模型名和维度隔离；搜索按市场过滤。 |
-| Embedding | 支持离线确定性 `mock` 向量，以及任意 OpenAI 兼容 Embedding 服务。 |
-| Agent | 使用 LangChain `deepagents` 创建真实 Deep Agent；只注册只读的 `search_rules_tool`。 |
-| API | 提供健康检查、样例导入、规则索引、规则检索和 Agent 演示接口。 |
-| CLI | 提供数据库迁移、导入、索引、检索和 Agent 演示命令。 |
-| 开发体验 | PyCharm 本地运行 API；Docker Compose 仅运行 PostgreSQL、Redis、Milvus 及其依赖；支持 `INFO` / `DEBUG` 日志。 |
-| 验证 | 提供 PowerShell 验收脚本、中文合成样例和不依赖外部服务的单元测试。 |
+| 各期代码、测试与分支 | [逐期交付记录](docs/delivery-status.md) |
+| 当前系统边界、数据流和恢复机制 | [架构说明](docs/architecture.md) |
+| 为什么这样选型、面试讨论重点 | [决策记录](docs/decisions.md) |
+| 模型/检索对照与原始结果 | [评测报告](docs/evaluation.md) |
+| 三分钟演示、现场操作顺序 | [演示说明与视频](docs/demo/README.md) |
+| PyCharm、环境变量、中文日志 | [本机运行](docs/pycharm-run.md) |
+| Docker 依赖安装 | [Docker 说明](docs/docker-setup.md) |
+| 中文样例字段与数据含义 | [样例数据字典](docs/sample-data.md) |
+| 基础 CLI | [CLI 用法](docs/cli-usage.md) |
+| 分析 / 索引 / 后台 / 工作台 | [第二期](docs/phase-2-guide.md)、[第三期](docs/phase-3-guide.md)、[第四期](docs/phase-4-guide.md)、[第五期](docs/phase-5-guide.md) |
 
-## 系统架构
+早期文档描述对应分支；当前模式、入口和限制以本 README 为准。
+原 README 保存在 [第一期历史存档](docs/phase-1-reference.md)。
 
-```mermaid
-flowchart LR
-    Sample["data/sample\nCSV + JSONL"] --> Import[导入器]
-    Import --> PG[(PostgreSQL)]
-    PG --> Index[规则索引服务]
-    Index --> Embed[Embedding 适配器]
-    Embed --> Milvus[(Milvus)]
+## 已实现的功能
 
-    Client[Swagger / PowerShell / CLI] --> API[FastAPI]
-    API --> Import
-    API --> Index
-    API --> Search[规则检索服务]
-    Search --> Embed
-    Search --> Milvus
-    Search --> PG
+| 模块 | 当前行为 |
+| --- | --- |
+| 数据导入 | 商品 CSV、评论 CSV、规则 JSONL 或统一 JSON；批次摘要幂等；同 ID 不同资料拒绝静默覆盖 |
+| 证据管理 | PostgreSQL 保存来源、市场、品类、原文、版本与摘要；更新/删除生成事务索引事件 |
+| 检索 | 规则和评论两个 Milvus 集合；向量与中文词片段排序通过 RRF 融合；回查数据库过滤版本及有效性 |
+| 研究 | 固定检索综合、单次提示词、主 Deep Agent、主 Agent + 评论/规则专项子 Agent |
+| 成本 | Decimal 计算保守/基准/乐观情景；成本缺失保持缺失；报告呈现贡献利润 |
+| 后台任务 | Celery/Redis、投递 outbox、幂等键、租约/心跳/epoch、检查点恢复、协作取消 |
+| 工作台 | 上传、商品选择、阶段时间线、SSE 重连、报告库、证据展开、成本情景切换 |
+| 报告 | 同一 JSON 源生成页面、Markdown、Word；重复导出复用制品；追问独立保存；修订成本创建新版本 |
+| 验证 | 44 个测试、实际故障恢复脚本、空数据库与索引验证、冻结评测集及 A/B/C 原始结果 |
 
-    Agent[Deep Agent] --> Tool[search_rules_tool]
-    Tool --> Search
-```
+## 快速启动
 
-规则检索采用“两段式”流程：Milvus 负责按向量和市场召回候选证据 ID；服务层再回查 PostgreSQL，返回标题、来源、版本、时间和文本片段。这样向量库只承担召回，业务证据与追溯信息仍以 PostgreSQL 为准。
+所有 Python 命令在项目根目录执行。解释器使用你指定的
+`D:\Programs\anaconda3\envs\py12\python.exe`。已有 `.env` 不要覆盖。
 
-## 数据流
-
-1. `import-sample` 读取 `data/sample/` 下的三类文件，计算组合 SHA-256，并创建一个 `ImportBatch`。
-2. 商品写入 `products`；评论和规则标准化为 `evidence`，每条记录携带来源、市场、品类、版本与内容摘要。
-3. `index-rules` 从 PostgreSQL 读取 `rule` 类型证据，调用 Embedding 服务，并按稳定 `evidence_id` 写入 Milvus。
-4. `rules/search` 将查询文本转为向量，按 `market` 过滤召回，再从 PostgreSQL 恢复可追溯字段。
-5. `agent-demo` 将研究问题交给 Deep Agent。Agent 只能调用 `search_rules_tool`，不能执行 Shell、写文件或访问任意 SQL。
-
-## 项目目录
-
-```text
-app/
-  agents/          # Deep Agent 创建与调用
-  core/            # Settings、Embedding 适配器、日志配置
-  db/              # SQLAlchemy 模型、会话、Alembic 调用
-  ingestion/       # CSV / JSONL 样例导入与批次摘要
-  repositories/    # PostgreSQL 查询与 MilvusClient 访问
-  services/        # 索引与检索业务编排
-  tools/           # 供 Deep Agent 调用的最小只读工具
-  main.py          # FastAPI 常驻服务入口
-  cli.py           # 一次性维护和验收命令入口
-data/sample/       # 20 条商品、20 条评论、20 条规则的中文合成样例
-docs/              # 环境、CLI、样例数据、验证和后续架构说明
-scripts/           # Windows PowerShell 启动与验收脚本
-tests/             # 配置、样例、Embedding 和 MilvusClient 单元测试
-```
-
-## 快速开始
-
-### 1. 准备依赖服务
-
-需要 Docker Desktop 与 Python 3.12 Conda 环境。先创建 `.env`（已有手动配置时不要覆盖），然后启动依赖容器：
+### 1. 依赖服务和配置
 
 ```powershell
-Copy-Item .env.example .env  # 仅首次且 .env 尚不存在时执行
+$projectPython = 'D:\Programs\anaconda3\envs\py12\python.exe'
+if (-not (Test-Path -LiteralPath .env)) { Copy-Item .env.example .env }
 docker compose up -d
 docker compose ps
 ```
 
-默认容器包括 PostgreSQL、Redis、Milvus、etcd 和 MinIO。API 默认不在 Docker 中运行，由 PyCharm 使用本机 Python 启动；需要 API 容器时才显式执行：
+首次安装 Docker 按上述 Docker 文档操作。本命令默认只启动基础设施，
+不会启动容器 API；无需安装另一个 Python 环境。
 
-```powershell
-docker compose --profile container-api up -d --build api
+Settings 从进程环境变量优先取值，再读取工作目录 `.env`，最后使用字段默认值。
+例如已有系统变量 `qwen-api-key` 时，`.env` 可写：
+
+```dotenv
+MODEL_API_KEY="${qwen-api-key}"
+EMBEDDING_PROVIDER=openai_compatible
+EMBEDDING_MODEL=text-embedding-v4
+EMBEDDING_DIM=1024
+CHAT_MODEL=qwen3.7-plus
+LOG_LEVEL=INFO
 ```
 
-### 2. 安装 Python 依赖并迁移数据库
+`MODEL_BASE_URL` 填当前账户地域对应的 OpenAI 兼容地址；模型名是本次实测配置，
+能否使用仍取决于账户。密钥与连接字段均未绑定厂商名称。
+系统变量必须被当前 PyCharm/终端进程继承，新增系统变量后重启它们。
+若进程已有 `MODEL_API_KEY`，它优先于 `.env` 中的同名值。
+`EMBEDDING_DIM` 是实际向量长度；模型或维度改变后需重新构建对应索引。
+`EMBEDDING_REQUEST_DIMENSIONS` 仅在接口支持指定输出维度时设置。
+
+### 2. Python 与数据库
+
+已有环境只需更新项目依赖；安装操作可能调整该环境中的包版本：
 
 ```powershell
-$projectPython = 'D:\Programs\anaconda3\envs\py12\python.exe'
 & $projectPython -m pip install -e '.[dev]'
 & $projectPython -m alembic upgrade head
-```
-
-### 3. 用 PyCharm 启动 API
-
-在 PyCharm 新建 Python 运行配置：
-
-| 字段 | 值 |
-| --- | --- |
-| Run | `Module name` |
-| Module name | `uvicorn` |
-| Parameters | `app.main:app --host 127.0.0.1 --port 8000 --reload` |
-| Working directory | `$PROJECT_DIR$` |
-| Interpreter | `D:\Programs\anaconda3\envs\py12\python.exe` |
-
-启动后访问：
-
-- Swagger API 文档：`http://127.0.0.1:8000/docs`
-- 健康检查：`http://127.0.0.1:8000/health`
-- Milvus Web UI：`http://127.0.0.1:9091/webui/`
-
-更完整的 PyCharm 配置、系统环境变量和模型设置说明见 [PyCharm 本地启动说明](docs/pycharm-run.md)。
-
-### 4. 验证完整流程
-
-API 已启动时，执行：
-
-```powershell
-.\scripts\verify-phase1.ps1
-```
-
-脚本会调用 API 导入样例、索引规则并检索验证；因此无需在脚本前再执行同一组 CLI 命令。
-
-## CLI 与 FastAPI 的区别
-
-| 入口 | 命令 | 用途 |
-| --- | --- | --- |
-| `app.main` | `uvicorn app.main:app ...` | 常驻 FastAPI 服务，供 Swagger、PowerShell、前端或其他客户端调用。 |
-| `app.cli` | `python -m app.cli <命令>` | 一次性执行数据库迁移、导入、索引或检索，不启动 Web 服务。 |
-
-例如，不启动 API 时可手动运行：
-
-```powershell
-$projectPython = 'D:\Programs\anaconda3\envs\py12\python.exe'
-& $projectPython -m app.cli init-db
 & $projectPython -m app.cli import-sample
-& $projectPython -m app.cli index-rules
-& $projectPython -m app.cli verify --query '食品收纳容器的密封宣传需要核验什么' --market US
+& $projectPython -m app.index_cli rebuild
+& $projectPython -m app.index_cli status
 ```
 
-CLI 全部命令、参数、执行顺序与中文乱码处理见 [CLI 命令说明](docs/cli-usage.md)。
+`rebuild` 同步规则和评论；真实 Embedding 会产生模型请求。
+事件超过单批 100 条时再次 `sync`，或用下方常驻分发器持续消费。
+旧的 `index-rules` 仅维护第一期规则索引，不能代替当前双集合初始化。
 
-## API 一览
+为了复现本次 Windows Python 3.12 版本组合，可在用于复现的环境中安装
+`requirements.project.lock` 后执行 `pip install -e . --no-deps`。
+它包含本项目及 dev/demo 的 115 个包；`requirements.lock` 是早期整个环境快照。
+当前共享 py12 的两组无关包存在 `pip check` 冲突，详情见第六期验收；
+没有擅自降级其他项目的包，也尚未验证全新操作系统安装。
 
-| 方法 | 路径 | 功能 |
-| --- | --- | --- |
-| `GET` | `/health` | 验证 PostgreSQL 连通性，并返回不含密钥的模型配置摘要。 |
-| `POST` | `/api/imports/sample` | 导入项目内置合成样例；重复调用返回已有批次。 |
-| `POST` | `/api/indexes/rules` | 生成规则 Embedding 并写入当前向量空间对应的 Milvus 集合。 |
-| `POST` | `/api/rules/search` | 按查询文本和市场检索规则证据，返回来源、版本和相似度。 |
-| `POST` | `/api/agent-demo` | 使用真实聊天模型运行 Deep Agent，模型会按需调用规则检索工具。 |
+### 3. 分别启动三个 Python 进程
 
-检索请求示例：
-
-```json
-{
-  "query": "食品收纳容器的密封宣传需要准备哪些资料？",
-  "market": "US",
-  "top_k": 3
-}
-```
-
-## 中文合成样例
-
-当前样例每类 20 条，合计 60 条记录：
-
-| 文件 | 内容 | 说明 |
-| --- | --- | --- |
-| `data/sample/products.csv` | 商品名称、市场、品类和内嵌 JSON 规格 | 20 个商品，覆盖 8 个品类。 |
-| `data/sample/reviews.csv` | 评分、变体、中文评论和观察时间 | 20 条与商品一一关联的评论。 |
-| `data/sample/rules.jsonl` | 中文规则核验提示、市场、品类、版本、来源和时间 | 20 条可索引规则证据。 |
-
-样例覆盖 `US`、`UK`、`DE` 三个市场。所有 `source_url` 都使用 `example.invalid` 占位地址，`data_kind` 固定为 `synthetic`。它们用于验证软件流程和检索过滤，不能当作真实评论、法规或市场数据。
-
-字段字典、导入幂等逻辑、旧样例升级方式和替换为自有数据的要求见 [合成样例数据说明](docs/sample-data.md)。
-
-## 模型与配置
-
-配置通过系统环境变量和项目根目录 `.env` 读取；系统环境变量优先。项目不绑定任何厂商名，使用通用字段：
-
-```dotenv
-EMBEDDING_PROVIDER=openai_compatible
-EMBEDDING_MODEL=<文本向量模型名称>
-EMBEDDING_DIM=<模型实际返回维度>
-EMBEDDING_REQUEST_DIMENSIONS=<可选；仅服务支持时填写>
-EMBEDDING_BATCH_SIZE=10
-MODEL_API_KEY=${LOCAL_MODEL_API_KEY}
-MODEL_BASE_URL=<OpenAI 兼容接口地址>
-CHAT_MODEL=<支持工具调用的聊天模型名称>
-```
-
-`EMBEDDING_PROVIDER=mock` 时不需要 API Key，适合验证工程流程；它生成确定性哈希向量，不表示真实语义效果。`EMBEDDING_BATCH_SIZE` 控制每次真实 API 请求携带的文本数，默认 10 以兼容常见的接口限制。切换提供方、模型或维度会生成独立 Milvus 集合，需要重新执行 `index-rules`。
-
-阿里百炼等 OpenAI 兼容服务的配置示例及系统变量映射见 [PyCharm 本地启动说明](docs/pycharm-run.md)。真实模型模式会产生模型调用费用。
-
-## 日志与调试
-
-默认 `LOG_LEVEL=INFO`，会输出导入、向量生成、Milvus 写入、检索和 Agent 的关键步骤。调试时设置：
-
-```dotenv
-LOG_LEVEL=DEBUG
-```
-
-`DEBUG` 额外输出查询预览、前三条证据 ID 和相似度、批次摘要等少量数据，不输出 API Key。修改后重启 FastAPI 或重新执行 CLI 命令。
-
-## 开发检查
+每条长期运行命令使用一个独立终端，或者分别建 PyCharm 配置：
 
 ```powershell
-$projectPython = 'D:\Programs\anaconda3\envs\py12\python.exe'
-& $projectPython -m pytest
-& $projectPython -m ruff check app tests
+# API
+& D:\Programs\anaconda3\envs\py12\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
-PowerShell 自动验收、常见故障和离线/真实模型的边界见 [第一期验证说明](docs/phase-1-verification.md)。Docker Desktop 安装与启动见 [Docker 环境说明](docs/docker-setup.md)。
+```powershell
+# Windows 开发 Worker
+& D:\Programs\anaconda3\envs\py12\python.exe -m celery -A app.workers.celery_app:celery_app worker --pool=solo --loglevel=INFO
+```
 
-## 当前边界与下一步
+```powershell
+# 任务投递、过期租约恢复、证据索引同步
+& D:\Programs\anaconda3\envs\py12\python.exe -m app.workers.dispatcher --indexes
+```
 
-当前版本只索引规则文本，评论数据已完成结构化导入但尚未建立评论向量索引，也没有销量、价格、成本、竞品或真实外部数据接入。Deep Agent 目前只有一个只读规则检索工具，尚未实现任务恢复、工作流编排、报告生成或前端。
+PyCharm 的 API 配置选 **Module name: uvicorn**，参数为
+`app.main:app --host 127.0.0.1 --port 8000 --reload`，
+工作目录为项目根目录，不能直接将这些参数传给 `app/main.py`。
+Worker 模块选 `celery`；分发器模块选 `app.workers.dispatcher`。
+任务一直 `queued` 时先检查 Worker 和分发器，两者不会随 API 自动启动。
 
-下一步计划是在保持证据追溯的前提下，加入评论洞察、确定性成本计算、结构化报告、LangGraph 外层工作流、后台任务与可复现评测。完整的分期目标、技术取舍和验收指标见 [v2 技术架构方案](docs/TikTok选品Agent技术架构方案-v2.md)。
+### 4. 前端
+
+需要本机 Node.js；本项目使用 Vite 7，Node 版本要求见 `frontend/package-lock.json` 中的 engines。
+
+```powershell
+cd frontend
+npm ci
+npm run build
+```
+
+构建后重启 API，访问 `http://127.0.0.1:8000/`。
+开发页面时改用 `npm run dev`，访问终端提示的地址（默认 5173），
+Vite 将 API 请求代理到 8000。Swagger 在 `/docs`，数据库健康检查在 `/health`；
+健康检查成功不代表 Worker、全部模型和 Milvus 都已通过检查。
+
+## 第一次完整演示
+
+1. 导入内置资料：原样例有 **20 商品、20 评论、20 规则**，主要为中文。
+2. 在研究页选择商品，先用 `fixed` 检查任务、成本与报告链路；它不调用聊天或向量模型。
+3. 索引同步后选择默认 `workflow`，执行真实检索和模型综合。
+4. 完成后打开报告，展开证据原文与来源。研究表单初次提交不含成本，报告会提示缺失。
+5. 在报告中“编辑成本假设”，确认或修改演示数字，再创建成本修订任务；
+   新报告可切换三种成本情景，原缺失报告保留。
+6. 用“在报告中定位”追问已有数字；选择“真实模型解读”会单独调用模型。
+   再修订售价会生成新的版本。下载 JSON/Markdown/Word。
+
+`data/workbench/` 另外提供 3 商品、6 评论、3 规则，包含普通、缺失、冲突场景，
+可上传其中的 CSV/JSONL 或通过接口提交 `import.json`。
+冲突案例同时改变规格和使用条件，不能据此得出“大号导致漏水”的因果结论。
+代表性报告在 `docs/examples/`。Word 的关键数值与引用已检查，打印分页和字体尚未视觉验收。
+
+## 研究模式与费用
+
+| mode | 用途 | 外部请求 |
+| --- | --- | --- |
+| `fixed` | 工程验证：摘录冻结原文、统计与计算 | 无模型请求 |
+| `prompt`（A） | 一次输入冻结资料进行综合 | 聊天；格式错误可能补一次修复 |
+| `workflow`（B，默认） | 固定检索评论与规则，再综合 | Embedding + 聊天 |
+| `agent` | 单主 Agent 使用业务工具 | 聊天及按需 Embedding |
+| `multi`（C） | 自主研究，按需委派评论/规则专项 | 聊天及按需 Embedding |
+
+Deep Agents 的默认文件、Shell 等工具被执行层白名单限制。
+调用次数上限共享并持久化，失败请求也消耗次数；单次聊天等待上限 120 秒，
+并受剩余任务时间约束。后台任务第一次领取时冻结截止时间，恢复不重置。
+取消不会撤销已发送给供应商的请求，也不保证不产生该次费用。
+
+本次 3 个商品 × 3 方案均完成，43/43 引用可解析，18/18 完整成本情景数值一致。
+这不等于引用语义支持率，独立人工复核尚未执行。B 的聊天 token 总量较低，
+但每方案只有 3 次，不宣称稳定速度优势或质量提升。模型金额尚未换算：
+`evals/pricing.example.json` 的单价为空，不能把未知费用写成零。
+
+## CLI、API 与验收
+
+`app.main` 是常驻服务；CLI 执行一次后退出，维护和同步分析不需要 API 先启动。
+后台任务则需要上述服务进程。
+
+```powershell
+# 无聊天模型的单品报告，输出到 exports/
+& $projectPython -m app.analysis_cli --input data/sample/analysis-request.json
+# 恢复已有同步运行；后台任务应通过任务 API 恢复
+& $projectPython -m app.analysis_cli --run-id <run_id>
+# 索引维护：enqueue / sync / rebuild / status / retry
+& $projectPython -m app.index_cli sync
+# 无外部服务单元测试与静态检查
+& $projectPython -m pytest -q
+& $projectPython -m ruff check app tests scripts
+```
+
+`verify-phase1.ps1` 只检查第一期 API 链路，执行后不必重复相同 CLI 命令，
+但它不能代替六期验收。当前验收入口和原始记录见
+[第六期报告](docs/acceptance/phase-6.md)，真实模型评测会消耗额度。
+
+| 入口 | 行为 |
+| --- | --- |
+| `POST /api/imports`、`/api/imports/files` | 通用资料导入 |
+| `GET /api/products` | 商品列表 |
+| `POST /api/tasks` | 后台任务，支持 `Idempotency-Key` |
+| `GET /api/tasks/{id}`、`/{id}/events` | 状态与持久 SSE |
+| `POST /api/tasks/{id}/cancel`、`/{id}/resume` | 协作取消、失败恢复 |
+| `GET /api/reports`、`/{id}` | 历史报告与详情 |
+| `POST /api/reports/{id}/exports` | 复用 JSON/Markdown/Word 制品 |
+| `POST /api/reports/{id}/questions`、`/{id}/revisions` | 独立追问、成本新版本 |
+| `/api/analyses` | 第二期同步分析入口，适合 CLI/小范围调试 |
+
+完整请求字段以 Swagger 为准。`LOG_LEVEL=DEBUG` 展示本项目更多中间状态，
+日常用 `INFO`；第三方日志保持克制。调用账本包含次数、工具参数片段和返回的 token，
+任务事件记录阶段变化。不要把密钥写进问题或上传样例。
+
+## 目录与边界
+
+```text
+app/agents/       Deep Agents 与模型调用边界
+app/workflows/    LangGraph 固定编排和检查点
+app/services/     成本、报告、任务、索引与融合检索
+app/workers/      Celery Worker、outbox 分发和恢复扫描
+app/api/          导入、分析、证据、任务与报告接口
+app/db/           ORM、会话及迁移入口
+frontend/         Vue 工作台
+data/             中文基础样例与专项场景
+evals/            冻结语料、查询、原始指标与人工复核表
+docs/             架构、决策、使用说明、验收和演示
+scripts/          复现、故障注入、评测与视频生成
+```
+
+这是单用户本机演示项目，尚无多租户权限、生产部署运维和真实外部商品数据接入。
+版本控制与模型调用记录用于说明工程可追溯性，不构成生产可靠性承诺。
