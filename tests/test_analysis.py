@@ -2,6 +2,7 @@
 
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 from langgraph.checkpoint.memory import InMemorySaver
@@ -9,9 +10,13 @@ from pydantic import ValidationError
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+from app.agents.product_researcher import ResearchMiddleware
 from app.analysis_contracts import AnalysisRequest, Claim, CostInput, ResearchResult
 from app.core.config import Settings
-from app.db.analysis_models import AnalysisCall, AnalysisReport, AnalysisRun
+from app.db.analysis_models import AnalysisRun
+from app.db.index_models import EvidenceState
+from app.db.models import Evidence, ImportBatch, Product
+from app.db.session import Base
 from app.services.analysis_store import AnalysisStore, BudgetExceeded, RunBudget
 from app.services.economics import calculate_economics
 from app.tools.analysis_tools import build_tools, review_counts
@@ -33,6 +38,7 @@ def snapshot():
         "evidence": [{
             "id": "e1", "kind": "review", "text": "大号盒盖漏水",
             "version": "v1", "source_url": "https://example.invalid/e1",
+            "content_hash": "test-hash",
             "payload": {"rating": 2, "variant": "large"},
         }],
     }
@@ -42,10 +48,18 @@ def snapshot():
 def store(request_data, snapshot):
     """只在内存 SQLite 创建第二期表，不接触用户 PostgreSQL 数据。"""
     engine = create_engine("sqlite://")
-    for table in (AnalysisRun.__table__, AnalysisReport.__table__, AnalysisCall.__table__):
-        table.create(engine)
+    Base.metadata.create_all(engine)
     factory = sessionmaker(engine, expire_on_commit=False)
     with factory.begin() as session:
+        session.add(ImportBatch(id="batch", manifest_hash="test", source_name="test"))
+        session.add(Product(id="p", name="保鲜盒", market="US", category="home"))
+        session.flush()
+        session.add(Evidence(
+            id="e1", product_id="p", import_batch_id="batch", evidence_kind="review",
+            source_type="test", source_record_id="e1", market="US", category="home",
+            content_hash="test-hash", content_version="v1", text="大号盒盖漏水",
+            payload={"rating": 2, "variant": "large"},
+        ))
         session.add(AnalysisRun(
             id="test-run", status="pending", request=request_data, snapshot=snapshot,
             versions={"limits": {"model": 2, "tool": 3, "seconds": 60}},
@@ -136,3 +150,24 @@ def test_resume_after_persist_failure_skips_completed_research(store, monkeypatc
     assert len(research_calls) == 1
     assert report["economics"]["scenarios"][1]["contribution"] == "7.25"
     assert store.get("test-run")["status"] == "completed"
+
+
+def test_deleted_evidence_cannot_be_published(store):
+    """冻结快照后再删除证据，提交必须拒绝，不能发布过时引用。"""
+    with store.factory.begin() as session:
+        session.add(EvidenceState(evidence_id="e1", active=False))
+    graph = build_workflow(store, "test-run", InMemorySaver())
+    with pytest.raises(ValueError, match="已经更新或删除"):
+        graph.invoke({"run_id": "test-run"}, {"configurable": {"thread_id": "test-run"}})
+    assert store.report("test-run") is None
+
+
+@pytest.mark.parametrize("tool_call", [
+    {"name": "execute", "args": {"command": "untrusted"}},
+    {"name": "task", "args": {"subagent_type": "general-purpose"}},
+])
+def test_untrusted_tool_and_default_subagent_blocked(store, tool_call):
+    """即使模型服从评论中的注入指令，也不能执行白名单外能力。"""
+    middleware = ResearchMiddleware(RunBudget(store, "test-run"), {"task", "query_reviews"})
+    with pytest.raises(PermissionError):
+        middleware.wrap_tool_call(SimpleNamespace(tool_call=tool_call), lambda req: None)

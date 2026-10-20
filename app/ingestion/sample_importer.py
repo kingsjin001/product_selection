@@ -6,10 +6,12 @@ import json
 import logging
 from datetime import datetime
 from pathlib import Path
+from uuid import uuid4
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from app.db.index_models import IndexEvent
 from app.db.models import Evidence, ImportBatch, Product
 
 logger = logging.getLogger(__name__)
@@ -147,6 +149,10 @@ def import_sample_data(session: Session, data_dir: Path) -> dict:
             )
         )
 
+    for row in reviews:
+        session.add(IndexEvent(id=str(uuid4()), evidence_id=f"ev-review-{row['review_id']}"))
+    for row in rules:
+        session.add(IndexEvent(id=str(uuid4()), evidence_id=f"ev-rule-{row['rule_id']}"))
     session.commit()
     logger.info("样例数据导入完成 | batch_id=%s", batch.id)
     return {"batch_id": batch.id, "status": "imported", **batch.summary}

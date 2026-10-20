@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import logging
 from contextlib import contextmanager
 from time import monotonic
 from uuid import uuid4
@@ -11,7 +12,10 @@ from sqlalchemy import select
 from app.analysis_contracts import AnalysisRequest
 from app.core.config import Settings
 from app.db.analysis_models import AnalysisCall, AnalysisReport, AnalysisRun
+from app.db.index_models import EvidenceState
 from app.db.models import Evidence, Product
+
+logger = logging.getLogger(__name__)
 
 
 def digest(value: dict) -> str:
@@ -27,9 +31,10 @@ def freeze_snapshot(session, request: AnalysisRequest) -> dict:
     if product is None:
         raise ValueError("商品不存在，请先导入商品数据")
     evidence = session.scalars(
-        select(Evidence).where(
+        select(Evidence).outerjoin(EvidenceState, Evidence.id == EvidenceState.evidence_id).where(
             Evidence.market == product.market,
             (Evidence.product_id == product.id) | (Evidence.evidence_kind == "rule"),
+            (EvidenceState.active.is_(True)) | (EvidenceState.evidence_id.is_(None)),
         ).order_by(Evidence.id)
     ).all()
     snapshot = {
@@ -69,7 +74,7 @@ class AnalysisStore:
                 id=run_id, status="pending", request=request.model_dump(mode="json"),
                 snapshot=snapshot,
                 versions={
-                    "prompt": "research-v2", "schema": "report-v2",
+                    "prompt": "research-v3", "schema": "report-v2",
                     "model": self.settings.chat_model,
                     "embedding": self.settings.embedding_model,
                     "embedding_dim": self.settings.embedding_dim,
@@ -118,6 +123,18 @@ class AnalysisStore:
                 select(AnalysisRun).where(AnalysisRun.id == run_id).with_for_update()
             )
             if session.get(AnalysisReport, run_id) is None:
+                # 和更新/删除锁住相同证据行，避免校验与报告提交之间的竞态。
+                frozen = {row["id"]: row for row in content["evidence"]}
+                cited = {eid for claim in content["research"]["claims"]
+                         for eid in claim["evidence_ids"]}
+                for eid in sorted(cited):
+                    evidence = session.scalar(
+                        select(Evidence).where(Evidence.id == eid).with_for_update()
+                    )
+                    state = session.get(EvidenceState, eid)
+                    if (evidence is None or (state and not state.active)
+                            or evidence.content_hash != frozen[eid]["content_hash"]):
+                        raise ValueError("证据已经更新或删除，请创建新的分析")
                 session.add(AnalysisReport(
                     run_id=run_id, content=content, content_hash=digest(content), markdown=markdown,
                 ))
@@ -162,6 +179,7 @@ class RunBudget:
                 id=call_id, run_id=self.run_id, kind=kind, name=name, status="started",
             ))
         started = monotonic()
+        logger.info("调用开始 | run=%s kind=%s name=%s", self.run_id, kind, name)
         status, details = "ok", {}
         try:
             yield details
@@ -182,3 +200,6 @@ class RunBudget:
                     )
                     run.input_tokens += int(details.get("input_tokens", 0))
                     run.output_tokens += int(details.get("output_tokens", 0))
+            logger.info("调用结束 | run=%s name=%s status=%s elapsed=%.2fs",
+                        self.run_id, name, status, monotonic() - started)
+            logger.debug("调用详情 | run=%s name=%s details=%s", self.run_id, name, details)

@@ -14,7 +14,9 @@ from app.core.embeddings import EmbeddingService
 from app.repositories.milvus import MilvusRuleRepository
 from app.services.analysis_store import AnalysisStore, RunBudget
 from app.services.economics import calculate_economics
+from app.services.hybrid_search import search_evidence
 from app.tools.analysis_tools import build_tools, review_counts
+from app.tools.research_notes import build_note_tools
 
 
 class AnalysisState(TypedDict, total=False):
@@ -106,8 +108,24 @@ def build_workflow(store: AnalysisStore, run_id: str, saver, researcher=None):
         elif request.mode == "fixed":
             result = fixed_research(snapshot)
         else:
+            if request.mode == "multi":
+                def retrieve(kind, query, top_k):
+                    """第三期同时使用版本过滤、品类/商品过滤和 RRF。"""
+                    return search_evidence(
+                        store.factory, store.settings, query=query, top_k=top_k, kind=kind,
+                        market=snapshot["product"]["market"],
+                        category=snapshot["product"]["category"],
+                        product_id=request.product_id if kind == "review" else "",
+                        snapshot=snapshot,
+                    )
+                tools = build_tools(
+                    snapshot, lambda q, k: retrieve("rule", q, k),
+                    lambda q, k: retrieve("review", q, k),
+                ) + build_note_tools(store.factory, run_id, snapshot)
+            else:
+                tools = build_tools(snapshot, search_frozen_rules)
             result = run_research(
-                store.settings, request, snapshot, build_tools(snapshot, search_frozen_rules),
+                store.settings, request, snapshot, tools,
                 budget, saver,
             )
         validate_references(result, snapshot)

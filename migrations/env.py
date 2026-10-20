@@ -7,6 +7,7 @@ from alembic import context
 from app.core.config import get_settings
 from app.db import (
     analysis_models,  # noqa: F401 - register analysis metadata
+    index_models,  # noqa: F401 - register indexing metadata
     models,  # noqa: F401 - register all metadata
 )
 from app.db.session import Base

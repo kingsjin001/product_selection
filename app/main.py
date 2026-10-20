@@ -9,6 +9,7 @@ from sqlalchemy import text
 
 from app.agents.rule_researcher import run_rule_research
 from app.api.analysis import router as analysis_router
+from app.api.evidence import router as evidence_router
 from app.core.config import get_settings
 from app.core.logging import configure_logging
 from app.db.session import get_engine, get_session_factory
@@ -38,6 +39,7 @@ async def lifespan(_: FastAPI):
 
 app = FastAPI(title="TikTok Selection Agent — Phase 1", version="0.1.0", lifespan=lifespan)
 app.include_router(analysis_router)
+app.include_router(evidence_router)
 
 
 @app.get("/health")

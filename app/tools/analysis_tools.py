@@ -17,7 +17,7 @@ def review_counts(snapshot: dict) -> dict:
     }
 
 
-def build_tools(snapshot: dict, rule_search):
+def build_tools(snapshot: dict, rule_search, review_search=None):
     """创建绑定一个商品快照的工具闭包；不接受任意 SQL、文件或其他商品 ID。"""
     @tool
     def get_product_snapshot() -> dict:
@@ -58,6 +58,14 @@ def build_tools(snapshot: dict, rule_search):
         rows = [row for row in snapshot["evidence"] if row["id"] in evidence_ids]
         return {"status": "ok" if rows else "no_results", "data": rows}
 
-    return [
+    result = [
         get_product_snapshot, query_reviews, summarize_review_counts, search_rules, get_evidence,
     ]
+    if review_search:
+        @tool
+        def search_reviews(query: str, top_k: int = 5) -> dict:
+            """按语义及关键词检索当前商品评论，返回有效版本的快照证据。"""
+            hits = review_search(query, top_k)
+            return {"status": "ok" if hits else "no_results", "data": hits}
+        result.append(search_reviews)
+    return result

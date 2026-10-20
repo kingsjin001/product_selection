@@ -1,0 +1,582 @@
+{
+  "index": {},
+  "retrieval": [
+    {
+      "kind": "rule",
+      "query": "宣传依据与商品描述",
+      "evidence_ids": [
+        "ev-rule-us-cn-beauty-013",
+        "ev-rule-us-cn-home-006",
+        "ev-rule-us-cn-food-002",
+        "ev-rule-us-cn-pet-009",
+        "ev-rule-us-cn-home-005"
+      ]
+    },
+    {
+      "kind": "review",
+      "query": "大号漏水",
+      "evidence_ids": [
+        "ev-review-review-cn-001",
+        "ev-review-review-001",
+        "ev-review-review-cn-003",
+        "ev-review-review-cn-007",
+        "ev-review-review-002"
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "case": "normal",
+      "run_id": "1afbd4e1-2d32-484c-bb1d-5e11d1f8d5ac",
+      "passed": false,
+      "error": "APITimeoutError",
+      "calls": [
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 3860
+        },
+        {
+          "kind": "tool",
+          "name": "get_product_snapshot",
+          "status": "ok",
+          "latency_ms": 0
+        },
+        {
+          "kind": "tool",
+          "name": "summarize_review_counts",
+          "status": "ok",
+          "latency_ms": 0
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 3453
+        },
+        {
+          "kind": "tool",
+          "name": "get_evidence",
+          "status": "ok",
+          "latency_ms": 0
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 10296
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 4110
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 4281
+        },
+        {
+          "kind": "tool",
+          "name": "query_reviews",
+          "status": "ok",
+          "latency_ms": 0
+        },
+        {
+          "kind": "tool",
+          "name": "search_rules",
+          "status": "ok",
+          "latency_ms": 281
+        },
+        {
+          "kind": "tool",
+          "name": "search_rules",
+          "status": "ok",
+          "latency_ms": 375
+        },
+        {
+          "kind": "tool",
+          "name": "search_reviews",
+          "status": "ok",
+          "latency_ms": 311
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 2468
+        },
+        {
+          "kind": "tool",
+          "name": "search_rules",
+          "status": "ok",
+          "latency_ms": 296
+        },
+        {
+          "kind": "tool",
+          "name": "search_rules",
+          "status": "ok",
+          "latency_ms": 296
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 7000
+        },
+        {
+          "kind": "tool",
+          "name": "write_research_note",
+          "status": "ok",
+          "latency_ms": 31
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 9266
+        },
+        {
+          "kind": "tool",
+          "name": "write_research_note",
+          "status": "ok",
+          "latency_ms": 14
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 12860
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 25717
+        },
+        {
+          "kind": "model",
+          "name": "format_repair",
+          "status": "failed",
+          "latency_ms": 60014
+        },
+        {
+          "kind": "tool",
+          "name": "task",
+          "status": "ok",
+          "latency_ms": 24594
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 20421
+        },
+        {
+          "kind": "tool",
+          "name": "task",
+          "status": "ok",
+          "latency_ms": 37125
+        }
+      ],
+      "seconds": 141.08
+    },
+    {
+      "case": "missing",
+      "run_id": "c8126d86-d138-48da-9762-0f035da15bcc",
+      "passed": true,
+      "usage": {
+        "model_calls": 5,
+        "tool_calls": 5,
+        "input_tokens": 12644,
+        "output_tokens": 2052
+      },
+      "research": {
+        "summary": "针对商品'可叠放食品保鲜盒'(prod-cn-001)的过去90天销量与竞争对手价格查询，当前快照中未找到相关证据。已进行多轮搜索（英文关键词'sales volume price competitor'、中文关键词'90天 销量 历史数据'、'价格 竞争对手 对比'），均未返回销量或竞争对手价格数据。",
+        "claims": [],
+        "missing_data": [
+          "过去90天销量数据：当前快照中无此数据，无法提供",
+          "竞争对手价格数据：当前快照中无此数据，无法提供"
+        ],
+        "next_steps": [
+          "如需获取过去90天销量数据，需接入销售数据源或电商平台销量统计接口",
+          "如需获取竞争对手价格数据，需接入竞品监控服务或市场价格采集工具"
+        ]
+      },
+      "calls": [
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 3296
+        },
+        {
+          "kind": "tool",
+          "name": "get_product_snapshot",
+          "status": "ok",
+          "latency_ms": 0
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 6327
+        },
+        {
+          "kind": "tool",
+          "name": "search_rules",
+          "status": "ok",
+          "latency_ms": 328
+        },
+        {
+          "kind": "tool",
+          "name": "search_reviews",
+          "status": "ok",
+          "latency_ms": 312
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 4312
+        },
+        {
+          "kind": "tool",
+          "name": "search_rules",
+          "status": "ok",
+          "latency_ms": 311
+        },
+        {
+          "kind": "tool",
+          "name": "search_reviews",
+          "status": "ok",
+          "latency_ms": 311
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 7766
+        },
+        {
+          "kind": "model",
+          "name": "format_repair",
+          "status": "ok",
+          "latency_ms": 15389
+        }
+      ],
+      "seconds": 38.05
+    },
+    {
+      "case": "conflict",
+      "run_id": "f9260c85-517e-4729-9cfb-7b21e18466ba",
+      "passed": true,
+      "usage": {
+        "model_calls": 13,
+        "tool_calls": 19,
+        "input_tokens": 41516,
+        "output_tokens": 7000
+      },
+      "research": {
+        "summary": "商品 prod-cn-001（可叠放食品保鲜盒，US 市场）当前快照仅有 1 条评论（1L 规格，评分 2，synthetic 合成演示数据），反映'装汤后放进背包，盒盖边缘有渗漏'。500ml 规格评论数为 0，无法进行大小号跨规格密封评论冲突对比。规则方面，3 条 synthetic 样例核验清单规则要求：防漏/密封宣传须保存具体使用条件下的测试证据、不得作为无条件保证呈现、需记录宣称措辞与支持材料。当前快照缺失卖家侧测试报告和宣称措辞记录，无法最终判定合规性。条件结论：若卖家持有覆盖动态携带场景的测试报告且宣传措辞限定条件，则宣传可成立；若宣传为无条件保证且测试未覆盖用户实际场景，则存在风险。所有数据和结论均基于 synthetic 合成演示数据，不构成真实法规、市场要求或违规结论。",
+        "claims": [
+          {
+            "statement": "【synthetic 合成演示数据】1L 规格存在 1 条密封相关评论（评分 2）：用户反映'装汤后放进背包，盒盖边缘有渗漏，密封宣传需要更谨慎'（ev-review-review-cn-001）。该评论表明 1L 规格在液体携带场景下可能存在盒盖边缘密封不足的问题。",
+            "kind": "observation",
+            "evidence_ids": [
+              "ev-review-review-cn-001"
+            ],
+            "limitations": [
+              "data_kind 为 synthetic，仅为合成演示，不代表真实消费者反馈",
+              "仅 1 条评论，样本量极度不足",
+              "仅涉及单一使用场景"
+            ]
+          },
+          {
+            "statement": "【synthetic 合成演示数据】500ml 规格当前快照中评论数为 0，无任何用户反馈可供分析，因此无法与 1L 规格进行跨规格密封评论冲突对比。",
+            "kind": "observation",
+            "evidence_ids": [
+              "ev-review-review-cn-001"
+            ],
+            "limitations": [
+              "data_kind 为 synthetic",
+              "0 条评论意味着完全缺乏该规格用户体验数据",
+              "无法判断是否存在跨规格冲突"
+            ]
+          },
+          {
+            "statement": "【样例核验清单】规则 ev-rule-us-cn-food-002（synthetic）要求：如页面使用'防漏''密封'等表述，卖家应保存与具体使用条件对应的测试报告或供应商证据，并避免将有限条件下的结果描述为无条件保证。",
+            "kind": "observation",
+            "evidence_ids": [
+              "ev-rule-us-cn-food-002"
+            ],
+            "limitations": [
+              "该规则为 synthetic 合成演示数据，不构成真实法规要求"
+            ]
+          },
+          {
+            "statement": "【样例核验清单】规则 ev-rule-us-claims-002（synthetic）要求：不得将性能或安全宣称作为既定事实呈现，除非卖家持有支持该确切宣称的证据；需记录宣称措辞、支持材料和使用市场。",
+            "kind": "observation",
+            "evidence_ids": [
+              "ev-rule-us-claims-002"
+            ],
+            "limitations": [
+              "该规则为 synthetic 合成演示数据",
+              "本快照中未见卖家已记录的宣称措辞和支持材料"
+            ]
+          },
+          {
+            "statement": "【样例核验清单】规则 ev-rule-us-cn-food-001（synthetic）要求：销售食品收纳容器前，应留存每个食品接触部件的材质声明、供应商资料和适用市场信息。",
+            "kind": "observation",
+            "evidence_ids": [
+              "ev-rule-us-cn-food-001"
+            ],
+            "limitations": [
+              "该规则为 synthetic 合成演示数据",
+              "本快照中未见卖家已留存的材质声明和供应商资料"
+            ]
+          },
+          {
+            "statement": "【样例核验清单】宣传与实际反馈之间存在潜在不一致风险：评论反映 1L 规格在'装汤+背包携带'场景下渗漏，若卖家将'密封防漏'作为无条件保证呈现而测试条件未覆盖该动态场景，则可能违反样例规则要求。",
+            "kind": "inference",
+            "evidence_ids": [
+              "ev-rule-us-cn-food-002",
+              "ev-review-review-cn-001"
+            ],
+            "limitations": [
+              "推断基于 synthetic 数据，不构成真实违规结论",
+              "缺少卖家侧测试报告，无法确认测试条件覆盖范围"
+            ]
+          },
+          {
+            "statement": "【样例核验清单】条件性结论——宣传可成立的条件：(a) 卖家持有覆盖具体使用条件（液体类型、容器姿态、温度、运动状态）的测试报告；(b) 宣传措辞明确限定适用条件而非无条件保证；(c) 卖家已记录宣称措辞、支持材料和 US 市场信息。宣传存在风险的条件：(a) 宣传为无条件的'密封防漏'保证；(b) 测试条件未覆盖用户实际使用场景（如动态携带、热液体）；(c) 卖家无法提供支持该宣称的证据。",
+            "kind": "inference",
+            "evidence_ids": [
+              "ev-rule-us-cn-food-002",
+              "ev-rule-us-claims-002",
+              "ev-review-review-cn-001"
+            ],
+            "limitations": [
+              "条件性结论基于 synthetic 数据，不构成真实合规建议",
+              "缺少卖家侧证据，无法最终判定"
+            ]
+          }
+        ],
+        "missing_data": [
+          "500ml 规格无任何评论数据，无法进行跨规格密封反馈冲突对比",
+          "卖家侧防漏/密封测试报告（含具体测试条件：液体类型、容器姿态、温度、运动状态）",
+          "卖家记录的宣称措辞原文及对应支持材料清单",
+          "食品接触部件的材质声明和供应商资料",
+          "更多规格的用户反馈样本",
+          "正面密封评价作为对照"
+        ],
+        "next_steps": [
+          "【样例核验清单】请卖家提供防漏/密封测试报告，确认测试条件是否覆盖'装汤+背包携带'等动态场景",
+          "【样例核验清单】审查页面宣传措辞，将无条件'密封防漏'修改为限定条件的表述并标注测试条件",
+          "【样例核验清单】按 ev-rule-us-claims-002 要求记录宣称措辞、支持材料和 US 市场信息",
+          "【样例核验清单】按 ev-rule-us-cn-food-001 要求留存食品接触部件材质声明和供应商资料",
+          "等待 500ml 规格积累评论后再进行跨规格对比分析",
+          "收集更多 1L 规格评论以验证渗漏问题是否为个例"
+        ]
+      },
+      "calls": [
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 2750
+        },
+        {
+          "kind": "tool",
+          "name": "get_product_snapshot",
+          "status": "ok",
+          "latency_ms": 14
+        },
+        {
+          "kind": "tool",
+          "name": "summarize_review_counts",
+          "status": "ok",
+          "latency_ms": 0
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 5375
+        },
+        {
+          "kind": "tool",
+          "name": "get_evidence",
+          "status": "ok",
+          "latency_ms": 16
+        },
+        {
+          "kind": "tool",
+          "name": "search_rules",
+          "status": "ok",
+          "latency_ms": 296
+        },
+        {
+          "kind": "tool",
+          "name": "search_reviews",
+          "status": "ok",
+          "latency_ms": 375
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 5125
+        },
+        {
+          "kind": "tool",
+          "name": "query_reviews",
+          "status": "ok",
+          "latency_ms": 0
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 5312
+        },
+        {
+          "kind": "tool",
+          "name": "search_rules",
+          "status": "ok",
+          "latency_ms": 297
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 3531
+        },
+        {
+          "kind": "tool",
+          "name": "get_evidence",
+          "status": "ok",
+          "latency_ms": 15
+        },
+        {
+          "kind": "tool",
+          "name": "write_research_note",
+          "status": "ok",
+          "latency_ms": 15
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 13375
+        },
+        {
+          "kind": "tool",
+          "name": "task",
+          "status": "ok",
+          "latency_ms": 26516
+        },
+        {
+          "kind": "tool",
+          "name": "write_research_note",
+          "status": "ok",
+          "latency_ms": 14
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 23577
+        },
+        {
+          "kind": "tool",
+          "name": "query_reviews",
+          "status": "ok",
+          "latency_ms": 0
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 4343
+        },
+        {
+          "kind": "tool",
+          "name": "get_product_snapshot",
+          "status": "ok",
+          "latency_ms": 0
+        },
+        {
+          "kind": "tool",
+          "name": "get_evidence",
+          "status": "ok",
+          "latency_ms": 0
+        },
+        {
+          "kind": "tool",
+          "name": "write_research_note",
+          "status": "ok",
+          "latency_ms": 0
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 25389
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 16360
+        },
+        {
+          "kind": "tool",
+          "name": "query_reviews",
+          "status": "ok",
+          "latency_ms": 0
+        },
+        {
+          "kind": "tool",
+          "name": "summarize_review_counts",
+          "status": "ok",
+          "latency_ms": 0
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 5078
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 8593
+        },
+        {
+          "kind": "tool",
+          "name": "task",
+          "status": "ok",
+          "latency_ms": 39735
+        },
+        {
+          "kind": "model",
+          "name": "research",
+          "status": "ok",
+          "latency_ms": 8391
+        },
+        {
+          "kind": "tool",
+          "name": "write_research_note",
+          "status": "ok",
+          "latency_ms": 0
+        }
+      ],
+      "seconds": 102.06
+    }
+  ]
+}

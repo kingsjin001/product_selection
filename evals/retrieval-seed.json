@@ -1,0 +1,11 @@
+{
+  "version": "seed-v3",
+  "annotation_source": "按合成样例原文人工设计的初版预期；尚未经独立标注者复核",
+  "queries": [
+    {"query": "防漏密封宣传需要什么证据", "kind": "rule", "market": "US", "relevant": ["ev-rule-us-cn-food-002"]},
+    {"query": "食品容器材质声明", "kind": "rule", "market": "US", "relevant": ["ev-rule-us-cn-food-001"]},
+    {"query": "背包装汤盒盖渗漏", "kind": "review", "market": "US", "relevant": ["ev-review-review-cn-001"]},
+    {"query": "烘焙垫边缘较软", "kind": "review", "market": "US", "relevant": ["ev-review-review-cn-002"]},
+    {"query": "厚底锅沥水架下陷", "kind": "review", "market": "US", "relevant": ["ev-review-review-cn-003"]}
+  ]
+}

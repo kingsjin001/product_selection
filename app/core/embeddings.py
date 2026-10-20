@@ -40,7 +40,10 @@ class EmbeddingService:
             )
 
         # base_url 留空时由 OpenAI SDK 使用其默认地址；填入后可接任意兼容服务。
-        client_options = {"api_key": self.settings.model_api_key.get_secret_value()}
+        client_options = {
+            "api_key": self.settings.model_api_key.get_secret_value(),
+            "timeout": 30, "max_retries": 0,
+        }
         if self.settings.model_base_url:
             client_options["base_url"] = self.settings.model_base_url
         client = OpenAI(**client_options)

@@ -5,6 +5,8 @@
 当前 `v2` 已新增单品分析、成本计算、JSON/Markdown 报告和 PostgreSQL 检查点。
 操作见 [第二期说明](docs/phase-2-guide.md)，各期进度与真实验收结果见
 [逐期交付记录](docs/delivery-status.md)。下文保留第一期基础组件使用说明。
+第三期 `codex/v3` 增加多 Agent、双向量集合、混合检索和索引 outbox，
+使用方法见 [第三期说明](docs/phase-3-guide.md)。
 
 一个面向个人项目和面试展示的证据驱动选品研究原型。当前版本聚焦于一条可运行、可追溯的数据链路：导入商品、评论和规则样例，保存证据元数据，为规则生成向量并写入 Milvus，再通过 FastAPI、CLI 或 Deep Agent 检索可引用的规则证据。
 
