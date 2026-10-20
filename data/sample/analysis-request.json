@@ -1,0 +1,20 @@
+{
+  "product_id": "prod-cn-001",
+  "question": "请分析评论中的密封问题，检索相关规则，并列出证据和待核实信息。",
+  "mode": "fixed",
+  "costs": {
+    "currency": "USD",
+    "source": "第二期演示假设，不是真实采购报价",
+    "observed_on": "2026-10-21",
+    "assumed": true,
+    "sale_price": "25.00",
+    "procurement": "6.00",
+    "shipping": "4.00",
+    "packaging": "0.50",
+    "platform_rate": "0.06",
+    "commission_rate": "0.10",
+    "advertising": "2.00",
+    "return_loss": "0.75",
+    "other": "0.50"
+  }
+}

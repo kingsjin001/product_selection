@@ -1,0 +1,73 @@
+{
+  "date": "2026-10-21T01:30:45.035877+08:00",
+  "live_model": true,
+  "cases": [
+    {
+      "run_id": "fe1e7568-4e75-45d5-95a3-f8792b1fa60c",
+      "case": 1,
+      "expected": "ok",
+      "passed": true,
+      "mode": "fixed"
+    },
+    {
+      "run_id": "857137f7-a324-4beb-a867-4e81ed540c26",
+      "case": 2,
+      "expected": "ok",
+      "passed": true,
+      "mode": "fixed"
+    },
+    {
+      "run_id": "d4e9fc31-f83a-4976-8d78-57f1d6e38bcd",
+      "case": 3,
+      "expected": "ok",
+      "passed": true,
+      "mode": "fixed"
+    },
+    {
+      "run_id": "246b7961-219b-4b07-9f4f-e978518d6f35",
+      "case": 4,
+      "expected": "ok",
+      "passed": true,
+      "mode": "fixed"
+    },
+    {
+      "run_id": "73c71895-56c2-435d-b534-b3e2c535da47",
+      "case": 5,
+      "expected": "ok",
+      "passed": true,
+      "mode": "fixed"
+    },
+    {
+      "run_id": "150c46f6-54f9-46f9-b1e3-54c08ab998df",
+      "case": 6,
+      "expected": "missing_data",
+      "passed": true,
+      "mode": "fixed"
+    },
+    {
+      "run_id": "0e27a533-31ca-45b3-a78d-769e3e0e1333",
+      "case": 7,
+      "expected": "missing_data",
+      "passed": true,
+      "mode": "fixed"
+    },
+    {
+      "run_id": "abe48d32-cf97-468c-9597-85f74cd5e095",
+      "case": 8,
+      "expected": "missing_data",
+      "passed": true,
+      "mode": "fixed"
+    },
+    {
+      "run_id": "4779e62c-83fa-416c-8e7b-85f8eff04bf1",
+      "mode": "agent",
+      "passed": true,
+      "usage": {
+        "model_calls": 4,
+        "tool_calls": 5,
+        "input_tokens": 7010,
+        "output_tokens": 3362
+      }
+    }
+  ]
+}

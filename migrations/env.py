@@ -5,7 +5,10 @@ from logging.config import fileConfig
 from alembic import context
 
 from app.core.config import get_settings
-from app.db import models  # noqa: F401 - register all metadata
+from app.db import (
+    analysis_models,  # noqa: F401 - register analysis metadata
+    models,  # noqa: F401 - register all metadata
+)
 from app.db.session import Base
 
 config = context.config
