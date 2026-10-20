@@ -17,6 +17,10 @@ const question = ref('基准情景的利润是多少？')
 const questionMode = ref('extractive')
 const answer = ref(null)
 const history = ref([])
+const conversationId = ref(null)
+const suggestMemory = ref(false)
+let pendingKey = null, pendingBody = ''
+function newConversation() { conversationId.value = null; localStorage.removeItem('conversation:' + props.runId); answer.value = null }
 const costDraft = ref({})
 const costsEnabled = ref(false)
 const costFields = { sale_price:'售价', procurement:'采购成本', shipping:'运输成本', packaging:'包材',
@@ -29,6 +33,7 @@ async function load() {
   error.value = ''
   try {
     source.value = await api(`/api/reports/${props.runId}`)
+    conversationId.value = localStorage.getItem('conversation:' + props.runId)
     costDraft.value = {...defaults, ...(report.value.economics.input || {})}
     history.value = await api(`/api/reports/${props.runId}/questions`)
   } catch (err) { error.value = err.message }
@@ -45,7 +50,13 @@ async function download(format) {
 async function ask() {
   busy.value = true; error.value = ''
   try {
-    answer.value = await api(`/api/reports/${props.runId}/questions`, jsonPost({question:question.value, mode:questionMode.value}))
+    const body = {question:question.value, mode:questionMode.value, conversation_id:conversationId.value, suggest_memory:suggestMemory.value}
+    const fingerprint = JSON.stringify(body)
+    if (!pendingKey || pendingBody !== fingerprint) { pendingKey = crypto.randomUUID(); pendingBody = fingerprint }
+    answer.value = await api(`/api/reports/${props.runId}/questions`, jsonPost({...body, request_key:pendingKey}))
+    conversationId.value = answer.value.conversation_id
+    localStorage.setItem('conversation:' + props.runId, conversationId.value)
+    pendingKey = null
     history.value = await api(`/api/reports/${props.runId}/questions`)
   } catch (err) { error.value = err.message }
   finally { busy.value = false }
@@ -89,11 +100,11 @@ function safeSource(url) { return /^https?:\/\//i.test(url || '') ? url : null }
       <a v-if="safeSource(item.source_url)" :href="item.source_url" target="_blank" rel="noopener noreferrer">查看原始来源</a>
       <p class="hint">此处展示报告生成时冻结的版本。</p>
     </details>
-    <h3>追问这份报告</h3>
+    <h3>追问这份报告</h3><p class="hint">模型模式记住本会话最近六轮。引用定位只查原报告，不理解连续指代。</p><button class="secondary" :disabled="busy" @click="newConversation">开始新会话</button>
     <form @submit.prevent="ask"><label>问题<textarea v-model="question" rows="2" required /></label>
       <label>回答方式<select v-model="questionMode"><option value="extractive">在报告中定位（无需模型）</option><option value="model">真实模型解读（单次请求）</option></select></label>
-      <button :disabled="busy">提交追问</button></form>
-    <article v-if="answer" class="claim"><p class="summary">{{ answer.answer }}</p><p class="hint">引用：{{ answer.evidence_ids.join('、') || '成本计算或缺失说明' }}</p><p v-for="limit in answer.limitations" :key="limit" class="hint">{{ limit }}</p></article>
+      <label class="checkbox"><input type="checkbox" v-model="suggestMemory">允许模型提出偏好候选（确认后才保存）</label><button :disabled="busy">提交追问</button></form>
+    <p v-if="answer?.memory_candidate_id" class="hint">产生了候选偏好，请到“偏好与记忆”确认或忽略。</p><article v-if="answer" class="claim"><p class="summary">{{ answer.answer }}</p><p class="hint">引用：{{ answer.evidence_ids.join('、') || '成本计算或缺失说明' }}</p><p v-for="limit in answer.limitations" :key="limit" class="hint">{{ limit }}</p></article>
     <details v-if="history.length"><summary>追问记录 {{ history.length }} 条</summary><div v-for="row in history" :key="row.id"><b>{{ row.request.question }}</b><p>{{ row.response?.answer || row.status }}</p></div></details>
     <h3>调整成本生成新版本</h3>
     <p class="hint">沿用这份报告的证据快照，生成新的任务和报告，原报告保持不变。默认数字仅为可编辑演示假设。</p>

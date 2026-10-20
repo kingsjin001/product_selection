@@ -1,0 +1,76 @@
+{
+  "live": true,
+  "cases": [
+    {
+      "name": "MCP 六工具真实 HTTP/PG/Milvus 与取消拒绝",
+      "passed": true
+    },
+    {
+      "name": "PG 跨进程复核 approve",
+      "passed": true
+    },
+    {
+      "name": "PG 跨进程复核 reject",
+      "passed": true
+    },
+    {
+      "name": "PG 跨进程复核 cancel",
+      "passed": true
+    },
+    {
+      "name": "PG 跨进程复核 request_changes",
+      "passed": true
+    },
+    {
+      "name": "真实 multi 模型/MCP/Skills/复核/连续追问",
+      "passed": true
+    }
+  ],
+  "isolated_database": "selection_v7_817a20609d20",
+  "index": {
+    "done": 9,
+    "failed": 0
+  },
+  "live_sample": {
+    "run_id": "82330505-0208-45d8-a8cd-da13e3b1d856",
+    "usage": {
+      "model_calls": 10,
+      "tool_calls": 17,
+      "input_tokens": 33287,
+      "output_tokens": 4401
+    },
+    "tool_names": [
+      "research",
+      "read_file",
+      "get_product_snapshot",
+      "read_file",
+      "read_file",
+      "research",
+      "research",
+      "research",
+      "read_file",
+      "get_product_snapshot",
+      "summarize_review_counts",
+      "research",
+      "read_file",
+      "search_rules",
+      "research",
+      "get_evidence",
+      "search_rules",
+      "research",
+      "query_reviews",
+      "query_reviews",
+      "search_reviews",
+      "research",
+      "research",
+      "write_research_note",
+      "task",
+      "task",
+      "research"
+    ],
+    "first_answer": "500ml的测试条件为静态冷水桌面测试（冷水静置）；1L的测试条件为动态热汤背包倾斜（热汤在背包内倾斜）。两者在液体温度（冷水与热汤）及受力状态（桌面静置与背包倾斜）上存在显著差异。由于测试条件不一致，无法确定密封表现的差异是由规格本身还是使用场景造成的。",
+    "followup_answer": "不能证明。报告指出，500ml与1L的测试条件存在显著差异（500ml为静态冷水桌面测试，1L为动态热汤背包倾斜），且每规格仅有1条合成评论样本。在测试条件混杂且样本极小的情况下，无法排除液体温度和倾斜状态等使用场景的影响，因此不能得出规格导致漏水的结论。"
+  },
+  "passed": true,
+  "temporary_databases_removed": true
+}

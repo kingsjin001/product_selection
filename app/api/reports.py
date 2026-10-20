@@ -29,6 +29,9 @@ class QuestionRequest(BaseModel):
 
     question: str = Field(min_length=1, max_length=2000)
     mode: Literal["extractive", "model"] = "extractive"
+    conversation_id: str | None = Field(default=None, max_length=36)
+    request_key: str | None = Field(default=None, max_length=120)
+    suggest_memory: bool = False
 
 
 @router.get("/reports")
@@ -83,7 +86,12 @@ def ask(run_id: str, request: QuestionRequest):
     detail(run_id)
     try:
         return ask_report(get_session_factory(), get_settings(), run_id,
-                          request.question, request.mode)
+                          request.question, request.mode, request.conversation_id,
+                          request.request_key, request.suggest_memory)
+    except TaskConflict as error:
+        raise HTTPException(409, str(error)) from error
+    except ValueError as error:
+        raise HTTPException(422, str(error)) from error
     except Exception as error:
         raise HTTPException(503, f"追问失败：{type(error).__name__}") from error
 

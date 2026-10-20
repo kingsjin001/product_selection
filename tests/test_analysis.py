@@ -105,7 +105,8 @@ def test_tools_are_bound_to_snapshot(snapshot):
     tools = {item.name: item for item in build_tools(snapshot, lambda query, k: [])}
     assert tools["query_reviews"].invoke({"variant": "large"})["total"] == 1
     assert tools["query_reviews"].invoke({"variant": "small"})["total"] == 0
-    assert tools["get_evidence"].invoke({"evidence_ids": ["bad"]})["data"] == []
+    with pytest.raises(PermissionError):
+        tools["get_evidence"].invoke({"evidence_ids": ["bad"]})
     assert review_counts(snapshot)["ratings"] == {"2": 1}
 
 

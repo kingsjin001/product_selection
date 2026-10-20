@@ -1,0 +1,6 @@
+{
+  "product_id": "demo-v5-conflict",
+  "mode": "fixed",
+  "question": "整理两种规格的测试条件，并列出待核验事项。",
+  "review_policy": "always"
+}

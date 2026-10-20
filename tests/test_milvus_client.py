@@ -33,8 +33,9 @@ class _FakeMilvusClient:
 
     instance: "_FakeMilvusClient | None" = None
 
-    def __init__(self, uri: str) -> None:
+    def __init__(self, uri: str, db_name: str = "default") -> None:
         self.uri = uri
+        self.db_name = db_name
         self.created: dict | None = None
         self.loaded: list[str] = []
         self.upserts: list[dict] = []

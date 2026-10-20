@@ -8,6 +8,7 @@ from app.core.config import get_settings
 from app.db import (
     analysis_models,  # noqa: F401 - register analysis metadata
     index_models,  # noqa: F401 - register indexing metadata
+    interaction_models,  # noqa: F401 - register interaction metadata
     models,  # noqa: F401 - register all metadata
     report_models,  # noqa: F401 - register report metadata
     task_models,  # noqa: F401 - register task metadata

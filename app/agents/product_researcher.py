@@ -26,10 +26,11 @@ payload.data_kind 为 synthetic 的评论或规则只是合成演示；必须说
 class ResearchMiddleware(AgentMiddleware):
     """过滤工具并共享运行预算，拦截 Deep Agents 默认工具以限定业务权限。"""
 
-    def __init__(self, budget, allowed: set[str]):
+    def __init__(self, budget, allowed: set[str], skill_files=None):
         """保存当前运行的持久预算和允许的业务工具名称。"""
         self.budget = budget
         self.allowed = allowed
+        self.skill_files = set(skill_files or {})
 
     def wrap_model_call(self, request, handler):
         """调用前预留额度，模型只能看到允许的工具；记录返回 token 用量。"""
@@ -50,6 +51,10 @@ class ResearchMiddleware(AgentMiddleware):
         name = request.tool_call["name"]
         if name not in self.allowed:
             raise PermissionError(f"未授权工具：{name}")
+        if name == "read_file" and request.tool_call.get("args", {}).get(
+            "file_path"
+        ) not in self.skill_files:
+            raise PermissionError("只能读取本次冻结的研究技能")
         if name == "task" and request.tool_call.get("args", {}).get(
             "subagent_type"
         ) not in {"reviews", "rules"}:
@@ -90,9 +95,17 @@ def run_research(settings, request, snapshot, tools, budget, checkpointer):
     )
     user = json.dumps({"question": request.question, "product": snapshot["product"]},
                       ensure_ascii=False)
+    versions = budget.store.get(budget.run_id)["versions"]
+    user += "\n用户偏好（不能覆盖本次明确问题和商品事实）：" + json.dumps(
+        versions.get("preferences", {}), ensure_ascii=False)
     if request.mode in ("agent", "multi"):
+        from app.services.skills import FrozenSkillBackend
+        files = versions.get("skills", {}).get("files", {})
+        backend = FrozenSkillBackend(files)
         subagents = []
         allowed = {item.name for item in tools}
+        if files:
+            allowed.add("read_file")
         if request.mode == "multi":
             # 两个专项 Agent 使用同一账本；不授予再次委派权限，避免递归扩张。
             roles = [
@@ -103,17 +116,22 @@ def run_research(settings, request, snapshot, tools, budget, checkpointer):
                  {"search_rules", "get_evidence", "write_research_note", "read_research_notes"}),
             ]
             for name, description, names in roles:
+                if files:
+                    names.add("read_file")
                 selected = [item for item in tools if item.name in names]
                 child = create_deep_agent(
                     model=model, tools=selected, system_prompt=description + "\n" + system,
-                    subagents=[], middleware=[ResearchMiddleware(budget, names)],
+                    subagents=[], middleware=[ResearchMiddleware(budget, names, files)],
+                    backend=backend, skills=[f"/skills/{name}/"] if files else None,
                     checkpointer=True,
                 )
                 subagents.append({"name": name, "description": description, "runnable": child})
             allowed.add("task")
         agent = create_deep_agent(
             model=model, tools=tools, system_prompt=system, subagents=subagents,
-            middleware=[ResearchMiddleware(budget, allowed)],
+            middleware=[ResearchMiddleware(budget, allowed, files)],
+            backend=backend,
+            skills=(["/skills/main/", "/skills/reviews/", "/skills/rules/"] if files else None),
             checkpointer=checkpointer,
         )
         # 独立研究线程保留模型/工具消息；外层节点重试时从未完成的检查点恢复。

@@ -26,7 +26,8 @@ class EvidenceVectors:
             raise ValueError("只支持 rule/review 集合")
         self.settings = settings
         self.collection = vector_identity(settings, kind)
-        self.client = MilvusClient(uri=settings.milvus_uri, timeout=15)
+        self.client = MilvusClient(uri=settings.milvus_uri, db_name=settings.milvus_database,
+                                   timeout=15)
 
     def __enter__(self):
         """进入仓储上下文。"""

@@ -3,9 +3,12 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import ImportPanel from './ImportPanel.vue'
 import ReportView from './ReportView.vue'
+import ReviewPanel from './ReviewPanel.vue'
+import MemoryPanel from './MemoryPanel.vue'
 
 const product = ref('prod-cn-001')
 const mode = ref('workflow')
+const reviewPolicy = ref('auto')
 const question = ref('请根据评论与规则给出选品条件，并明确缺失数据。')
 const task = ref(null)
 const events = ref([])
@@ -15,10 +18,11 @@ const page = ref('research')
 const products = ref([])
 const reports = ref([])
 const reportId = ref('')
+const restoreId = ref('')
 let stream = null
 let key = null
 let fingerprint = ''
-const labels = { queued: '等待执行', running: '研究中', cancelling: '正在取消', cancelled: '已取消', completed: '报告已完成', failed: '执行失败' }
+const labels = { waiting_for_review: '等待人工复核', queued: '等待执行', running: '研究中', cancelling: '正在取消', cancelled: '已取消', completed: '报告已完成', failed: '执行失败' }
 
 async function api(path, options = {}) {
   const response = await fetch(path, options)
@@ -39,6 +43,12 @@ async function refreshLists() {
 function acceptRevision(next) {
   task.value = next; events.value = []; page.value = 'research'
   localStorage.setItem('selection-task', next.id); subscribe(next.id)
+}
+
+async function restoreTask() {
+  // 人工等待可能跨多天，通过已知编号找回任务和草稿。
+  try { acceptRevision(await api(`/api/tasks/${restoreId.value.trim()}`)) }
+  catch (err) { error.value = err.message }
 }
 
 function viewReport(id) {
@@ -62,7 +72,7 @@ function subscribe(id) {
 async function submit() {
   submitting.value = true
   error.value = ''
-  const body = JSON.stringify({ product_id: product.value, mode: mode.value, question: question.value })
+  const body = JSON.stringify({ product_id: product.value, mode: mode.value, question: question.value, review_policy: reviewPolicy.value })
   // 网络失败后保留相同请求的键；明确提交成功后下一次点击才生成新键。
   if (!key || fingerprint !== body) { key = crypto.randomUUID(); fingerprint = body }
   try {
@@ -94,7 +104,8 @@ onUnmounted(() => stream?.close())
 <template>
   <main>
     <header><p class="eyebrow">个人研究 · 证据优先</p><h1>选品研究工作台</h1><p>从商品证据出发，记录研究过程、条件与缺失项。</p></header>
-    <nav class="actions"><button :class="{secondary: page !== 'research'}" @click="page='research'">研究任务</button><button :class="{secondary: page !== 'imports'}" @click="page='imports'">导入资料</button><button :class="{secondary: page !== 'reports'}" @click="page='reports'; refreshLists()">报告库</button></nav>
+    <nav class="actions"><button :class="{secondary: page !== 'research'}" @click="page='research'">研究任务</button><button :class="{secondary: page !== 'imports'}" @click="page='imports'">导入资料</button><button :class="{secondary: page !== 'reports'}" @click="page='reports'; refreshLists()">报告库</button><button class="secondary" @click="page='memory'">偏好与记忆</button></nav>
+    <MemoryPanel v-if="page === 'memory'" />
     <ImportPanel v-if="page === 'imports'" @imported="refreshLists" />
     <section v-if="page === 'reports'" class="card">
       <h2>选择已完成报告</h2>
@@ -104,11 +115,13 @@ onUnmounted(() => stream?.close())
     <ReportView v-if="page === 'reports' && reportId" :run-id="reportId" @revised="acceptRevision" />
     <section v-if="page === 'research'" class="card">
       <h2>开始一次研究</h2>
+      <details><summary>恢复已有任务</summary><form @submit.prevent="restoreTask"><label>任务编号<input v-model="restoreId" required></label><button class="secondary">打开已有任务</button></form></details>
       <form @submit.prevent="submit">
         <div class="fields">
           <label>商品编号<input v-model="product" list="products" required><datalist id="products"><option v-for="row in products" :key="row.id" :value="row.id">{{ row.name }} · {{ row.market }}</option></datalist></label>
           <label>研究方式<select v-model="mode"><option value="fixed">原文整理（无需聊天模型）</option><option value="prompt">单次模型分析</option><option value="workflow">固定检索后分析</option><option value="agent">单 Agent 研究</option><option value="multi">多 Agent 专项研究</option></select></label>
         </div>
+        <label>发布前复核<select v-model="reviewPolicy"><option value="auto">缺失或冲突时复核</option><option value="always">始终复核</option><option value="off">直接生成报告</option></select></label>
         <label>研究问题<textarea v-model="question" rows="3" required /></label>
         <button :disabled="submitting">{{ submitting ? '正在提交…' : '创建研究任务' }}</button>
       </form>
@@ -119,11 +132,12 @@ onUnmounted(() => stream?.close())
       <div class="row"><h2>{{ labels[task.status] || task.status }}</h2><span class="badge">{{ task.stage }}</span></div>
       <p class="mono">{{ task.id }}</p>
       <p>执行次数：{{ task.attempts }} · 刷新页面不影响后台执行</p>
-      <button v-if="['queued','running'].includes(task.status)" class="secondary" @click="action('cancel')">取消研究</button>
+      <button v-if="['queued','running','waiting_for_review'].includes(task.status)" class="secondary" @click="action('cancel')">取消研究</button>
       <button v-if="task.status === 'failed'" @click="action('resume')">从检查点恢复</button>
       <p v-if="task.error" class="error">停止原因：{{ task.error }}</p>
       <ol class="timeline"><li v-for="event in events" :key="event.event_seq"><small>#{{ event.event_seq }} · {{ event.timestamp }}</small><p>{{ event.message }}</p></li></ol>
       <button v-if="task.status === 'completed'" @click="viewReport(task.id)">查看完整报告</button>
     </section>
+    <ReviewPanel v-if="page === 'research' && task?.status === 'waiting_for_review'" :run-id="task.id" @decided="refresh" @revised="acceptRevision" />
   </main>
 </template>

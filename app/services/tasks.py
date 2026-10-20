@@ -63,6 +63,8 @@ class TaskService:
                 # 与同步入口使用同一版本字段定义。
                 from app.services.analysis_store import analysis_versions
                 versions = analysis_versions(self.settings)
+                from app.services.memory import preference_snapshot
+                versions["preferences"] = preference_snapshot(session)
                 if parent_id:
                     versions["parent_run_id"] = parent_id
                 session.add(AnalysisRun(
@@ -94,16 +96,23 @@ class TaskService:
             if task.status != "queued":
                 return None
             now = datetime.now(UTC)
-            if task.attempts >= 5:
+            if task.attempts >= 5 and task.stage != "review_approved":
                 task.status = "failed"
                 emit(session, task, "failed", "自动执行次数已达到上限")
                 return None
             task.epoch += 1
-            task.attempts += 1
+            # 人工批准后的正常继续不计为故障重试。
+            if task.stage != "review_approved":
+                task.attempts += 1
             task.status, task.stage = "running", "research"
             task.lease_until = now + timedelta(seconds=self.lease_seconds)
             if task.deadline_at is None:
-                task.deadline_at = now + timedelta(seconds=self.settings.agent_timeout_seconds)
+                from app.db.interaction_models import ReportReview
+                review = session.get(ReportReview, task_id)
+                remaining = (review.remaining_seconds if review and
+                             review.remaining_seconds is not None else
+                             session.get(AnalysisRun, task_id).versions["limits"]["seconds"])
+                task.deadline_at = now + timedelta(seconds=remaining)
             emit(session, task, "started", "Worker 开始执行", {"attempt": task.attempts})
             return task.epoch
 
@@ -139,7 +148,7 @@ class TaskService:
         """失败和协作取消只允许当前 epoch 确认，旧进程不能修改终态。"""
         with self.factory.begin() as session:
             task = self.locked(session, task_id)
-            if task.epoch != epoch or task.status in TERMINAL:
+            if task.epoch != epoch or task.status in TERMINAL | {"waiting_for_review"}:
                 return
             task.status = "cancelled" if task.status == "cancelling" else "failed"
             task.error, task.lease_until = type(error).__name__, None
@@ -153,7 +162,8 @@ class TaskService:
             task = self.locked(session, task_id)
             if task.status in TERMINAL or task.status == "cancelling":
                 return
-            task.status = "cancelled" if task.status == "queued" else "cancelling"
+            task.status = ("cancelled" if task.status in {"queued", "waiting_for_review"}
+                           else "cancelling")
             session.get(AnalysisRun, task_id).status = task.status
             emit(session, task, task.status, "已请求取消")
 

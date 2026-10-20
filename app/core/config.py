@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     redis_url: str = "redis://localhost:6379/0"
     milvus_host: str = "localhost"
     milvus_port: int = 19530
+    milvus_database: str = "default"
 
     # mock 用于离线管线验证；openai_compatible 表示任意 OpenAI 兼容模型服务。
     embedding_provider: str = Field(default="mock", pattern="^(mock|openai_compatible)$")
@@ -34,6 +35,11 @@ class Settings(BaseSettings):
     max_model_calls: int = Field(default=20, ge=1, le=100)
     max_tool_calls: int = Field(default=30, ge=1, le=100)
     agent_timeout_seconds: int = Field(default=300, ge=10, le=3600)
+    # 第七期默认本地工具；开启 MCP 时客户端与服务端必须共享此密钥。
+    evidence_transport: str = Field(default="local", pattern="^(local|mcp)$")
+    mcp_url: str = "http://127.0.0.1:8765/mcp"
+    mcp_port: int = Field(default=8765, ge=1024, le=65535)
+    mcp_shared_secret: SecretStr | None = None
 
     @property
     def milvus_uri(self) -> str:

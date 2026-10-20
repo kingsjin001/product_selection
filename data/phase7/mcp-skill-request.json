@@ -1,0 +1,6 @@
+{
+  "product_id": "demo-v5-conflict",
+  "mode": "multi",
+  "question": "先读取适用技能，分别委派 reviews 和 rules 核验密封表现、规格和测试条件。明确合成样例、冲突证据和缺失资料，最多三条声明。",
+  "review_policy": "auto"
+}

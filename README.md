@@ -1,13 +1,16 @@
 # TikTok 选品研究工作台
 
-当前版本 **0.6.0**，面向个人项目与面试展示：导入中文商品、评论和规则资料，
+当前版本 **0.7.0**，面向个人项目与面试展示：导入中文商品、评论和规则资料，
 通过 LangGraph 编排研究、确定性成本计算与引用校验，生成可追溯报告。
 保留 **LangChain Deep Agents** 与 **MilvusClient**，API 和 Worker 使用本机 Python，
 Docker Compose 提供 PostgreSQL、Redis、Milvus 及依赖。
 
-六期代码分别保存在本地分支，每期实测范围与未验收项见
+七期代码分别保存在本地分支，每期实测范围与未验收项见
 [交付记录](docs/delivery-status.md)。项目使用合成样例，没有连接真实 TikTok 商品 API；
 不能将样例评论、合成规则或模型输出作为真实市场事实。
+
+第七期新增：**证据查询 MCP、原生研究 Skills、报告连续追问、偏好确认与人工复核**。
+先看 [第七期方案](docs/phase7-design.md)、[启动与操作](docs/phase-7-guide.md) 和 [验收结果](docs/acceptance/phase-7.md)。
 
 ## 阅读入口
 
@@ -39,7 +42,14 @@ Docker Compose 提供 PostgreSQL、Redis、Milvus 及依赖。
 | 后台任务 | Celery/Redis、投递 outbox、幂等键、租约/心跳/epoch、检查点恢复、协作取消 |
 | 工作台 | 上传、商品选择、阶段时间线、SSE 重连、报告库、证据展开、成本情景切换 |
 | 报告 | 同一 JSON 源生成页面、Markdown、Word；重复导出复用制品；追问独立保存；修订成本创建新版本 |
-| 验证 | 44 个测试、实际故障恢复脚本、空数据库与索引验证、冻结评测集及 A/B/C 原始结果 |
+| MCP / Skills | 六个只读 MCP 工具；原生技能按需发现与读取，任务创建时冻结技能内容 |
+| 人工复核 | 草稿批准、拒绝和修改；等待释放 Worker；批准后按原检查点发布 |
+| 记忆 | 同报告最近六轮模型追问、偏好修改与清空、候选记忆确认或忽略 |
+| 验证 | 57 个测试、实际 MCP 与检查点复核脚本、空数据库与索引验证、冻结评测集及 A/B/C 原始结果 |
+
+第七期默认保持本地工具；启用 MCP 需要单独启动 `app.mcp.server` 并配置共享密钥。
+工作台默认在缺失/冲突时复核；API 省略 `review_policy` 时保留旧版直接发布行为。
+复核、偏好和会话接口详见 [第七期使用说明](docs/phase-7-guide.md)。
 
 ## 快速启动
 
@@ -193,8 +203,8 @@ Deep Agents 的默认文件、Shell 等工具被执行层白名单限制。
 ```
 
 `verify-phase1.ps1` 只检查第一期 API 链路，执行后不必重复相同 CLI 命令，
-但它不能代替六期验收。当前验收入口和原始记录见
-[第六期报告](docs/acceptance/phase-6.md)，真实模型评测会消耗额度。
+但它不能代替后续各期验收。当前集成验收见 [第七期报告](docs/acceptance/phase-7.md)，
+前六期效果评测见 [第六期报告](docs/acceptance/phase-6.md)，真实模型评测会消耗额度。
 
 | 入口 | 行为 |
 | --- | --- |

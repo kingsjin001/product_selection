@@ -1,22 +1,23 @@
 """LangGraph 单品分析：研究、计算、引用校验、报告提交与 PostgreSQL 检查点。"""
 
 from contextlib import contextmanager
+from time import monotonic
 from typing import TypedDict
 
 from langgraph.checkpoint.postgres import PostgresSaver
 from langgraph.graph import END, START, StateGraph
+from langgraph.types import Command, interrupt
 from sqlalchemy import text
 from sqlalchemy.engine import make_url
 
 from app.agents.product_researcher import run_research
 from app.analysis_contracts import AnalysisRequest, Claim, ResearchResult
-from app.core.embeddings import EmbeddingService
 from app.db.task_models import Task
-from app.repositories.milvus import MilvusRuleRepository
+from app.mcp.client import research_tools
 from app.services.analysis_store import AnalysisStore, RunBudget
 from app.services.economics import calculate_economics
-from app.services.hybrid_search import search_evidence
-from app.tools.analysis_tools import build_tools, review_counts
+from app.services.reviews import get_review, mark_waiting, prepare_review, review_reasons
+from app.tools.analysis_tools import review_counts
 from app.tools.research_notes import build_note_tools
 
 
@@ -85,21 +86,12 @@ def report_markdown(report: dict) -> str:
     return "\n".join(lines) + "\n"
 
 
-def build_workflow(store: AnalysisStore, run_id: str, saver, researcher=None):
+def build_workflow(store: AnalysisStore, run_id: str, saver, researcher=None, run_budget=None):
     """组装固定节点；研究函数可注入，以便故障测试覆盖恢复而无需真实模型。"""
     run = store.get(run_id)
     request = AnalysisRequest.model_validate(run["request"])
     snapshot = run["snapshot"]
-    budget = RunBudget(store, run_id)
-
-    def search_frozen_rules(query: str, top_k: int) -> list[dict]:
-        """Milvus 召回后仅返回快照内正文，避免运行途中发生输入漂移。"""
-        embedding = EmbeddingService(store.settings).embed_one(query)
-        hits = MilvusRuleRepository(store.settings).search(
-            embedding, snapshot["product"]["market"], max(top_k, 10),
-        )
-        frozen = {row["id"]: row for row in snapshot["evidence"] if row["kind"] == "rule"}
-        return [frozen[hit["evidence_id"]] for hit in hits if hit["evidence_id"] in frozen][:top_k]
+    budget = run_budget or RunBudget(store, run_id)
 
     def research_node(state: AnalysisState) -> dict:
         """执行研究并立即检查引用，非法结果不会进入成本或提交阶段。"""
@@ -109,44 +101,26 @@ def build_workflow(store: AnalysisStore, run_id: str, saver, researcher=None):
             result = researcher(request, snapshot, budget)
         elif request.mode == "fixed":
             result = fixed_research(snapshot)
-        elif request.mode == "workflow":
-            # B 对照：固定查询路径，同样使用 RRF 与原快照，但不允许自主循环。
-            selected = {}
-            for kind in ("review", "rule"):
-                with budget.call("tool", f"fixed_search_{kind}") as details:
-                    rows = search_evidence(
-                        store.factory, store.settings, query=request.question, kind=kind,
-                        market=snapshot["product"]["market"],
-                        category=snapshot["product"]["category"],
-                        product_id=request.product_id if kind == "review" else "",
-                        snapshot=snapshot,
-                    )
-                    details["evidence_ids"] = [row["id"] for row in rows]
-                    selected.update({row["id"]: row for row in rows})
-            result = run_research(store.settings, request,
-                                  {**snapshot, "evidence": list(selected.values())},
-                                  [], budget, saver)
+        elif request.mode == "prompt":
+            result = run_research(store.settings, request, snapshot, [], budget, saver)
         else:
-            if request.mode == "multi":
-                def retrieve(kind, query, top_k):
-                    """第三期同时使用版本过滤、品类/商品过滤和 RRF。"""
-                    return search_evidence(
-                        store.factory, store.settings, query=query, top_k=top_k, kind=kind,
-                        market=snapshot["product"]["market"],
-                        category=snapshot["product"]["category"],
-                        product_id=request.product_id if kind == "review" else "",
-                        snapshot=snapshot,
-                    )
-                tools = build_tools(
-                    snapshot, lambda q, k: retrieve("rule", q, k),
-                    lambda q, k: retrieve("review", q, k),
-                ) + build_note_tools(store.factory, run_id, snapshot, store.guard)
-            else:
-                tools = build_tools(snapshot, search_frozen_rules)
-            result = run_research(
-                store.settings, request, snapshot, tools,
-                budget, saver,
-            )
+            # 本地和 MCP 使用同一套业务契约；上下文管理器持有完整连接生命周期。
+            with research_tools(store, run_id) as tools:
+                if request.mode == "workflow":
+                    selected = {}
+                    by_name = {item.name: item for item in tools}
+                    for kind in ("review", "rule"):
+                        name = "search_reviews" if kind == "review" else "search_rules"
+                        with budget.call("tool", name) as details:
+                            rows = by_name[name].invoke({"query": request.question})["data"]
+                            details["evidence_ids"] = [row["id"] for row in rows]
+                            selected.update({row["id"]: row for row in rows})
+                    result = run_research(store.settings, request,
+                        {**snapshot, "evidence": list(selected.values())}, [], budget, saver)
+                else:
+                    if request.mode == "multi":
+                        tools += build_note_tools(store.factory, run_id, snapshot, store.guard)
+                    result = run_research(store.settings, request, snapshot, tools, budget, saver)
         validate_references(result, snapshot)
         return {"research": result.model_dump(mode="json")}
 
@@ -171,6 +145,21 @@ def build_workflow(store: AnalysisStore, run_id: str, saver, researcher=None):
             "versions": run["versions"], "usage": store.get(run_id)["usage"],
         }}
 
+    def review_node(state: AnalysisState) -> dict:
+        """原生动态中断只返回待审草稿，恢复时验证持久决定与草稿摘要。"""
+        reasons = review_reasons(request, state["report"])
+        if not reasons:
+            return {}
+        budget.check()
+        store.stage("review")
+        pending = prepare_review(store, run_id, state["report"], reasons)
+        decision = interrupt(pending)
+        stored = get_review(store.factory, run_id)
+        if (stored["status"] != "approve" or decision != stored["decision"]
+                or stored["draft_hash"] != pending["draft_hash"]):
+            raise ValueError("人工决定与当前草稿不匹配")
+        return {}
+
     def persist_node(state: AnalysisState) -> dict:
         """报告与终态原子提交，检查点重放时仍只保留一份报告。"""
         budget.check()
@@ -181,13 +170,14 @@ def build_workflow(store: AnalysisStore, run_id: str, saver, researcher=None):
     graph = StateGraph(AnalysisState)
     for name, node in (
         ("research", research_node), ("calculate", calculate_node),
-        ("validate", validate_node), ("persist", persist_node),
+        ("validate", validate_node), ("review", review_node), ("persist", persist_node),
     ):
         graph.add_node(name, node)
     graph.add_edge(START, "research")
     graph.add_edge("research", "calculate")
     graph.add_edge("calculate", "validate")
-    graph.add_edge("validate", "persist")
+    graph.add_edge("validate", "review")
+    graph.add_edge("review", "persist")
     graph.add_edge("persist", END)
     return graph.compile(checkpointer=saver)
 
@@ -211,12 +201,15 @@ def execute_analysis(store: AnalysisStore, run_id: str, saver, researcher=None) 
             if session.get(Task, run_id):
                 raise ValueError("后台任务只能通过 Worker 执行，请使用任务恢复接口")
     run = store.get(run_id)
+    if run["status"] == "cancelled":
+        raise ValueError("已取消运行不能继续")
     frozen = run["versions"]
     if run["request"]["mode"] != "fixed" and (
         frozen["model"] != store.settings.chat_model
         or frozen["embedding"] != store.settings.embedding_model
         or frozen["embedding_dim"] != store.settings.embedding_dim
         or frozen["embedding_provider"] != store.settings.embedding_provider
+        or frozen.get("milvus_database", "default") != store.settings.milvus_database
     ):
         raise ValueError("恢复时模型配置与原运行不一致；请恢复原配置或创建新运行")
     # 连接级 advisory lock 随进程/连接退出释放，防止多个请求同时恢复同一图。
@@ -231,10 +224,19 @@ def execute_analysis(store: AnalysisStore, run_id: str, saver, researcher=None) 
             if existing:
                 return existing
             store.status(run_id, "running")
-            graph = build_workflow(store, run_id, saver, researcher)
+            budget = RunBudget(store, run_id)
+            graph = build_workflow(store, run_id, saver, researcher, run_budget=budget)
             config = {"configurable": {"thread_id": run_id}}
             saved = graph.get_state(config)
-            graph.invoke(None if saved.values else {"run_id": run_id}, config)
+            value = None if saved.values else {"run_id": run_id}
+            if saved.interrupts:
+                review = get_review(store.factory, run_id)
+                if review["status"] == "approve":
+                    value = Command(resume=review["decision"])
+            result = graph.invoke(value, config)
+            if result.get("__interrupt__"):
+                mark_waiting(store, run_id, budget.deadline - monotonic())
+                return {"run_id": run_id, "status": "waiting_for_review"}
             return store.report(run_id)
         except Exception as error:
             store.status(run_id, "failed", type(error).__name__)

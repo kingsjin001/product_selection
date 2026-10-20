@@ -55,6 +55,8 @@ def build_tools(snapshot: dict, rule_search, review_search=None):
         """读取本次快照中指定证据的全文和来源。"""
         if len(evidence_ids) > 20:
             raise ValueError("一次最多读取 20 条证据")
+        if not set(evidence_ids) <= {row["id"] for row in snapshot["evidence"]}:
+            raise PermissionError("证据不属于当前运行")
         rows = [row for row in snapshot["evidence"] if row["id"] in evidence_ids]
         return {"status": "ok" if rows else "no_results", "data": rows}
 

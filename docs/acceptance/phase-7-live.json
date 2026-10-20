@@ -1,0 +1,82 @@
+{
+  "live": true,
+  "cases": [
+    {
+      "name": "MCP 六工具真实 HTTP/PG/Milvus 与取消拒绝",
+      "passed": true
+    },
+    {
+      "name": "PG 跨进程复核 approve",
+      "passed": true
+    },
+    {
+      "name": "PG 跨进程复核 reject",
+      "passed": true
+    },
+    {
+      "name": "PG 跨进程复核 cancel",
+      "passed": true
+    },
+    {
+      "name": "PG 跨进程复核 request_changes",
+      "passed": true
+    },
+    {
+      "name": "真实 multi 模型/MCP/Skills/复核/连续追问",
+      "passed": true
+    }
+  ],
+  "isolated_database": "selection_v7_64256dcc521e",
+  "index": {
+    "done": 9,
+    "failed": 0
+  },
+  "live_sample": {
+    "run_id": "d863e20b-8a50-48ed-9f83-6647868dd0ca",
+    "model": "qwen3.7-plus",
+    "embedding": "text-embedding-v4",
+    "skills_hash": "1d3ee149ceeec9f658791d5b752013572ca5a8e92911d45736c4ac1503d2dddb",
+    "usage": {
+      "model_calls": 13,
+      "tool_calls": 17,
+      "input_tokens": 46059,
+      "output_tokens": 4955
+    },
+    "tool_names": [
+      "research",
+      "read_file",
+      "read_file",
+      "read_file",
+      "get_product_snapshot",
+      "research",
+      "research",
+      "research",
+      "read_file",
+      "research",
+      "summarize_review_counts",
+      "read_file",
+      "research",
+      "search_rules",
+      "research",
+      "query_reviews",
+      "search_reviews",
+      "research",
+      "get_evidence",
+      "search_rules",
+      "write_research_note",
+      "research",
+      "task",
+      "task",
+      "research",
+      "research",
+      "get_evidence",
+      "write_research_note",
+      "research",
+      "research"
+    ],
+    "first_answer": "根据报告证据，500ml与1L的测试条件差异如下：\n1. 500ml：装冷水，静置状态下在桌面测试。\n2. 1L：装汤，在背包内倾斜测试。\n两者的差异在于液体种类（冷水与汤）、物理状态（静置与倾斜）及使用场景（桌面与背包）。因测试条件不一致，无法直接对比密封性能并归因于规格差异。",
+    "followup_answer": "不能证明。根据报告证据，500ml与1L的测试条件存在显著差异（500ml为冷水静置桌面测试，1L为装汤后背包内倾斜测试）。合成核验清单明确指出，密封表现需区分规格、液体温度和倾斜条件，不同条件下的样例不能证明规格造成差异。因此，观察到的漏水现象可能源于使用条件（如倾斜或液体状态）的不同，而非规格本身导致。"
+  },
+  "passed": true,
+  "temporary_databases_removed": true
+}

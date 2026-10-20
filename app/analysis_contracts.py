@@ -34,6 +34,8 @@ class AnalysisRequest(BaseModel):
     question: str = Field(default="该商品进入候选清单前需要核验哪些事项？", max_length=1000)
     mode: Literal["fixed", "prompt", "workflow", "agent", "multi"] = "workflow"
     costs: CostInput | None = None
+    # 默认保留旧 API 行为；工作台默认 auto，便于显式看见复核选择。
+    review_policy: Literal["off", "auto", "always"] = "off"
 
 
 class Claim(BaseModel):

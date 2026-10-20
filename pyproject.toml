@@ -4,19 +4,21 @@ build-backend = "hatchling.build"
 
 [project]
 name = "tiktok-selection-agent"
-version = "0.6.0"
+version = "0.7.0"
 description = "Evidence-driven TikTok product research agent"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
   "alembic>=1.14,<2",
   "celery>=5.4,<6",
-  "deepagents>=0.5.4,<1",
+  "deepagents==0.7.28",
   "fastapi>=0.115,<1",
   "langchain-core>=1,<2",
   "langchain-openai>=1,<2",
   "langgraph>=1,<2",
   "langgraph-checkpoint-postgres>=3.2,<4",
+  "mcp>=1.28,<2",
+  "anyio>=4,<5",
   "openai>=1.50,<3",
   "psycopg[binary]>=3.2,<4",
   "pydantic-settings>=2.6,<3",

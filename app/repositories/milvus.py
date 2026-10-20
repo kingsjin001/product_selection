@@ -41,7 +41,8 @@ class MilvusRuleRepository:
         """按仓储实例复用 MilvusClient，避免旧 ORM Collection 接口的运行警告。"""
         if self._client_instance is None:
             logger.debug("连接 Milvus | uri=%s", self.settings.milvus_uri)
-            self._client_instance = MilvusClient(uri=self.settings.milvus_uri)
+            self._client_instance = MilvusClient(uri=self.settings.milvus_uri,
+                                                 db_name=self.settings.milvus_database)
         return self._client_instance
 
     def _ensure_collection(self) -> MilvusClient:

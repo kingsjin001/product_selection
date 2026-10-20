@@ -12,6 +12,7 @@ from app.agents.rule_researcher import run_rule_research
 from app.api.analysis import router as analysis_router
 from app.api.evidence import router as evidence_router
 from app.api.imports import router as imports_router
+from app.api.interactions import router as interactions_router
 from app.api.reports import router as reports_router
 from app.api.tasks import router as tasks_router
 from app.core.config import get_settings
@@ -41,7 +42,8 @@ async def lifespan(_: FastAPI):
     logger.info("应用停止")
 
 
-app = FastAPI(title="TikTok Selection Agent", version="0.6.0", lifespan=lifespan)
+app = FastAPI(title="TikTok Selection Agent", version="0.7.0", lifespan=lifespan)
+app.include_router(interactions_router)
 app.include_router(analysis_router)
 app.include_router(evidence_router)
 app.include_router(tasks_router)

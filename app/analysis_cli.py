@@ -30,6 +30,10 @@ def main() -> None:
     print(f"run_id={run_id}", flush=True)
     with postgres_checkpointer(settings) as saver:
         report = execute_analysis(store, run_id, saver)
+    if report.get("status") == "waiting_for_review":
+        print(json.dumps({"run_id": run_id, "status": "waiting_for_review",
+                          "review_url": f"/api/tasks/{run_id}/review"}))
+        return
     args.output.mkdir(parents=True, exist_ok=True)
     (args.output / f"{run_id}.json").write_text(
         json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8",

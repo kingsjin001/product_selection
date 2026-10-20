@@ -40,7 +40,7 @@ def run_task(task_id, *, factory=None, settings=None, researcher=None, lease_sec
     try:
         with postgres_checkpointer(settings) as saver:
             report = execute_analysis(store, task_id, saver, researcher)
-        return {"status": "completed", "run_id": report["run_id"]}
+        return {"status": report.get("status", "completed"), "run_id": report["run_id"]}
     except Exception as error:
         service.fail(task_id, epoch, error)
         logger.warning("后台任务停止 | task=%s error=%s", task_id, type(error).__name__)

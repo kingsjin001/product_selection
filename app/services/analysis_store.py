@@ -61,12 +61,16 @@ def freeze_snapshot(session, request: AnalysisRequest) -> dict:
 def analysis_versions(settings):
     """同步入口和后台入口共享版本及预算字段。"""
     from app.agents.product_researcher import PROMPT
+    from app.services.skills import freeze_skills
     return {
-        "prompt": "research-v6", "prompt_hash": hashlib.sha256(PROMPT.encode()).hexdigest(),
+        "prompt": "research-v7", "prompt_hash": hashlib.sha256(PROMPT.encode()).hexdigest(),
+        "skills": freeze_skills(), "evidence_transport": settings.evidence_transport,
         "schema": "report-v2",
         "model": settings.chat_model, "embedding": settings.embedding_model,
         "embedding_dim": settings.embedding_dim,
         "embedding_provider": settings.embedding_provider,
+        "milvus_database": settings.milvus_database,
+        "mcp_contract": "evidence-v1",
         "limits": {"model": settings.max_model_calls, "tool": settings.max_tool_calls,
                    "seconds": settings.agent_timeout_seconds},
     }
@@ -98,10 +102,13 @@ class AnalysisStore:
         with self.factory.begin() as session:
             run_id = str(uuid4())
             snapshot = freeze_snapshot(session, request)
+            from app.services.memory import preference_snapshot
+            versions = analysis_versions(self.settings)
+            versions["preferences"] = preference_snapshot(session)
             session.add(AnalysisRun(
                 id=run_id, status="pending", request=request.model_dump(mode="json"),
                 snapshot=snapshot,
-                versions=analysis_versions(self.settings),
+                versions=versions,
             ))
         return run_id
 
@@ -176,6 +183,12 @@ class RunBudget:
         self.run_id = run_id
         self.limits = store.get(run_id)["versions"]["limits"]
         self.deadline = monotonic() + self.limits["seconds"]
+        if not store.guard:
+            from app.db.interaction_models import ReportReview
+            with store.factory() as session:
+                review = session.get(ReportReview, run_id)
+                if review and review.remaining_seconds is not None:
+                    self.deadline = monotonic() + review.remaining_seconds
         if store.guard:
             with store.factory.begin() as session:
                 task = store.check_owner(session)
@@ -213,6 +226,12 @@ class RunBudget:
         started = monotonic()
         logger.info("调用开始 | run=%s kind=%s name=%s", self.run_id, kind, name)
         status, details = "ok", {}
+        if kind == "tool":
+            details["transport"] = self.store.get(self.run_id)["versions"].get(
+                "evidence_transport", "local") if name in {
+                    "get_product_snapshot", "query_reviews", "summarize_review_counts",
+                    "search_rules", "search_reviews", "get_evidence",
+                } else "local"
         try:
             yield details
             self.check()
