@@ -1,0 +1,35 @@
+{
+  "cases": [
+    {
+      "case": "idempotent_submit",
+      "passed": true,
+      "task_id": "e8293328-1b66-4e42-b090-cbf0cc69d3b9"
+    },
+    {
+      "case": "redis_celery_duplicate_after_dispatch_gap",
+      "passed": true
+    },
+    {
+      "case": "process_exit_checkpoint_recovery_fencing",
+      "passed": true,
+      "task_id": "3ce4b9b7-20ca-4368-8fd8-b33d24270789",
+      "attempts": 2
+    },
+    {
+      "case": "cancel_late_result",
+      "passed": true,
+      "task_id": "2a8565f9-fe6b-45e1-84e4-31cfe6d8d0d8"
+    },
+    {
+      "case": "sse_durable_replay",
+      "passed": true,
+      "replayed": 5
+    }
+  ],
+  "real_services": [
+    "PostgreSQL",
+    "Redis",
+    "Celery"
+  ],
+  "paid_model_calls": 0
+}

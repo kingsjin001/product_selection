@@ -4,6 +4,7 @@ import hashlib
 import json
 import logging
 from contextlib import contextmanager
+from datetime import UTC, datetime
 from time import monotonic
 from uuid import uuid4
 
@@ -57,6 +58,18 @@ def freeze_snapshot(session, request: AnalysisRequest) -> dict:
     return {**snapshot, "hash": digest(snapshot)}
 
 
+def analysis_versions(settings):
+    """同步入口和后台入口共享版本及预算字段。"""
+    return {
+        "prompt": "research-v4", "schema": "report-v2",
+        "model": settings.chat_model, "embedding": settings.embedding_model,
+        "embedding_dim": settings.embedding_dim,
+        "embedding_provider": settings.embedding_provider,
+        "limits": {"model": settings.max_model_calls, "tool": settings.max_tool_calls,
+                   "seconds": settings.agent_timeout_seconds},
+    }
+
+
 class AnalysisStore:
     """每次操作使用独立事务，适配 API、CLI 及并发工具调用。"""
 
@@ -64,6 +77,19 @@ class AnalysisStore:
         """注入会话工厂，允许测试使用隔离数据库。"""
         self.factory = factory
         self.settings = settings
+        self.guard = None
+        self.on_complete = None
+        self.on_stage = None
+
+    def check_owner(self, session):
+        """后台执行注入 fencing 检查；同步 CLI 保持原有单运行锁。"""
+        if self.guard:
+            return self.guard(session)
+
+    def stage(self, name):
+        """可选的持久阶段事件回调。"""
+        if self.on_stage:
+            self.on_stage(name)
 
     def create(self, request: AnalysisRequest) -> str:
         """在一笔事务内冻结输入并创建运行标识。"""
@@ -73,18 +99,7 @@ class AnalysisStore:
             session.add(AnalysisRun(
                 id=run_id, status="pending", request=request.model_dump(mode="json"),
                 snapshot=snapshot,
-                versions={
-                    "prompt": "research-v3", "schema": "report-v2",
-                    "model": self.settings.chat_model,
-                    "embedding": self.settings.embedding_model,
-                    "embedding_dim": self.settings.embedding_dim,
-                    "embedding_provider": self.settings.embedding_provider,
-                    "limits": {
-                        "model": self.settings.max_model_calls,
-                        "tool": self.settings.max_tool_calls,
-                        "seconds": self.settings.agent_timeout_seconds,
-                    },
-                },
+                versions=analysis_versions(self.settings),
             ))
         return run_id
 
@@ -106,6 +121,7 @@ class AnalysisStore:
     def status(self, run_id: str, status: str, error: str | None = None) -> None:
         """更新状态；仅保存异常类别，避免将供应商响应中的敏感信息写入报告。"""
         with self.factory.begin() as session:
+            self.check_owner(session)
             run = session.get(AnalysisRun, run_id)
             run.status = status
             run.error = error
@@ -119,6 +135,7 @@ class AnalysisStore:
     def save_report(self, run_id: str, content: dict, markdown: str) -> None:
         """报告与运行终态在同一事务提交，重放时不覆盖已有报告。"""
         with self.factory.begin() as session:
+            self.check_owner(session)
             run = session.scalar(
                 select(AnalysisRun).where(AnalysisRun.id == run_id).with_for_update()
             )
@@ -140,6 +157,8 @@ class AnalysisStore:
                 ))
             run.status = "completed"
             run.error = None
+            if self.on_complete:
+                self.on_complete(session)
 
 
 class BudgetExceeded(RuntimeError):
@@ -155,11 +174,21 @@ class RunBudget:
         self.run_id = run_id
         self.limits = store.get(run_id)["versions"]["limits"]
         self.deadline = monotonic() + self.limits["seconds"]
+        if store.guard:
+            with store.factory.begin() as session:
+                task = store.check_owner(session)
+                deadline = task.deadline_at
+                if deadline.tzinfo is None:
+                    deadline = deadline.replace(tzinfo=UTC)
+                self.deadline = monotonic() + (deadline - datetime.now(UTC)).total_seconds()
 
     def check(self) -> None:
         """在每次调用和节点边界检查执行时限。"""
         if monotonic() >= self.deadline:
             raise BudgetExceeded("本次执行时间预算已耗尽")
+        if self.store.guard:
+            with self.store.factory.begin() as session:
+                self.store.check_owner(session)
 
     @contextmanager
     def call(self, kind: str, name: str):
@@ -168,6 +197,7 @@ class RunBudget:
         call_id = str(uuid4())
         field = "model_calls" if kind == "model" else "tool_calls"
         with self.store.factory.begin() as session:
+            self.store.check_owner(session)
             run = session.scalar(
                 select(AnalysisRun).where(AnalysisRun.id == self.run_id).with_for_update()
             )

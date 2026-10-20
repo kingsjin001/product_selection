@@ -1,0 +1,100 @@
+<script setup>
+// 后台任务页面：刷新恢复状态，事件按持久序号去重。
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const product = ref('prod-cn-001')
+const mode = ref('fixed')
+const question = ref('请根据评论与规则给出选品条件，并明确缺失数据。')
+const task = ref(null)
+const events = ref([])
+const error = ref('')
+const submitting = ref(false)
+let stream = null
+let key = null
+let fingerprint = ''
+const labels = { queued: '等待执行', running: '研究中', cancelling: '正在取消', cancelled: '已取消', completed: '报告已完成', failed: '执行失败' }
+
+async function api(path, options = {}) {
+  const response = await fetch(path, options)
+  const body = await response.json()
+  if (!response.ok) throw new Error(typeof body.detail === 'string' ? body.detail : JSON.stringify(body.detail))
+  return body
+}
+
+async function refresh() {
+  if (task.value) task.value = await api(`/api/tasks/${task.value.id}`)
+}
+
+function subscribe(id) {
+  stream?.close()
+  // 刷新时从 0 回放以恢复完整事件列表；同一连接自动携带 Last-Event-ID。
+  stream = new EventSource(`/api/tasks/${id}/events`)
+  stream.onmessage = async (message) => {
+    const event = JSON.parse(message.data)
+    if (!events.value.some(row => row.event_seq === event.event_seq)) events.value.push(event)
+    await refresh().catch(err => { error.value = err.message })
+    if (['completed', 'failed', 'cancelled'].includes(task.value?.status) &&
+        event.event_seq >= task.value.event_seq) stream.close()
+  }
+  stream.onerror = () => { /* EventSource 自动重连，断线不取消研究。 */ }
+}
+
+async function submit() {
+  submitting.value = true
+  error.value = ''
+  const body = JSON.stringify({ product_id: product.value, mode: mode.value, question: question.value })
+  // 网络失败后保留相同请求的键；明确提交成功后下一次点击才生成新键。
+  if (!key || fingerprint !== body) { key = crypto.randomUUID(); fingerprint = body }
+  try {
+    task.value = await api('/api/tasks', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Idempotency-Key': key }, body })
+    localStorage.setItem('selection-task', task.value.id)
+    events.value = []
+    subscribe(task.value.id)
+    key = null
+  } catch (err) { error.value = err.message }
+  finally { submitting.value = false }
+}
+
+async function action(name) {
+  try { task.value = await api(`/api/tasks/${task.value.id}/${name}`, { method: 'POST' }); subscribe(task.value.id) }
+  catch (err) { error.value = err.message }
+}
+
+onMounted(async () => {
+  const id = localStorage.getItem('selection-task')
+  if (id) {
+    try { task.value = await api(`/api/tasks/${id}`); subscribe(id) }
+    catch (err) { error.value = err.message }
+  }
+})
+onUnmounted(() => stream?.close())
+</script>
+
+<template>
+  <main>
+    <header><p class="eyebrow">个人研究 · 证据优先</p><h1>选品研究工作台</h1><p>从商品证据出发，记录研究过程、条件与缺失项。</p></header>
+    <section class="card">
+      <h2>开始一次研究</h2>
+      <form @submit.prevent="submit">
+        <div class="fields">
+          <label>商品编号<input v-model="product" required></label>
+          <label>研究方式<select v-model="mode"><option value="fixed">固定流程（无需聊天模型）</option><option value="prompt">单次模型分析</option><option value="agent">单 Agent 研究</option><option value="multi">多 Agent 专项研究</option></select></label>
+        </div>
+        <label>研究问题<textarea v-model="question" rows="3" required /></label>
+        <button :disabled="submitting">{{ submitting ? '正在提交…' : '创建研究任务' }}</button>
+      </form>
+      <p class="hint">内置数据为中文合成样例。未提供完整成本时，报告会明确显示无法计算贡献利润。</p>
+    </section>
+    <p v-if="error" role="alert" class="error">{{ error }}</p>
+    <section v-if="task" class="card">
+      <div class="row"><h2>{{ labels[task.status] || task.status }}</h2><span class="badge">{{ task.stage }}</span></div>
+      <p class="mono">{{ task.id }}</p>
+      <p>执行次数：{{ task.attempts }} · 刷新页面不影响后台执行</p>
+      <button v-if="['queued','running'].includes(task.status)" class="secondary" @click="action('cancel')">取消研究</button>
+      <button v-if="task.status === 'failed'" @click="action('resume')">从检查点恢复</button>
+      <p v-if="task.error" class="error">停止原因：{{ task.error }}</p>
+      <ol class="timeline"><li v-for="event in events" :key="event.event_seq"><small>#{{ event.event_seq }} · {{ event.timestamp }}</small><p>{{ event.message }}</p></li></ol>
+      <a v-if="task.status === 'completed'" :href="`/api/analyses/${task.id}`" target="_blank" rel="noopener">查看报告 JSON</a>
+    </section>
+  </main>
+</template>

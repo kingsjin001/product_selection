@@ -5,6 +5,7 @@ from fastapi import APIRouter, HTTPException
 from app.analysis_contracts import AnalysisRequest
 from app.core.config import get_settings
 from app.db.session import get_session_factory
+from app.db.task_models import Task
 from app.services.analysis_store import AnalysisStore
 from app.workflows.analysis import execute_analysis, postgres_checkpointer
 
@@ -51,6 +52,9 @@ def get_analysis(run_id: str) -> dict:
 def resume_analysis(run_id: str) -> dict:
     """保持相同输入、证据和预算，从失败后的检查点继续执行。"""
     service = store()
+    with service.factory() as session:
+        if session.get(Task, run_id):
+            raise HTTPException(409, "后台任务请使用 /api/tasks/{id}/resume，不能绕过租约")
     try:
         service.get(run_id)
     except ValueError as error:

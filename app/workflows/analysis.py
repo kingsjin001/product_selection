@@ -11,6 +11,7 @@ from sqlalchemy.engine import make_url
 from app.agents.product_researcher import run_research
 from app.analysis_contracts import AnalysisRequest, Claim, ResearchResult
 from app.core.embeddings import EmbeddingService
+from app.db.task_models import Task
 from app.repositories.milvus import MilvusRuleRepository
 from app.services.analysis_store import AnalysisStore, RunBudget
 from app.services.economics import calculate_economics
@@ -103,6 +104,7 @@ def build_workflow(store: AnalysisStore, run_id: str, saver, researcher=None):
     def research_node(state: AnalysisState) -> dict:
         """执行研究并立即检查引用，非法结果不会进入成本或提交阶段。"""
         budget.check()
+        store.stage("research")
         if researcher:
             result = researcher(request, snapshot, budget)
         elif request.mode == "fixed":
@@ -133,10 +135,14 @@ def build_workflow(store: AnalysisStore, run_id: str, saver, researcher=None):
 
     def calculate_node(state: AnalysisState) -> dict:
         """成本计算只依赖用户参数，模型不能修改该节点输出。"""
+        budget.check()
+        store.stage("calculate")
         return {"economics": calculate_economics(request.costs)}
 
     def validate_node(state: AnalysisState) -> dict:
         """最后一次校验结构和引用，并将原始证据随报告冻结保存。"""
+        budget.check()
+        store.stage("validate")
         result = ResearchResult.model_validate(state["research"])
         validate_references(result, snapshot)
         return {"report": {
@@ -150,6 +156,8 @@ def build_workflow(store: AnalysisStore, run_id: str, saver, researcher=None):
 
     def persist_node(state: AnalysisState) -> dict:
         """报告与终态原子提交，检查点重放时仍只保留一份报告。"""
+        budget.check()
+        store.stage("persist")
         store.save_report(run_id, state["report"], report_markdown(state["report"]))
         return {}
 
@@ -181,6 +189,10 @@ def execute_analysis(store: AnalysisStore, run_id: str, saver, researcher=None) 
     existing = store.report(run_id)
     if existing:
         return existing
+    if store.guard is None:
+        with store.factory() as session:
+            if session.get(Task, run_id):
+                raise ValueError("后台任务只能通过 Worker 执行，请使用任务恢复接口")
     run = store.get(run_id)
     frozen = run["versions"]
     if run["request"]["mode"] != "fixed" and (

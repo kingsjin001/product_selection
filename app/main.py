@@ -5,11 +5,13 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 
 from app.agents.rule_researcher import run_rule_research
 from app.api.analysis import router as analysis_router
 from app.api.evidence import router as evidence_router
+from app.api.tasks import router as tasks_router
 from app.core.config import get_settings
 from app.core.logging import configure_logging
 from app.db.session import get_engine, get_session_factory
@@ -37,9 +39,10 @@ async def lifespan(_: FastAPI):
     logger.info("应用停止")
 
 
-app = FastAPI(title="TikTok Selection Agent — Phase 1", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="TikTok Selection Agent", version="0.4.0", lifespan=lifespan)
 app.include_router(analysis_router)
 app.include_router(evidence_router)
+app.include_router(tasks_router)
 
 
 @app.get("/health")
@@ -119,3 +122,9 @@ def agent_demo(request: AgentDemoRequest) -> dict:
     except RuntimeError as error:
         logger.warning("Deep Agent 接口失败 | reason=%s", error)
         raise HTTPException(status_code=400, detail=str(error)) from error
+
+
+# 前端构建后可由同一 API 进程提供页面；开发期也可使用 Vite 热更新。
+frontend_dist = Path(__file__).resolve().parents[1] / "frontend" / "dist"
+if frontend_dist.is_dir():
+    app.mount("/", StaticFiles(directory=frontend_dist, html=True), name="workbench")

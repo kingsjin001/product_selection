@@ -8,7 +8,7 @@
 | 一 | 用户已有 v1；漏交文件补入 v2 | 基线已复验，存在原提交缺文件问题 | [第一期](acceptance/phase-1.md) |
 | 二 | v2 | 核心闭环已实现，实测及局限见报告 | [第二期](acceptance/phase-2.md) |
 | 三 | codex/v3 | 功能交付，三类真实轨迹与失败案例已记录 | [第三期](acceptance/phase-3.md) |
-| 四 | codex/v4 | 开发中 | 待生成 |
+| 四 | codex/v4 | 后台执行、恢复与 Vue 任务页已实测 | [第四期](acceptance/phase-4.md) |
 | 五 | codex/v5 | 待开发 | 待生成 |
 | 六 | codex/v6 | 待开发 | 待生成 |
 

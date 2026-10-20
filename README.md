@@ -7,6 +7,8 @@
 [逐期交付记录](docs/delivery-status.md)。下文保留第一期基础组件使用说明。
 第三期 `codex/v3` 增加多 Agent、双向量集合、混合检索和索引 outbox，
 使用方法见 [第三期说明](docs/phase-3-guide.md)。
+第四期 `codex/v4` 提供 Celery 后台任务、故障恢复、SSE 与 Vue 页面，
+启动各进程见 [第四期说明](docs/phase-4-guide.md)。
 
 一个面向个人项目和面试展示的证据驱动选品研究原型。当前版本聚焦于一条可运行、可追溯的数据链路：导入商品、评论和规则样例，保存证据元数据，为规则生成向量并写入 Milvus，再通过 FastAPI、CLI 或 Deep Agent 检索可引用的规则证据。
 
