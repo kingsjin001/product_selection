@@ -37,7 +37,7 @@ services:
       - etcd_data:/etcd
 
   minio:
-    image: minio/minio:RELEASE.2025-04-22T22-12-26Z
+    image: minio/minio:RELEASE.2024-05-28T17-19-04Z
     command: minio server /minio_data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: minioadmin
@@ -49,7 +49,7 @@ services:
       - minio_data:/minio_data
 
   milvus:
-    image: milvusdb/milvus:v2.5.10
+    image: milvusdb/milvus:v2.6.20
     command: ["milvus", "run", "standalone"]
     security_opt:
       - seccomp:unconfined
@@ -68,6 +68,8 @@ services:
       - milvus_data:/var/lib/milvus
 
   api:
+    # 默认由 PyCharm 在宿主机启动；仅显式启用 container-api profile 时才使用此容器。
+    profiles: ["container-api"]
     build: .
     env_file:
       - path: .env
@@ -80,6 +82,13 @@ services:
       EMBEDDING_PROVIDER: ${EMBEDDING_PROVIDER:-mock}
       EMBEDDING_MODEL: ${EMBEDDING_MODEL:-}
       EMBEDDING_DIM: ${EMBEDDING_DIM:-16}
+      EMBEDDING_REQUEST_DIMENSIONS: ${EMBEDDING_REQUEST_DIMENSIONS:-}
+      MODEL_API_KEY: ${MODEL_API_KEY:-}
+      MODEL_BASE_URL: ${MODEL_BASE_URL:-}
+      CHAT_MODEL: ${CHAT_MODEL:-}
+      MAX_MODEL_CALLS: ${MAX_MODEL_CALLS:-20}
+      MAX_TOOL_CALLS: ${MAX_TOOL_CALLS:-30}
+      AGENT_TIMEOUT_SECONDS: ${AGENT_TIMEOUT_SECONDS:-300}
     ports:
       - "127.0.0.1:8000:8000"
     depends_on:

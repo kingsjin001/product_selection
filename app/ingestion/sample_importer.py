@@ -3,6 +3,7 @@
 import csv
 import hashlib
 import json
+import logging
 from datetime import datetime
 from pathlib import Path
 
@@ -10,6 +11,8 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.db.models import Evidence, ImportBatch, Product
+
+logger = logging.getLogger(__name__)
 
 
 def _sha256(value: bytes | str) -> str:
@@ -45,11 +48,23 @@ def import_sample_data(session: Session, data_dir: Path) -> dict:
     manifest = _manifest_hash(data_dir)
     existing = session.scalar(select(ImportBatch).where(ImportBatch.manifest_hash == manifest))
     if existing:
+        logger.info("样例数据已导入，直接复用批次 | batch_id=%s", existing.id)
         return {"batch_id": existing.id, "status": "already_imported", **existing.summary}
 
     products = list(csv.DictReader((data_dir / "products.csv").open(encoding="utf-8-sig")))
     reviews = list(csv.DictReader((data_dir / "reviews.csv").open(encoding="utf-8-sig")))
     rules = _read_jsonl(data_dir / "rules.jsonl")
+    logger.info(
+        "开始导入样例数据 | products=%d reviews=%d rules=%d",
+        len(products),
+        len(reviews),
+        len(rules),
+    )
+    logger.debug(
+        "导入批次摘要 | manifest=%s product_ids=%s",
+        manifest[:12],
+        [row["product_id"] for row in products[:3]],
+    )
     batch = ImportBatch(
         manifest_hash=manifest,
         source_name="phase-1-sample-data",
@@ -133,4 +148,5 @@ def import_sample_data(session: Session, data_dir: Path) -> dict:
         )
 
     session.commit()
+    logger.info("样例数据导入完成 | batch_id=%s", batch.id)
     return {"batch_id": batch.id, "status": "imported", **batch.summary}

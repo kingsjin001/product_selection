@@ -11,7 +11,9 @@ class Settings(BaseSettings):
 
     app_env: str = "development"
     app_name: str = "tiktok-selection-agent"
-    database_url: str = "postgresql+psycopg://app:app@localhost:5432/tiktok_selection"
+    # DEBUG 会输出本项目的关键中间状态，INFO 保持日常运行输出简洁。
+    log_level: str = Field(default="INFO", pattern="^(DEBUG|INFO|WARNING|ERROR|CRITICAL)$")
+    database_url: str = "postgresql+psycopg://app:app@127.0.0.1:5432/tiktok_selection"
     redis_url: str = "redis://localhost:6379/0"
     milvus_host: str = "localhost"
     milvus_port: int = 19530
@@ -20,6 +22,10 @@ class Settings(BaseSettings):
     embedding_provider: str = Field(default="mock", pattern="^(mock|openai_compatible)$")
     embedding_model: str = ""
     embedding_dim: int = Field(default=16, ge=2, le=4096)
+    # 仅当所选服务明确支持 dimensions 请求参数时才填写；默认由服务决定输出维度。
+    embedding_request_dimensions: int | None = Field(default=None, ge=2, le=4096)
+    # 默认 10 兼容当前常用兼容接口的单次 Embedding 条数限制；可按服务能力调小。
+    embedding_batch_size: int = Field(default=10, ge=1, le=128)
     # 模型连接信息不绑定具体厂商，支持环境变量和 .env 两种来源。
     model_api_key: SecretStr | None = None
     model_base_url: str | None = None

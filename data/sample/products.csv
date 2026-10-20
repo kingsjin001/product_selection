@@ -1,4 +1,21 @@
 product_id,product_name,market,category,specifications,source_url
-prod-food-box-001,Stackable food storage box,US,kitchen_storage,"{\"material\": \"PP\", \"sizes\": [\"small\", \"large\"], \"claimed_feature\": \"airtight lid\"}",https://example.invalid/products/prod-food-box-001
-prod-cable-box-001,Desk cable organizer,US,home_organization,"{\"material\": \"ABS\", \"sizes\": [\"standard\"], \"claimed_feature\": \"cable concealment\"}",https://example.invalid/products/prod-cable-box-001
-
+prod-cn-001,可叠放食品保鲜盒,US,kitchen_storage,"{""material"":""PP"",""sizes"": [""500ml"",""1L""],""claimed_feature"":""密封防漏""}",https://example.invalid/products/prod-cn-001
+prod-cn-002,硅胶空气炸锅烘焙垫,US,kitchen_storage,"{""material"":""silicone"",""sizes"": [""18cm"",""20cm""],""claimed_feature"":""可重复清洗""}",https://example.invalid/products/prod-cn-002
+prod-cn-003,折叠式水槽沥水架,US,kitchen_storage,"{""material"":""stainless_steel"",""sizes"": [""small"",""large""],""claimed_feature"":""节省台面空间""}",https://example.invalid/products/prod-cn-003
+prod-cn-004,调料罐标签贴纸套装,US,kitchen_storage,"{""material"":""vinyl"",""count"": 120,""claimed_feature"":""防水易读""}",https://example.invalid/products/prod-cn-004
+prod-cn-005,桌面线缆收纳盒,US,home_organization,"{""material"":""ABS"",""sizes"": [""standard""],""claimed_feature"":""隐藏插排线缆""}",https://example.invalid/products/prod-cn-005
+prod-cn-006,可调节抽屉分隔板,US,home_organization,"{""material"":""bamboo"",""sizes"": [""35-50cm""],""claimed_feature"":""免工具安装""}",https://example.invalid/products/prod-cn-006
+prod-cn-007,真空压缩收纳袋套装,US,home_organization,"{""material"":""PA_PE"",""count"": 8,""claimed_feature"":""节省衣柜空间""}",https://example.invalid/products/prod-cn-007
+prod-cn-008,衣柜悬挂收纳袋,UK,home_organization,"{""material"":""polyester"",""layers"": 6,""claimed_feature"":""分类收纳""}",https://example.invalid/products/prod-cn-008
+prod-cn-009,宠物硅胶洗爪杯,US,pet_supplies,"{""material"":""silicone"",""sizes"": [""small"",""large""],""claimed_feature"":""快速清洁爪部""}",https://example.invalid/products/prod-cn-009
+prod-cn-010,可重复使用粘毛滚筒,US,pet_supplies,"{""material"":""ABS_TPR"",""sizes"": [""standard""],""claimed_feature"":""无需替换纸芯""}",https://example.invalid/products/prod-cn-010
+prod-cn-011,旅行洗漱收纳包,US,travel_accessories,"{""material"":""nylon"",""sizes"": [""medium""],""claimed_feature"":""干湿分离""}",https://example.invalid/products/prod-cn-011
+prod-cn-012,旅行压缩收纳立方包,UK,travel_accessories,"{""material"":""polyester"",""count"": 6,""claimed_feature"":""压缩行李体积""}",https://example.invalid/products/prod-cn-012
+prod-cn-013,硅胶化妆刷清洗垫,US,beauty_tools,"{""material"":""silicone"",""sizes"": [""standard""],""claimed_feature"":""多纹路清洁""}",https://example.invalid/products/prod-cn-013
+prod-cn-014,不锈钢冰敷美容滚轮,DE,beauty_tools,"{""material"":""stainless_steel"",""sizes"": [""standard""],""claimed_feature"":""冷敷舒缓""}",https://example.invalid/products/prod-cn-014
+prod-cn-015,弹力阻力带训练套装,US,fitness_accessories,"{""material"":""latex"",""resistance_levels"": 5,""claimed_feature"":""居家拉伸训练""}",https://example.invalid/products/prod-cn-015
+prod-cn-016,瑜伽拉伸辅助带,DE,fitness_accessories,"{""material"":""cotton_polyester"",""length_cm"": 183,""claimed_feature"":""辅助拉伸""}",https://example.invalid/products/prod-cn-016
+prod-cn-017,婴儿车多用途挂钩,US,baby_products,"{""material"":""aluminum"",""load_claim_kg"": 3,""claimed_feature"":""悬挂轻便物品""}",https://example.invalid/products/prod-cn-017
+prod-cn-018,硅胶围兜带食物接槽,DE,baby_products,"{""material"":""silicone"",""sizes"": [""6-36m""],""claimed_feature"":""易清洗""}",https://example.invalid/products/prod-cn-018
+prod-cn-019,铝合金笔记本电脑支架,US,electronics_accessories,"{""material"":""aluminum"",""sizes"": [""10-17inch""],""claimed_feature"":""可调节视角""}",https://example.invalid/products/prod-cn-019
+prod-cn-020,桌面充电线固定夹,UK,electronics_accessories,"{""material"":""silicone"",""count"": 12,""claimed_feature"":""整理充电线""}",https://example.invalid/products/prod-cn-020

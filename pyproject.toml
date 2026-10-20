@@ -41,6 +41,10 @@ packages = ["app"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+# 避免测试框架将工具生成的缓存目录当作待收集的测试目录。
+norecursedirs = [".git", ".venv", "__pycache__", "pytest_cache"]
+# 缓存固定在项目根目录，避免受限的 tests\pytest_cache 目录影响执行。
+cache_dir = ".pytest_cache"
 
 [tool.ruff]
 line-length = 100

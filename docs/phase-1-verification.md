@@ -14,17 +14,11 @@
 
 ```powershell
 Copy-Item .env.example .env
-docker compose up -d --build
+docker compose up -d
 docker compose ps
 ```
 
-首次启动 Milvus 会晚于 PostgreSQL 就绪。确认 `milvus` 状态为 running 后再进行索引；如果 API 容器因 Milvus 尚未就绪而启动失败，执行：
-
-```powershell
-docker compose up -d api
-```
-
-API 容器启动前会自动执行 `alembic upgrade head`。使用宿主机 CLI 时，先显式执行迁移：
+首次启动 Milvus 会晚于 PostgreSQL 就绪。确认 `milvus` 状态为 running 后，在 PyCharm 中按 [本地启动说明](pycharm-run.md)启动 API。首次运行前，先显式执行迁移：
 
 ```powershell
 & 'D:\Programs\anaconda3\envs\py12\python.exe' -m alembic upgrade head
@@ -81,17 +75,14 @@ $projectPython = 'D:\Programs\anaconda3\envs\py12\python.exe'
 EMBEDDING_PROVIDER=openai_compatible
 EMBEDDING_MODEL=<服务中可用的文本向量模型>
 EMBEDDING_DIM=<该模型实际输出维度>
+# 只有服务明确支持 dimensions 请求参数时才填写；否则留空。
+EMBEDDING_REQUEST_DIMENSIONS=
 MODEL_API_KEY=<你的密钥>
 MODEL_BASE_URL=<兼容接口地址；使用默认地址时可留空>
 CHAT_MODEL=<服务中可用且支持工具调用的模型>
 ```
 
-配置值既可以来自 `.env`，也可以来自系统环境变量；系统环境变量优先。模型能力、模型名或 Embedding 维度以服务实际返回为准。更换 Embedding 模型或维度后，清空本地 Compose 卷并重新创建集合，避免混用向量空间：
-
-```powershell
-docker compose down -v
-docker compose up -d --build
-```
+配置值既可以来自 `.env`，也可以来自系统环境变量；系统环境变量优先。模型能力、模型名或 Embedding 维度以服务实际返回为准。系统会按向量服务、模型和维度创建独立 Milvus 集合，切换模型后只需重新导入并索引，不会混用旧向量。
 
 导入并索引后，执行：
 
@@ -106,7 +97,7 @@ Invoke-RestMethod -Method Post -ContentType 'application/json' -Body $body http:
 
 | 现象 | 排查方式 |
 | --- | --- |
-| API 启动失败 | `docker compose logs api`，确认 PG 已健康、环境变量正确。 |
+| API 启动失败 | 查看 PyCharm 的 Run 控制台，确认 PostgreSQL 已健康、环境变量正确。 |
 | 索引连接失败 | `docker compose logs milvus`，等待 Milvus 完成启动后重试索引。 |
 | 搜索返回 no_results | 确认已依次导入和索引；使用样例查询；检查 market 是否为 `US`。 |
 | 模型服务调用失败 | 确认 Key、兼容接口地址、模型权限、模型名、Embedding 维度和网络环境；以实际模型响应为准。 |

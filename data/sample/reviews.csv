@@ -1,6 +1,21 @@
 review_id,product_id,market,category,rating,variant,content,observed_at,data_kind,source_url
-review-001,prod-food-box-001,US,kitchen_storage,2,large,"The large lid is loose after two weeks and soup leaked in my bag.",2026-09-10T08:00:00Z,synthetic,https://example.invalid/reviews/review-001
-review-002,prod-food-box-001,US,kitchen_storage,2,large,"Nice size, but the lid does not seal tightly enough for liquid food.",2026-09-13T08:00:00Z,synthetic,https://example.invalid/reviews/review-002
-review-003,prod-food-box-001,US,kitchen_storage,5,small,"The small size is easy to stack and works well for dry snacks.",2026-09-16T08:00:00Z,synthetic,https://example.invalid/reviews/review-003
-review-004,prod-cable-box-001,US,home_organization,4,standard,"It hides the power strip well, although the side opening is narrow for thick cables.",2026-09-14T08:00:00Z,synthetic,https://example.invalid/reviews/review-004
-
+review-cn-001,prod-cn-001,US,kitchen_storage,2,1L,"装汤后放进背包，盒盖边缘有渗漏，密封宣传需要更谨慎。",2026-10-01T08:00:00Z,synthetic,https://example.invalid/reviews/review-cn-001
+review-cn-002,prod-cn-002,US,kitchen_storage,4,20cm,"烘焙垫尺寸合适，油渍容易冲洗，但边缘较软需要平放。",2026-10-02T08:00:00Z,synthetic,https://example.invalid/reviews/review-cn-002
+review-cn-003,prod-cn-003,US,kitchen_storage,3,large,"沥水架节省空间，不过厚底锅放上去时会有些下陷。",2026-10-03T08:00:00Z,synthetic,https://example.invalid/reviews/review-cn-003
+review-cn-004,prod-cn-004,US,kitchen_storage,5,120pcs,"标签字迹清晰，贴在玻璃调料罐上一周后没有起边。",2026-10-04T08:00:00Z,synthetic,https://example.invalid/reviews/review-cn-004
+review-cn-005,prod-cn-005,US,home_organization,3,standard,"收纳盒可以遮住插排，但粗一些的电源线穿过侧孔比较费劲。",2026-10-05T08:00:00Z,synthetic,https://example.invalid/reviews/review-cn-005
+review-cn-006,prod-cn-006,US,home_organization,4,35-50cm,"竹制分隔板安装方便，抽屉打开时基本不会滑动。",2026-10-06T08:00:00Z,synthetic,https://example.invalid/reviews/review-cn-006
+review-cn-007,prod-cn-007,US,home_organization,2,8pcs,"压缩袋第一次抽气效果不错，但两只袋子的阀门隔天会回弹进气。",2026-10-07T08:00:00Z,synthetic,https://example.invalid/reviews/review-cn-007
+review-cn-008,prod-cn-008,UK,home_organization,4,6layers,"悬挂袋能把毛衣分类好，挂满后底部承重仍需长期观察。",2026-10-08T08:00:00Z,synthetic,https://example.invalid/reviews/review-cn-008
+review-cn-009,prod-cn-009,US,pet_supplies,5,large,"给中型犬洗爪很快，硅胶刷毛柔软，冲洗后也没有异味。",2026-10-09T08:00:00Z,synthetic,https://example.invalid/reviews/review-cn-009
+review-cn-010,prod-cn-010,US,pet_supplies,3,standard,"滚筒能粘起沙发上的猫毛，但积满后清理槽需要多按几次。",2026-10-10T08:00:00Z,synthetic,https://example.invalid/reviews/review-cn-010
+review-cn-011,prod-cn-011,US,travel_accessories,4,medium,"洗漱包分区足够，透明袋方便安检，不过拉链头偏小。",2026-10-11T08:00:00Z,synthetic,https://example.invalid/reviews/review-cn-011
+review-cn-012,prod-cn-012,UK,travel_accessories,5,6pcs,"压缩包让行李箱多放了两件外套，布料和缝线看起来结实。",2026-10-12T08:00:00Z,synthetic,https://example.invalid/reviews/review-cn-012
+review-cn-013,prod-cn-013,US,beauty_tools,4,standard,"清洗垫纹路很多，粉底刷洗得干净，但吸盘在粗糙台面上不牢。",2026-10-13T08:00:00Z,synthetic,https://example.invalid/reviews/review-cn-013
+review-cn-014,prod-cn-014,DE,beauty_tools,3,standard,"冰敷滚轮握感舒服，但刚从冰箱取出时表面太冷，需要等待片刻。",2026-10-14T08:00:00Z,synthetic,https://example.invalid/reviews/review-cn-014
+review-cn-015,prod-cn-015,US,fitness_accessories,4,5levels,"阻力档位区分明显，附带收纳袋很方便，不过初次使用有轻微橡胶气味。",2026-10-15T08:00:00Z,synthetic,https://example.invalid/reviews/review-cn-015
+review-cn-016,prod-cn-016,DE,fitness_accessories,5,183cm,"辅助带长度适合腿后侧拉伸，扣环固定后不容易松开。",2026-10-16T08:00:00Z,synthetic,https://example.invalid/reviews/review-cn-016
+review-cn-017,prod-cn-017,US,baby_products,2,3kg,"挂钩装在婴儿车上很方便，但挂重包时会让车身明显后倾。",2026-10-17T08:00:00Z,synthetic,https://example.invalid/reviews/review-cn-017
+review-cn-018,prod-cn-018,DE,baby_products,5,6-36m,"围兜柔软好擦洗，食物接槽能接住大部分碎屑，扣带也容易调节。",2026-10-18T08:00:00Z,synthetic,https://example.invalid/reviews/review-cn-018
+review-cn-019,prod-cn-019,US,electronics_accessories,4,10-17inch,"支架高度调节顺滑，电脑散热更好，但放在玻璃桌面上需要防滑垫。",2026-10-19T08:00:00Z,synthetic,https://example.invalid/reviews/review-cn-019
+review-cn-020,prod-cn-020,UK,electronics_accessories,4,12pcs,"线夹把桌面充电线固定住了，小号线槽对较粗的数据线略紧。",2026-10-20T08:00:00Z,synthetic,https://example.invalid/reviews/review-cn-020

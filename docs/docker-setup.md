@@ -1,6 +1,6 @@
 # Docker Desktop 手动安装与启动
 
-第一期依赖 PostgreSQL、Redis、Milvus、etcd 和 MinIO，均由 `docker-compose.yml` 拉起。项目不需要单独安装这些中间件。
+第一期依赖 PostgreSQL、Redis、Milvus、etcd 和 MinIO，均由 `docker-compose.yml` 拉起。FastAPI 由 PyCharm 在宿主机启动，不使用 Docker API 容器。项目不需要单独安装这些中间件。
 
 ## 1. 安装 Docker Desktop
 
@@ -22,17 +22,16 @@ docker compose version
 
 ```powershell
 Copy-Item .env.example .env
-docker compose up -d --build
+docker compose up -d
 docker compose ps
 ```
 
-`api` 容器会在启动 Uvicorn 前自动执行 `alembic upgrade head`；迁移失败时用 `docker compose logs api` 查看原因。
+默认命令只启动依赖服务，不会启动 `api` 容器。数据库迁移与 FastAPI 由 PyCharm 本地运行配置执行，步骤见 [PyCharm 本地启动说明](pycharm-run.md)。
 
 首期默认使用 `EMBEDDING_PROVIDER=mock`，不需要模型 Key。容器、端口和用途：
 
 | 服务 | 主机端口 | 用途 |
 | --- | --- | --- |
-| api | 8000 | FastAPI 和验证接口 |
 | postgres | 5432 | 证据、导入批次和业务数据 |
 | redis | 6379 | 后续任务队列预留 |
 | milvus | 19530 | 规则向量检索 |
@@ -43,11 +42,16 @@ docker compose ps
 
 如需连接真实模型服务，在 `.env` 中使用通用字段 `MODEL_API_KEY`、`MODEL_BASE_URL`、`CHAT_MODEL` 和 `EMBEDDING_MODEL`。同名系统环境变量会覆盖 `.env`，因此密钥也可以只保存到当前终端或 CI 的安全变量中。
 
+若确实需要容器化 API，可显式运行下面的命令；它不是本地开发默认方式：
+
+```powershell
+docker compose --profile container-api up -d --build api
+```
+
 ## 3. 验证与停止
 
 ```powershell
 .\scripts\verify-phase1.ps1
-docker compose logs api
 docker compose logs milvus
 ```
 

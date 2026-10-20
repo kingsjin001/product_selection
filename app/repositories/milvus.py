@@ -1,10 +1,14 @@
 """Milvus 规则向量集合的创建、写入和检索实现。"""
 
+import hashlib
+import logging
 from dataclasses import dataclass
 
-from pymilvus import Collection, CollectionSchema, DataType, FieldSchema, connections, utility
+from pymilvus import DataType, MilvusClient
 
 from app.core.config import Settings
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -21,90 +25,116 @@ class RuleVector:
 class MilvusRuleRepository:
     """管理版本化规则集合；原文与最终有效性仍以 PostgreSQL 为准。"""
 
-    collection_name = "rule_chunks_v1"
-
     def __init__(self, settings: Settings) -> None:
-        """保存连接配置，延迟到首次使用时连接 Milvus。"""
+        """保存连接配置，并按向量空间生成独立、稳定的集合名称。"""
         self.settings = settings
-        self._connected = False
+        # 模型或维度变更时使用新集合，避免不同向量空间发生混检索。
+        vector_space = (
+            f"{settings.embedding_provider}:{settings.embedding_model or 'offline'}:"
+            f"{settings.embedding_dim}"
+        )
+        suffix = hashlib.sha256(vector_space.encode("utf-8")).hexdigest()[:12]
+        self.collection_name = f"rule_chunks_v1_{suffix}"
+        self._client_instance: MilvusClient | None = None
 
-    def _connect(self) -> None:
-        """复用默认别名连接，避免一个仓储实例重复建立连接。"""
-        if not self._connected:
-            connections.connect(
-                alias="default", host=self.settings.milvus_host, port=str(self.settings.milvus_port)
-            )
-            self._connected = True
+    def _client(self) -> MilvusClient:
+        """按仓储实例复用 MilvusClient，避免旧 ORM Collection 接口的运行警告。"""
+        if self._client_instance is None:
+            logger.debug("连接 Milvus | uri=%s", self.settings.milvus_uri)
+            self._client_instance = MilvusClient(uri=self.settings.milvus_uri)
+        return self._client_instance
 
-    def _collection(self) -> Collection:
+    def _ensure_collection(self) -> MilvusClient:
         """获取规则集合；首次运行时创建 Schema 和 HNSW 索引。"""
-        self._connect()
-        if not utility.has_collection(self.collection_name):
-            fields = [
-                FieldSchema(
-                    name="evidence_id",
-                    dtype=DataType.VARCHAR,
-                    is_primary=True,
-                    auto_id=False,
-                    max_length=80,
-                ),
-                FieldSchema(name="market", dtype=DataType.VARCHAR, max_length=12),
-                FieldSchema(name="category", dtype=DataType.VARCHAR, max_length=120),
-                FieldSchema(name="content", dtype=DataType.VARCHAR, max_length=8192),
-                FieldSchema(
-                    name="embedding", dtype=DataType.FLOAT_VECTOR, dim=self.settings.embedding_dim
-                ),
-            ]
-            schema = CollectionSchema(fields=fields, description="Versioned rule evidence chunks")
-            collection = Collection(self.collection_name, schema=schema)
-            collection.create_index(
+        client = self._client()
+        if not client.has_collection(self.collection_name):
+            logger.info("创建 Milvus 集合 | collection=%s", self.collection_name)
+            schema = MilvusClient.create_schema(auto_id=False, enable_dynamic_field=False)
+            schema.add_field(
+                field_name="evidence_id",
+                datatype=DataType.VARCHAR,
+                is_primary=True,
+                max_length=80,
+            )
+            schema.add_field(field_name="market", datatype=DataType.VARCHAR, max_length=12)
+            schema.add_field(field_name="category", datatype=DataType.VARCHAR, max_length=120)
+            schema.add_field(field_name="content", datatype=DataType.VARCHAR, max_length=8192)
+            schema.add_field(
                 field_name="embedding",
-                index_params={
-                    "metric_type": "COSINE",
-                    "index_type": "HNSW",
-                    "params": {"M": 8, "efConstruction": 64},
-                },
+                datatype=DataType.FLOAT_VECTOR,
+                dim=self.settings.embedding_dim,
+            )
+            index_params = client.prepare_index_params()
+            index_params.add_index(
+                field_name="embedding",
+                metric_type="COSINE",
+                index_type="HNSW",
+                params={"M": 8, "efConstruction": 64},
+            )
+            client.create_collection(
+                collection_name=self.collection_name,
+                schema=schema,
+                index_params=index_params,
             )
         else:
-            collection = Collection(self.collection_name)
-        collection.load()
-        return collection
+            logger.debug("复用 Milvus 集合 | collection=%s", self.collection_name)
+        client.load_collection(collection_name=self.collection_name)
+        return client
 
     def upsert(self, records: list[RuleVector]) -> int:
         """按稳定 evidence_id 幂等写入规则向量，并刷新后返回记录数。"""
         if not records:
             return 0
-        collection = self._collection()
-        collection.upsert(
-            [
-                [item.evidence_id for item in records],
-                [item.market for item in records],
-                [item.category for item in records],
-                [item.content for item in records],
-                [item.embedding for item in records],
-            ]
+        client = self._ensure_collection()
+        client.upsert(
+            collection_name=self.collection_name,
+            data=[
+                {
+                    "evidence_id": item.evidence_id,
+                    "market": item.market,
+                    "category": item.category,
+                    "content": item.content,
+                    "embedding": item.embedding,
+                }
+                for item in records
+            ],
         )
-        collection.flush()
+        client.flush(collection_name=self.collection_name)
+        logger.info("规则向量已写入 | collection=%s records=%d", self.collection_name, len(records))
+        logger.debug("写入证据样例 | evidence_ids=%s", [item.evidence_id for item in records[:3]])
         return len(records)
 
     def search(self, embedding: list[float], market: str, top_k: int) -> list[dict]:
         """按市场做向量召回；调用方必须回查 PostgreSQL 后再对外返回。"""
-        collection = self._collection()
-        result = collection.search(
+        client = self._ensure_collection()
+        safe_market = market.replace("\\", "\\\\").replace('"', '\\"')
+        result = client.search(
+            collection_name=self.collection_name,
             data=[embedding],
             anns_field="embedding",
-            param={"metric_type": "COSINE", "params": {"ef": 64}},
+            search_params={"metric_type": "COSINE", "params": {"ef": 64}},
             limit=top_k,
-            expr=f'market == "{market.replace(chr(34), "")}"',
+            filter=f'market == "{safe_market}"',
             output_fields=["market", "category", "content"],
         )
-        return [
-            {
-                "evidence_id": hit.id,
-                "score": round(float(hit.score), 6),
-                "market": hit.entity.get("market"),
-                "category": hit.entity.get("category"),
-                "content": hit.entity.get("content"),
-            }
-            for hit in result[0]
-        ]
+        hits = []
+        for hit in result[0]:
+            # MilvusClient 会使用 Schema 中的主键名（这里是 evidence_id），不会统一返回 id。
+            # 同时兼容 SDK 的 Hit 对象及文档中描述的普通字典返回值。
+            evidence_id = hit.get("evidence_id") or getattr(hit, "id", None)
+            entity = hit.get("entity", {})
+            hits.append(
+                {
+                    "evidence_id": evidence_id,
+                    "score": round(float(hit["distance"]), 6),
+                    "market": entity.get("market"),
+                    "category": entity.get("category"),
+                    "content": entity.get("content"),
+                }
+            )
+        logger.info("规则向量检索完成 | market=%s requested=%d hits=%d", market, top_k, len(hits))
+        logger.debug(
+            "检索命中样例 | hits=%s",
+            [{"evidence_id": hit["evidence_id"], "score": hit["score"]} for hit in hits[:3]],
+        )
+        return hits

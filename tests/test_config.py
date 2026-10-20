@@ -24,3 +24,16 @@ def test_model_configuration_reads_dotenv_and_environment(monkeypatch) -> None:
     assert environment_settings.model_api_key is not None
     assert environment_settings.model_api_key.get_secret_value() == "from-environment"
     assert environment_settings.has_model_credentials
+
+
+def test_dotenv_can_reference_an_existing_system_variable(monkeypatch) -> None:
+    """`.env` 可以引用已有系统变量，无需把真实密钥写入项目文件。"""
+    dotenv_path = Path(__file__).parent / "fixtures" / "model-indirection.env"
+    monkeypatch.delenv("MODEL_API_KEY", raising=False)
+    monkeypatch.setenv("LOCAL_MODEL_API_KEY", "from-system-variable")
+
+    settings = Settings(_env_file=dotenv_path)
+
+    assert settings.model_api_key is not None
+    assert settings.model_api_key.get_secret_value() == "from-system-variable"
+    assert settings.has_model_credentials

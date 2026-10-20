@@ -13,10 +13,11 @@ class Base(DeclarativeBase):
 
 
 def get_engine():
-    """创建带连接存活检查的同步 PostgreSQL 引擎。"""
+    """按当前配置创建带连接存活检查的同步 PostgreSQL 引擎。"""
+    # pool_pre_ping 会在复用连接前验证可用性，降低 Docker 重启后的失效连接报错。
     return create_engine(get_settings().database_url, pool_pre_ping=True)
 
 
 def get_session_factory() -> sessionmaker[Session]:
-    """返回独立会话工厂，调用方负责提交、回滚和关闭会话。"""
+    """返回独立会话工厂；调用方负责业务事务的提交、回滚和关闭。"""
     return sessionmaker(bind=get_engine(), autoflush=False, expire_on_commit=False)
